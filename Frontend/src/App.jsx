@@ -71,7 +71,9 @@ function App() {
   }, []);
 
   return (
+
     <div className='w-full h-[100vh] bg-[black]/[0.02] scrollbar-hide overflow-auto'>
+
       <ToastContainer />
       <Navbar />
 

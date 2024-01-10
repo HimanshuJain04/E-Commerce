@@ -1,31 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import HomeCarousel from "../components/Home/HomeCarousel";
 import Trending from '../components/Home/Trending';
 import ActualCategory from '../components/Home/ActualCategory';
 import Brands from '../components/Home/Brands';
 import NewArrival from '../components/Home/NewArrival';
 import TopSelling from '../components/Home/TopSelling';
+import { AppContext } from '../context/AppContext';
+import { cards } from "../constants/home";
 
 function Home() {
 
-    const cards = [
-        {
-            cImage: "../../assets/fast-delivery.png",
-            heading: "free and fast delivery",
-            desc: "Free delivery for all over $140",
-        },
-        {
-            cImage: "../../assets/customer-service.png",
-            heading: "24/7 customer service",
-            desc: "Friendly 24/7 customer service",
-        },
-        {
-            cImage: "../../assets/shield.png",
-            heading: "money back guarantee",
-            desc: "We return money within 30 days",
-        },
-
-    ];
 
 
     return (

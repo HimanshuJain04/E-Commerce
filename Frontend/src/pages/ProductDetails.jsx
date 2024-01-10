@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ShowDetail from '../components/ShowDetail';
-import { ApiCalling } from "../services/Api"
+import { ApiCalling } from "../services/Api";
 import { useNavigate, useLocation } from "react-router-dom";
+import SimilarProducts from '../components/ProductDetail/SimilarProducts';
 
 function ProductDetails() {
 
@@ -10,15 +11,21 @@ function ProductDetails() {
     const { pathname } = useLocation();
     const id = pathname.split("/").at(-1);
     const [mainImage, setMainImage] = useState("");
+    const [avgRating, setAvgRating] = useState(0);
 
 
     useEffect(() => {
 
         ApiCalling("GET", `product/getProductById/${id}`)
             .then((data) => {
-                console.log("data: ", data);
-                setMainImage(data?.image)
-                setData(data);
+                console.log("data: ", data.data);
+                setMainImage(data?.data?.images[0])
+                setData(data.data);
+
+                setAvgRating(data?.rating?.reduce(function (avg, value, _, { length }) {
+                    return avg + value / length;
+                }, 0));
+
             }).catch((err) => {
                 navigate("/error");
                 console.log(err);
@@ -26,25 +33,24 @@ function ProductDetails() {
     }, []);
 
 
-    const avgRating = data?.rating?.reduce(function (avg, value, _, { length }) {
-        return avg + value / length;
-    }, 0);
 
     return (
-        <div className='w-full flex justify-center'>
+        <div className='w-full flex justify-start flex-col items-center'>
+
+            {/* product details */}
             <div className='w-11/12 flex justify-between py-5 gap-10  min-h-[100vh] h-full items-start '>
 
                 {/* left div for image*/}
                 <div className='flex max-h-[90vh] justify-between gap-5 h-full w-[55%] items-start'>
 
                     {/* div for small images */}
-                    <div className='flex overflow-y-scroll max-h-[90vh] pb-5 px-2 flex-col gap-2  w-[20%] h-full'>
+                    <div className='flex overflow-y-auto max-h-[90vh] pb-5 px-2 flex-col gap-2  w-[20%] h-full'>
                         {
                             data?.images?.map((image) => (
                                 <button
                                     onClick={() => { setMainImage(image) }}
                                     key={image}
-                                    className={`cursor-pointer duration-200 transition-all ease-in-out border-[3px] rounded-sm  ` + (mainImage === image ? " border-blue-600" : "border-transparent")}
+                                    className={`cursor-pointer flex justify-center items-center duration-200 transition-all ease-in-out border-[3px] rounded-sm  ` + (mainImage === image ? " border-blue-600" : "border-transparent")}
                                 >
                                     <img className=' bg-cover max-h-[150px] max-w-[100%]' src={image} alt={image} />
                                 </button>
@@ -54,8 +60,8 @@ function ProductDetails() {
                     </div>
 
                     {/* div for large image */}
-                    <div className='w-[80%] max-h-[90vh]'>
-                        <img className='w-full h-full' src={mainImage} alt="" />
+                    <div className='w-[80%] h-[90vh]'>
+                        <img className='w-full max-h-full bg-red-200' src={mainImage} alt="" />
                     </div>
 
                 </div>
@@ -78,8 +84,8 @@ function ProductDetails() {
                         </div>
 
                         {/* price */}
-                        <div>
-                            <p>{data?.price} INR</p>
+                        <div className='mt-10 font-semibold text-red-900 text-2xl'>
+                            <p className=''>{data?.price}</p>
                         </div>
                     </div>
 
@@ -107,6 +113,13 @@ function ProductDetails() {
                 </div>
 
             </div>
+
+
+            {/* similar Products */}
+            <div className='w-full mt-20'>
+                <SimilarProducts />
+            </div>
+
 
 
         </div>
