@@ -9,6 +9,8 @@ const { mailSender } = require("../utils/mailSender");
 const sendVerificationEmail = async ({ _id, email }, res) => {
 
     try {
+        // TODO : Get address from env file
+
         const clientUrl = "http://localhost:3000/";
         const uniqueString = uuid() + _id;
 

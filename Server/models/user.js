@@ -26,19 +26,19 @@ const userSchema = new mongoose.Schema(
         phoneNo: {
             type: Number,
         },
-        addToCart: [
+        carts: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Product"
             }
         ],
-        order: [
+        orders: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Product"
             }
         ],
-        wishlist: [
+        wishlists: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Product"

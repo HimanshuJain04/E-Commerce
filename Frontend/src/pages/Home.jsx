@@ -1,54 +1,100 @@
 import React from 'react';
-import HomeCarousel from "../components/HomeCarousel";
-
+import HomeCarousel from "../components/Home/HomeCarousel";
+import Trending from '../components/Home/Trending';
+import ActualCategory from '../components/Home/ActualCategory';
+import Brands from '../components/Home/Brands';
+import NewArrival from '../components/Home/NewArrival';
+import TopSelling from '../components/Home/TopSelling';
 
 function Home() {
 
-    
+    const cards = [
+        {
+            cImage: "../../assets/fast-delivery.png",
+            heading: "free and fast delivery",
+            desc: "Free delivery for all over $140",
+        },
+        {
+            cImage: "../../assets/customer-service.png",
+            heading: "24/7 customer service",
+            desc: "Friendly 24/7 customer service",
+        },
+        {
+            cImage: "../../assets/shield.png",
+            heading: "money back guarantee",
+            desc: "We return money within 30 days",
+        },
+
+    ];
+
+
     return (
         <div className='w-full flex justify-center'>
-            <div className='w-11/12'>
+            <div className='w-11/12 flex flex-col gap-10'>
 
                 {/* Carousel */}
-                <HomeCarousel></HomeCarousel>
-
-                {/* new school fashion container */}
-                <div className='relative  flex justify-end w-full pr-32 '>
-
-                    {/* left Part */}
-                    <div className='absolute left-[15%] -top-[20%] w-[400px] h-[550px]'>
-                        <img className='bg-cover h-full w-full' src="https://th.bing.com/th?id=OIP.48C1fjm5A4taM6KNeVPyTQHaKI&w=213&h=292&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2" alt="" />
-
-                    </div>
-
-                    {/* right part */}
-                    <div className='relative w-[500px] pt-40 '>
-
-                        {/* heading */}
-                        <div className='p-10 shadow-md bg-white -left-[40%] top-[10%] absolute shadow-[black] text-3xl font-sans'>
-                            <p className='uppercase'>The New school of fashion!</p>
-                        </div>
-
-                        {/* paragraph */}
-                        <div className='my-10'>
-                            <p className='text-sm font-semibold text-[black]/[0.8]'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus cum, iusto consectetur
-                                provident quos ducimus quo quaerat minima. Saepe nulla sit incidunt odio, corporis culpa
-                                facere atque vero, dignissimos fugiat eius hic animi iste ratione blanditiis cupiditate.
-                                Molestiae, quia. Nam impedit, quam porro itaque iure omnis alias, quod facilis dolore mollitia
-                                at totam accusamus nostrum fugit, ut repudiandae quia debitis autem aut? Voluptas dignissimos
-                                dolor nemo amet quaerat animi est alias voluptatum neque. Aliquam dignissimos omnis magnam eligendi
-                                nemo maxime mollitia quos officiis quia a aspernatur quas neque quae unde assumenda sit modi, ipsum
-                                sed nam dolorem. Iure, consequatur praesentium.</p>
-                        </div>
-
-                        {/* button */}
-                        <div >
-                            <button className='px-6 font-semibold py-2 shadow-md rounded-sm cursor-pointer shadow-[black]'>Read More</button>
-                        </div>
-                    </div>
-
+                <div>
+                    <HomeCarousel></HomeCarousel>
                 </div>
 
+
+                {/* Trending Section */}
+                <div className='mt-20'>
+                    <Trending />
+                </div>
+
+                {/* Top Selling Products Section */}
+                <div className='mt-20'>
+                    <TopSelling />
+                </div>
+
+                {/* Actual Category Section */}
+                <div className='mt-20'>
+                    <ActualCategory />
+                </div>
+
+                {/* Brands Section */}
+                <div className='mt-20'>
+                    <Brands />
+                </div>
+
+                {/* New Arrival Section */}
+                <div className='mt-20'>
+                    <NewArrival />
+                </div>
+
+                {/* Services cards */}
+                <div className=' mt-20 px-10'>
+
+                    <div className='w-full  flex justify-between items-center '>
+
+                        {
+
+                            cards?.map((card) => (
+                                <div
+                                    key={card.desc}
+                                    className='flex flex-col p-5 gap-8 justify-start items-center'
+                                >
+                                    {/* images section */}
+                                    <div className=''>
+                                        <div className='rounded-full p-3 w-[100px] h-[100px] bg-[black]/[0.25]'>
+                                            <img src={card.cImage} className='p-2 rounded-full bg-white' alt="Card-Image" />
+                                        </div>
+                                    </div>
+
+                                    {/* text */}
+                                    <div className='flex flex-col gap-2 justify-center items-center'>
+                                        <p className='font-bold text-xl uppercase'>{card?.heading}</p>
+                                        <p className='font-semibold'>{card?.desc}</p>
+                                    </div>
+
+                                </div>
+                            ))
+                        }
+                    </div>
+
+
+                </div>
 
             </div >
 

@@ -26,9 +26,7 @@ router.get("/validate", Auth, async (req, res) => {
             error: err.message,
         });
     }
-
 });
-
 
 
 module.exports = router;

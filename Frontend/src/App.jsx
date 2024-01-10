@@ -71,12 +71,12 @@ function App() {
   }, []);
 
   return (
-    <div className='w-full'>
+    <div className='w-full h-[100vh] bg-[black]/[0.02] scrollbar-hide overflow-auto'>
       <ToastContainer />
       <Navbar />
 
 
-      <div className='min-h-[calc(100vh-80px)] w-full mt-20'>
+      <div className='min-h-[calc(100vh-80px)] w-full mt-24'>
         <Routes>
           <Route path='*' element={<Error />} />
           <Route path='/error/something-went-wrong' element={<ErrorWrong />} />
@@ -93,7 +93,7 @@ function App() {
         </Routes>
       </div>
 
-      {/* <Footer /> */}
+      <Footer />
 
     </div>
   )

@@ -8,6 +8,7 @@ const { uploadMultipleFile } = require("../utils/uploadFileToCloudinary");
 require('dotenv').config();
 
 
+
 exports.createProduct = async (req, res) => {
     try {
 
@@ -55,7 +56,7 @@ exports.createProduct = async (req, res) => {
         // upload image to cloudinary
         const imageRes = await uploadMultipleFile(
             images,
-            process.env.FOLDER_NAME,
+            process.env.FOLDER_IMAGES,
         );
 
         if (!imageRes) {
@@ -122,6 +123,7 @@ exports.createProduct = async (req, res) => {
 }
 
 
+// TODO: send only limited data to the user
 exports.getAllProducts = async (req, res) => {
     try {
 
@@ -193,6 +195,7 @@ exports.getProductById = async (req, res) => {
 }
 
 
+// TODO: Update this method
 exports.getRelatedProducts = async (req, res) => {
     try {
 
@@ -243,9 +246,64 @@ exports.getRelatedProducts = async (req, res) => {
 }
 
 
+// TODO: Create this method
 exports.getProductsByCategory = async (req, res) => {
-    try {
 
+    try {
+        // product Id
+        const productId = req.params.id;
+
+        // check product in database
+        const existProduct = await Product.findById(productId);
+        if (!existProduct) {
+            return res.status(400).json(
+                {
+                    status: true,
+                    message: "Product doesn't exist Successfully",
+                }
+            )
+        }
+
+        // get product id and tag id
+        const categoryId = existProduct?.category?._id;
+        const tagId = existProduct?.tag?._id;
+
+        // get product which matches the category and tag id
+        const allData = await Product.find({ category: categoryId, tag: tagId })
+            .populate('category')
+            .populate('tag')
+            .exec();
+
+        // remove the product whose id is same as product id bcz it is related products to the that product
+        const data = allData.filter((data) => data._id != productId);
+
+        return res.status(200).json(
+            {
+                status: true,
+                message: "Get Related Product Successfully",
+                data: data,
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                status: false,
+                message: "Get Related Product Failed",
+                error: err.message,
+            }
+        );
+    }
+}
+
+
+
+
+
+// TODO: Create method for get products by tag name
+exports.getProductsByCategory = async (req, res) => {
+
+    try {
         // product Id
         const productId = req.params.id;
 
