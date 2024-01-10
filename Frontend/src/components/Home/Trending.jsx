@@ -10,7 +10,7 @@ function Trending() {
 
     const [option, setOption] = useState(tags[0] || "Default Option");
     const [data, setData] = useState([]);
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     // initialize the tag value
     useEffect(() => {
