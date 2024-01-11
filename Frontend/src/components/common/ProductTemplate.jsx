@@ -1,0 +1,64 @@
+import React, { useContext, useEffect, useState } from 'react';
+import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa6";
+import { AppContext } from '../../context/AppContext';
+import { Link, useNavigate } from "react-router-dom"
+
+function ProductTemplate({ data }) {
+
+    const { wishlistHandler } = useContext(AppContext);
+    const [isWishlist, setisWishlist] = useState(false);
+    const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     userData?.wishlists?.forEach((id) => {
+    //         if (data?._id === id) {
+    //             setisWishlist(true);
+    //             console.log("milgyaa");
+    //         }
+    //     })
+    // }, []);
+
+    return (
+        <div>
+            <Link to={`/productDetail/productId/${data?._id}`}>
+                <div
+                    className=' min-w-[300px] shadow-md transition-all duration-300 ease-in-out shadow-[black]/[0.3] bg-white  max-w-[300px] p-2 relative h-[450px] flex flex-col gap-2 items-center justify-start '
+                >
+                    {/* wishlist-icon */}
+                    <div className='absolute right-5 top-5'>
+                        <button
+                            onClick={() => { wishlistHandler(data, isWishlist) }}
+                        >
+                            <span className='text-3xl'>
+                                {
+                                    isWishlist ? <FaHeart /> : <FaRegHeart />
+
+                                }
+                            </span>
+                        </button>
+                    </div>
+
+                    {/* for image */}
+                    <div className='w-full h-[90%] overflow-hidden  flex justify-center items-center'>
+
+                        <img
+                            className='max-w-full cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out max-h-full bg-contain'
+                            src={data?.images[0]}
+                            alt={`${data?.name}`}
+                        />
+                    </div>
+
+                    {/* for data about product */}
+                    <div className="flex flex-col w-full gap-2 font-semibold justify-start items-center">
+                        <p className='text-[black]/[0.6]'>{data?.name}</p>
+                        <p className='text-red-800'>{data?.price}</p>
+                    </div>
+
+                </div >
+            </Link>
+        </div>
+    )
+}
+
+export default ProductTemplate;

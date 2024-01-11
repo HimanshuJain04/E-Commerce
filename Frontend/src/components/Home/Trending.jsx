@@ -21,7 +21,6 @@ function Trending() {
     }, [tags]);
 
     async function changeData() {
-        console.log(option);
         const id = option.name !== "All" ? option._id : "All";
 
         const res = await ApiCalling("GET", `product/getTopSellingProducts/${id}`);

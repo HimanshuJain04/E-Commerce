@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import HomeCarousel from "../components/Home/HomeCarousel";
 import Trending from '../components/Home/Trending';
 import ActualCategory from '../components/Home/ActualCategory';
@@ -9,8 +9,6 @@ import { AppContext } from '../context/AppContext';
 import { cards } from "../constants/home";
 
 function Home() {
-
-
 
     return (
         <div className='w-full flex justify-center'>

@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ShowDetail from '../components/ShowDetail';
 import { ApiCalling } from "../services/Api";
-import { useNavigate, useLocation } from "react-router-dom";
-import SimilarProducts from '../components/ProductDetail/SimilarProducts';
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import ProductTemplate from '../components/common/ProductTemplate';
+import { AppContext } from '../context/AppContext';
 
 function ProductDetails() {
+
+    const { wishlistHandler, isLoggedIn } = useContext(AppContext);
 
     const [data, setData] = useState([]);
     const navigate = useNavigate();
@@ -12,16 +15,28 @@ function ProductDetails() {
     const id = pathname.split("/").at(-1);
     const [mainImage, setMainImage] = useState("");
     const [avgRating, setAvgRating] = useState(0);
-
+    const [similarData, setSimilarData] = useState([]);
+    const [isWishlist, setisWishlist] = useState(false);
 
     useEffect(() => {
 
+        // isLoggedIn?.wishlists?.forEach((id) => {
+        //     console.log(
+        //         'id'
+        //     );
+
+        //     if (id === data?._id) {
+        //         console.log("mil gyaaaaa");
+        //         setisWishlist(true);
+        //     }
+        // });
+
         ApiCalling("GET", `product/getProductById/${id}`)
             .then((data) => {
-                console.log("data: ", data.data);
+                console.log(data.data.category);
+                // set data to the varibales
                 setMainImage(data?.data?.images[0])
-                setData(data.data);
-
+                setData(data?.data);
                 setAvgRating(data?.rating?.reduce(function (avg, value, _, { length }) {
                     return avg + value / length;
                 }, 0));
@@ -29,8 +44,20 @@ function ProductDetails() {
             }).catch((err) => {
                 navigate("/error");
                 console.log(err);
-            })
-    }, []);
+            });
+
+        // call the next api for simialr data
+        ApiCalling("GET", `product/getSimilarProducts/${id}`)
+            .then((data) => {
+                setSimilarData(data?.data);
+            }).catch((err) => {
+                setSimilarData([]);
+                console.log(err);
+            });
+
+
+    }, [id]);
+
 
 
 
@@ -72,6 +99,16 @@ function ProductDetails() {
 
                     {/* div for name / rating / price */}
                     <div>
+
+                        {/* category */}
+                        <div >
+                            <Link
+                                to={`/products/category/${data?.category?.name}/${data?.category?._id}`}
+                                className='flex uppercase font-semibold px-1 mb-3 hover:underline text-sm hover:text-red-800 cursor-pointer transition-all duration-300 ease-in-out '>
+                                <span>{data?.category?.name}</span>
+                            </Link>
+                        </div>
+
                         {/* rating */}
                         <div className='flex gap-1 items-center'>
                             <p>{avgRating}</p>
@@ -83,6 +120,8 @@ function ProductDetails() {
                             <h3 className='text-5xl font-semibold font-sans '>{data?.name}</h3>
                         </div>
 
+
+
                         {/* price */}
                         <div className='mt-10 font-semibold text-red-900 text-2xl'>
                             <p className=''>{data?.price}</p>
@@ -92,7 +131,13 @@ function ProductDetails() {
                     {/* Add to wishlist / cart button */}
                     <div className='flex flex-col gap-5 w-full'>
                         <div className='w-full'>
-                            <button className='uppercase py-3 bg-red-400 hover:bg-red-600 transition-all duration-300 ease-in-out rounded-sm text-white font-semibold w-full'>Add to wishlist</button>
+                            <button onClick={() => { wishlistHandler(data, isWishlist) }} className='uppercase py-3 bg-red-400 hover:bg-red-600 transition-all duration-300 ease-in-out rounded-sm text-white font-semibold w-full'>
+                                <span>
+                                    {
+                                        isWishlist ? "Remove from wishlist" : "Add to wishlist"
+                                    }
+                                </span>
+                            </button>
                         </div>
 
                         <div className='w-full'>
@@ -101,6 +146,7 @@ function ProductDetails() {
 
                     </div>
 
+                    {/* product description */}
                     <div className='w-full flex flex-col gap-5'>
                         <ShowDetail heading={"Product Details"} description={data?.description} />
                         <ShowDetail heading={"Product Details"} description={data?.description} />
@@ -108,16 +154,35 @@ function ProductDetails() {
                         <ShowDetail heading={"Product Details"} description={data?.description} />
                     </div>
 
-
-
                 </div>
-
             </div>
 
 
             {/* similar Products */}
-            <div className='w-full mt-20'>
-                <SimilarProducts />
+            <div className='w-full my-20'>
+                <div className='w-full flex justify-center items-start '>
+
+                    <div className='w-11/12 flex gap-5 flex-col justify-center items-center'>
+
+                        {/* heading */}
+                        <div className='w-full flex justify-start items-center'>
+                            <p className='uppercase font-semibold btext-[black]/[0.6] ' >You Might Also Like</p>
+                        </div>
+
+                        {/* data */}
+                        <div className='w-full'>
+                            <div className='flex overflow-y-hidden overflow-auto scrollbar-hide w-full items-start justify-start gap-7'>
+                                {
+                                    similarData?.map((product) => (
+                                        <ProductTemplate key={product._id} data={product} />
+                                    ))
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
 
 

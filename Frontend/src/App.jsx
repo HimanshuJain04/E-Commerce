@@ -19,6 +19,7 @@ import Signup from './pages/Signup';
 import ErrorWrong from './pages/ErrorWrong';
 import Verification from './pages/Verification';
 import axios from "axios";
+import Page from './pages/Page';
 
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
 
     // for tags
     const res1 = await ApiCalling("GET", "tag/getAllTags");
-    if (res1.success) {
+    if (res1?.success) {
       setTags(res1?.data);
     } else {
       toast.error(res1?.data?.message);
@@ -56,14 +57,20 @@ function App() {
     const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
     const token = localStorage.getItem("EcommerceUser");
 
+    if (token) {
 
-    const { data } = await axios.get(BASE_URL + "auth/validate", {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": token,
-      }
-    });
-    setIsLoggedIn(data?.data);
+      const { data } = await axios.get(BASE_URL + "auth/validate", {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        }
+      });
+
+      setIsLoggedIn(data?.data);
+    } else {
+      navigate("/auth/login");
+    }
+
   }
 
   useEffect(() => {
@@ -71,33 +78,32 @@ function App() {
   }, []);
 
   return (
+    <div>
+      <div className='w-full h-[100vh] bg-[black]/[0.02] scrollbar-hide overflow-auto'>
+        <ToastContainer />
+        <Navbar />
+        <div className='min-h-[calc(100vh-80px)] w-full mt-24'>
+          <Routes>
+            <Route path='/' exact element={<Home />} />
+            <Route path='*' element={<Error />} />
+            <Route path='/error/something-went-wrong' element={<ErrorWrong />} />
+            <Route path='/About' element={<About />} />
+            <Route path='/products/:query/:value/:id' element={<Page />} />
+            <Route path='/cart' element={<Cart />} />
+            <Route path='/wishlist' element={<Wishlist />} />
+            <Route path='/auth/verify/:verificationId/:userId' element={<Verification />} />
+            <Route path='/contact' element={<Contact />} />
+            <Route path='/auth/login' element={<Login />} />
+            <Route path='/auth/signup' element={<Signup />} />
+            <Route path='/admin/9630695842' element={<Admin />} />
+            <Route path='/productDetail/productId/:id' element={<ProductDetail />} />
+          </Routes>
+        </div>
+        <Footer />
 
-    <div className='w-full h-[100vh] bg-[black]/[0.02] scrollbar-hide overflow-auto'>
-
-      <ToastContainer />
-      <Navbar />
-
-
-      <div className='min-h-[calc(100vh-80px)] w-full mt-24'>
-        <Routes>
-          <Route path='*' element={<Error />} />
-          <Route path='/error/something-went-wrong' element={<ErrorWrong />} />
-          <Route path='/' exact element={<Home />} />
-          <Route path='/About' element={<About />} />
-          <Route path='/cart' element={<Cart />} />
-          <Route path='/wishlist' element={<Wishlist />} />
-          <Route path='/auth/verify/:verificationId/:userId' element={<Verification />} />
-          <Route path='/contact' element={<Contact />} />
-          <Route path='/auth/login' element={<Login />} />
-          <Route path='/auth/signup' element={<Signup />} />
-          <Route path='/admin/9630695842' element={<Admin />} />
-          <Route path='/productDetail/productId/:id' element={<ProductDetail />} />
-        </Routes>
       </div>
-
-      <Footer />
-
     </div>
+
   )
 }
 
