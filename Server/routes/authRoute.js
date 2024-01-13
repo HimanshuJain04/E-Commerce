@@ -13,7 +13,11 @@ router.get("/verify/:uniqueString/:userId", userVerification);
 
 router.get("/validate", Auth, async (req, res) => {
     try {
-        const data = await User.findById(req.user.id);
+        const data = await User.findById(req.user.id)
+            .populate("carts.product")
+            .populate("wishlists")
+            .populate("orders")
+            .exec();
 
         res.status(201).json({
             success: true,

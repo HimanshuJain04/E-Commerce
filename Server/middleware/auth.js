@@ -9,8 +9,9 @@ exports.Auth = async (req, res, next) => {
         if (!token) {
             return res.status(400).json(
                 {
-                    status: false,
+                    success: false,
                     message: "Token is not Found",
+                    error: "Token is not Found",
                 }
             );
         }
@@ -21,8 +22,9 @@ exports.Auth = async (req, res, next) => {
         if (!decode) {
             return res.status(400).json(
                 {
-                    status: false,
+                    success: false,
                     message: "Token is not valid",
+                    error: "Token is not valid",
                 }
             );
         }
@@ -32,7 +34,7 @@ exports.Auth = async (req, res, next) => {
     } catch (err) {
         return res.status(500).json(
             {
-                status: false,
+                success: false,
                 message: "Token Verfication Failed",
                 error: err.message,
             }

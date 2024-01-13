@@ -12,9 +12,12 @@ const categorySchema = new mongoose.Schema(
             trim: true,
         },
         products: [
+
             {
-                type: mongoose.Schema.Types.ObjectId
-            }
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Product",
+            },
+
         ]
     }
 );

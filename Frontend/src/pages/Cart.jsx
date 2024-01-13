@@ -9,9 +9,19 @@ function Cart() {
 
   const { isLoggedIn } = useContext(AppContext);
   const [data, setData] = useState([]);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     setData(isLoggedIn?.carts);
+
+    let totalPrice = 0;
+
+    isLoggedIn?.carts?.forEach((product) => {
+      totalPrice += product?.product?.price * product?.quantity
+    })
+
+    setTotal(totalPrice);
+
   }, [isLoggedIn]);
 
 
@@ -39,15 +49,16 @@ function Cart() {
                   <span>item Added</span>
                 </p>
 
-                <p>Total: Rs. <span>{"555"}</span></p>
+                <p>Total: Rs. <span>{total}</span></p>
+
               </div>
 
               {/* products */}
               <div className='w-full mt-3'>
                 <div className='flex flex-col justify-start  items-start gap-5 w-full'>
                   {
-                    data?.map((product) => (
-                      <ProductTemplate2 key={product?._id} product={product} />
+                    data?.map((data) => (
+                      <ProductTemplate2 key={data?._id} product={data} />
                     ))
                   }
                 </div>
@@ -116,7 +127,7 @@ function Cart() {
                 {/* total */}
                 <div className='flex justify-between my-3 text-lg items-center w-full font-bold'>
                   <p>Total</p>
-                  <span>Rs. {1000}</span>
+                  <span>Rs. {total}</span>
                 </div>
 
                 {/* button */}

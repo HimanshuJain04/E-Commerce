@@ -61,7 +61,7 @@ exports.createTag = async (req, res) => {
 exports.getAllTags = async (req, res) => {
     try {
 
-        const data = await Tag.find({});
+        const data = await Tag.find({}).populate("categories").exec();
 
         return res.status(200).json(
             {

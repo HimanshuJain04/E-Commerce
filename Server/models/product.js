@@ -7,9 +7,17 @@ const productSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
+        favorite: {
+            type: Boolean,
+            default: false,
+        },
         price: {
             type: Number,
             required: true,
+        },
+        sales: {
+            type: Number,
+            default: 0,
         },
         stock: {
             type: Number,

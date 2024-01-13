@@ -4,31 +4,37 @@ import { ApiCalling } from "../services/Api";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import ProductTemplate from '../components/common/ProductTemplate';
 import { AppContext } from '../context/AppContext';
-
+import { FaPlus, FaMinus } from "react-icons/fa6";
 
 
 function ProductDetails() {
 
-    const { isLoggedIn, addToWishlistHandler, addToCartHandler, removeFromCartHandler, removeFromWishlistHandler } = useContext(AppContext);
+    const { isLoggedIn, addToWishlistHandler, descreaseFromCartHandler, addToCartHandler, removeFromWishlistHandler } = useContext(AppContext);
 
-    const [data, setData] = useState([]);
     const navigate = useNavigate();
     const { pathname } = useLocation();
+    const [data, setData] = useState([]);
     const id = pathname.split("/").at(-1);
-    const [mainImage, setMainImage] = useState("");
     const [avgRating, setAvgRating] = useState(0);
+    const [mainImage, setMainImage] = useState("");
+    const [isCarted, setIsCarted] = useState(null);
     const [similarData, setSimilarData] = useState([]);
     const [isWishlisted, setIsWishlisted] = useState(false);
-    const [isCarted, setIsCarted] = useState(false);
+
 
     useEffect(() => {
-        const isProductInWishlist = isLoggedIn?.wishlists?.some(item => item._id === id);
+
+        const isProductInWishlist = isLoggedIn?.wishlists?.some(item => item?._id === id);
         setIsWishlisted(isProductInWishlist);
 
-        const isProductInCart = isLoggedIn?.carts?.some(item => item._id === id);
+        // const isProductInCart = isLoggedIn?.carts?.some(item => item?.product?._id === id);
+        const isProductInCart = isLoggedIn?.carts?.find(item => item?.product?._id === id);
+
         setIsCarted(isProductInCart);
 
     }, [id, isLoggedIn]);
+
+
 
     useEffect(() => {
 
@@ -148,18 +154,39 @@ function ProductDetails() {
                         {/* cart button */}
                         <div className='w-full'>
                             <button onClick={() => {
-                                if (isCarted) {
-                                    removeFromCartHandler(id);
-                                } else {
+                                if (!isCarted) {
                                     addToCartHandler(id);
                                 }
                             }} className='uppercase py-3 bg-red-400 rounded-sm hover:bg-red-600 transition-all duration-300 ease-in-out text-white font-semibold w-full'>
                                 <span>
                                     {
-                                        isCarted ? "Remove from cart" : "Add to cart"
+                                        isCarted ? (
+                                            <div>
+                                                <Link to={"/cart"}>Go to cart</Link>
+                                            </div>
+
+                                        ) : (
+                                            <p>Add to cart</p>
+                                        )
                                     }
                                 </span>
                             </button>
+                        </div>
+
+                        {/* Counter for product quantity */}
+                        <div className={` flex justify-center mb-5 items-center w-full ` + (isCarted ? ("block") : ("hidden"))}>
+
+                            <div className='flex justify-center items-center px-2 bg-blue-600 text-white py-2 rounded-sm  '>
+                                <button
+                                    onClick={() => descreaseFromCartHandler(isCarted?._id)}
+                                    className='text-xl border-r-2 px-2'
+                                ><FaMinus /></button>
+                                <div className='font-semibold px-4 text-xl'>{isCarted?.quantity}</div>
+                                <button
+                                    onClick={() => addToCartHandler(id)}
+                                    className=' border-l-2 px-2 text-xl'
+                                ><FaPlus /></button>
+                            </div>
                         </div>
 
                     </div>

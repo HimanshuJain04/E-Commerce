@@ -14,6 +14,7 @@ const fileUpload = require('express-fileupload');
 const authRoute = require('./routes/authRoute');
 const tagRoute = require('./routes/tag');
 const categoryRoute = require('./routes/category');
+const userRoute = require('./routes/user');
 const productRoute = require('./routes/product');
 
 
@@ -41,6 +42,8 @@ app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/category", categoryRoute);
 app.use("/api/v1/tag", tagRoute);
 app.use("/api/v1/product", productRoute);
+app.use("/api/v1/user", userRoute);
+
 
 
 // calling the database and cloudinary

@@ -28,8 +28,11 @@ const userSchema = new mongoose.Schema(
         },
         carts: [
             {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Product"
+                product: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Product",
+                },
+                quantity: Number
             }
         ],
         orders: [
@@ -51,6 +54,10 @@ const userSchema = new mongoose.Schema(
         verified: {
             type: Boolean
         },
+        address: {
+            type: String,
+            trim: true,
+        }
 
     }
 );

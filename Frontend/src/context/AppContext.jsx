@@ -65,6 +65,18 @@ export default function AppContextProvider({ children }) {
         }
     }
 
+    async function descreaseFromCartHandler(id) {
+        const res = await ApiCalling("POST", "user/descreaseFromCart", { cartItemId: id, userId: isLoggedIn?._id })
+        if (res?.success) {
+            setIsLoggedIn(res?.data);
+            console.log(res?.data);
+            toast.success(res?.message);
+        } else {
+            console.log("res : ", res);
+            toast.error(res?.message);
+        }
+    }
+
 
     const value = {
         tags,
@@ -78,6 +90,7 @@ export default function AppContextProvider({ children }) {
         addToCartHandler,
         addToWishlistHandler,
         removeFromCartHandler,
+        descreaseFromCartHandler,
         removeFromWishlistHandler,
     }
 

@@ -162,7 +162,6 @@ exports.getProductById = async (req, res) => {
         // check product in database
         const existProduct = await Product.findById(productId)
             .populate("category")
-            .populate('tag')
             .exec();
 
 
@@ -195,36 +194,126 @@ exports.getProductById = async (req, res) => {
 }
 
 
-// TODO: Update this method
-exports.getRelatedProducts = async (req, res) => {
+// get Top selling products
+exports.getTopSellingProducts = async (req, res) => {
+
+    try {
+        // get tagId from frontend
+        const { tagId } = req.params;
+
+        let data = [];
+        let allData;
+
+        if (tagId === "All") {
+            allData = await Tag.find({})
+                .populate(
+                    {
+                        path: 'categories',
+                        populate: {
+                            path: 'products',
+                            model: 'Product', // Assuming 'Product' is the actual model name
+                        },
+                    }
+                ).exec();
+
+            // push products into data array
+            allData.forEach((tag) => {
+                tag.categories.forEach((category) => {
+                    category?.products?.forEach((product) => {
+                        data.push(product)
+                    })
+                });
+            }
+
+            )
+        } else {
+
+            allData = await Tag.findById(tagId)
+                .populate(
+                    {
+                        path: 'categories',
+                        populate: {
+                            path: 'products',
+                            model: 'Product', // Assuming 'Product' is the actual model name
+                        },
+                    }
+                )
+                .exec();
+
+            // push products into data array
+            allData.categories.forEach((category) => {
+                category?.products?.forEach((product) => {
+                    data.push(product)
+                })
+            });
+
+        }
+
+
+
+        const topSelling = data.sort((a, b) => b.sales - a.sales).slice(0, 10);
+
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Get top selling products By tag Successfully",
+                data: topSelling,
+            }
+        )
+
+    } catch (error) {
+
+        console.error(error);
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Get Top Selling Products Failed ",
+                error: error.message,
+            }
+        );
+
+    }
+};
+
+
+// In this method, products in similar category for similar tag are fetched
+exports.getSimilarProducts = async (req, res) => {
     try {
 
         // product Id
-        const productId = req.params.id;
+        const { productId } = req.params;
 
-        // check product in database
-        const existProduct = await Product.findById(productId);
-        if (!existProduct) {
+        const product = await Product.findById(productId);
+
+        if (!product) {
             return res.status(400).json(
                 {
-                    success: true,
-                    message: "Product doesn't exist Successfully",
+                    success: false,
+                    message: "product doesn't exist",
+                    error: "product doesn't exist",
+                }
+            )
+        }
+        const categoryId = product.category?._id;
+
+        // check product in database
+        const existCategory = await Category.findById(categoryId)
+            .populate("products")
+            .exec();
+
+        if (!existCategory) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Category doesn't exist",
+                    error: "Category doesn't exist",
                 }
             )
         }
 
-        // get product id and tag id
-        const categoryId = existProduct?.category?._id;
-        const tagId = existProduct?.tag?._id;
-
-        // get product which matches the category and tag id
-        const allData = await Product.find({ category: categoryId, tag: tagId })
-            .populate('category')
-            .populate('tag')
-            .exec();
-
         // remove the product whose id is same as product id bcz it is related products to the that product
-        const data = allData.filter((data) => data._id != productId);
+        const data = existCategory?.products?.filter((data) => data._id != productId);
 
         return res.status(200).json(
             {
@@ -246,42 +335,38 @@ exports.getRelatedProducts = async (req, res) => {
 }
 
 
-// TODO: Create this method
 exports.getProductsByCategory = async (req, res) => {
 
     try {
-        // product Id
-        const productId = req.params.id;
+        const { categoryId } = req.params;
 
-        // check product in database
-        const existProduct = await Product.findById(productId);
-        if (!existProduct) {
+        // check tag in database
+        const allData = await Category.findById(categoryId)
+            .populate("products")
+            .exec();
+
+        if (!allData) {
             return res.status(400).json(
                 {
                     status: true,
-                    message: "Product doesn't exist Successfully",
+                    message: "Tag doesn't exist Successfully",
                 }
             )
         }
 
-        // get product id and tag id
-        const categoryId = existProduct?.category?._id;
-        const tagId = existProduct?.tag?._id;
+        let categoryData = [];
 
-        // get product which matches the category and tag id
-        const allData = await Product.find({ category: categoryId, tag: tagId })
-            .populate('category')
-            .populate('tag')
-            .exec();
+        console.log(allData);
 
-        // remove the product whose id is same as product id bcz it is related products to the that product
-        const data = allData.filter((data) => data._id != productId);
+        allData?.products?.forEach(product => {
+            categoryData.push(product);
+        })
 
         return res.status(200).json(
             {
                 status: true,
-                message: "Get Related Product Successfully",
-                data: data,
+                message: "Get Product By category Successfully",
+                data: categoryData,
             }
         )
 
@@ -289,7 +374,93 @@ exports.getProductsByCategory = async (req, res) => {
         return res.status(500).json(
             {
                 status: false,
-                message: "Get Related Product Failed",
+                message: "Get Product By category  Failed",
+                error: err.message,
+            }
+        );
+    }
+}
+
+
+exports.getProductByTag = async (req, res) => {
+
+    try {
+        const { tagId } = req.params;
+
+        // check tag in database
+        const allData = await Tag.findById(tagId)
+            .populate(
+                {
+                    path: 'categories',
+                    populate: {
+                        path: 'products',
+                        model: 'Product', // Assuming 'Product' is the actual model name
+                    },
+                }
+            )
+            .exec();
+
+        if (!allData) {
+            return res.status(400).json(
+                {
+                    status: true,
+                    message: "Tag doesn't exist Successfully",
+                }
+            )
+        }
+
+        let tagData = [];
+
+        allData?.categories?.forEach((categories) => {
+            categories?.products?.map((product) => {
+                tagData.push(product);
+            })
+        })
+
+        return res.status(200).json(
+            {
+                status: true,
+                message: "Get ProductByTag Successfully",
+                data: tagData,
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                status: false,
+                message: "Get ProductByTag  Failed",
+                error: err.message,
+            }
+        );
+    }
+}
+
+// TODO: check name as well as description of product for better results
+exports.getProductsBySearch = async (req, res) => {
+    try {
+
+        let { query } = req.params;
+        query = query.toLowerCase()
+
+        const allProducts = await Product.find({});
+
+        const data = allProducts.filter((product) => {
+            return product.name.toLowerCase().includes(query)
+        });
+
+        return res.status(200).json(
+            {
+                status: true,
+                message: "Get Product By search  successfully",
+                data: data,
+            }
+        );
+    } catch (err) {
+        return res.status(500).json(
+            {
+                status: false,
+                message: "Get Product By Search  Failed",
                 error: err.message,
             }
         );
@@ -298,57 +469,6 @@ exports.getProductsByCategory = async (req, res) => {
 
 
 
-
-
-// TODO: Create method for get products by tag name
-exports.getProductsByCategory = async (req, res) => {
-
-    try {
-        // product Id
-        const productId = req.params.id;
-
-        // check product in database
-        const existProduct = await Product.findById(productId);
-        if (!existProduct) {
-            return res.status(400).json(
-                {
-                    status: true,
-                    message: "Product doesn't exist Successfully",
-                }
-            )
-        }
-
-        // get product id and tag id
-        const categoryId = existProduct?.category?._id;
-        const tagId = existProduct?.tag?._id;
-
-        // get product which matches the category and tag id
-        const allData = await Product.find({ category: categoryId, tag: tagId })
-            .populate('category')
-            .populate('tag')
-            .exec();
-
-        // remove the product whose id is same as product id bcz it is related products to the that product
-        const data = allData.filter((data) => data._id != productId);
-
-        return res.status(200).json(
-            {
-                status: true,
-                message: "Get Related Product Successfully",
-                data: data,
-            }
-        )
-
-    } catch (err) {
-        return res.status(500).json(
-            {
-                status: false,
-                message: "Get Related Product Failed",
-                error: err.message,
-            }
-        );
-    }
-}
 
 
 

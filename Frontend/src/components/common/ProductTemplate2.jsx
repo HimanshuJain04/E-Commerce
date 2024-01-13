@@ -2,12 +2,14 @@ import { useContext, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { AppContext } from '../../context/AppContext';
+import { FaPlus, FaMinus } from "react-icons/fa6";
+
 
 
 // this template used for cart,etc
 function ProductTemplate2({ product }) {
 
-    const { removeFromCartHandler } = useContext(AppContext);
+    const { removeFromCartHandler, descreaseFromCartHandler, addToCartHandler } = useContext(AppContext);
     const [deliveryTime, setDeliveryTime] = useState("");
 
 
@@ -38,7 +40,7 @@ function ProductTemplate2({ product }) {
                 <div className='w-full flex gap-5 border-[2px] rounded-sm border-[black]/[0.1] px-5 py-2'>
                     {/* left part for image */}
                     <div className='overflow-hidden h-[150px] flex justify-center items-center w-[250px]'>
-                        <img src={product?.images[0]} className='max-h-full max-w-full bg-contain ' alt="" />
+                        <img src={product?.product?.images[0]} className='max-h-full max-w-full bg-contain ' alt="" />
                     </div>
 
                     {/* right part for detail */}
@@ -52,27 +54,44 @@ function ProductTemplate2({ product }) {
                                 <Link
                                     to={"/"}
                                 >
-                                    <span className='cursor-pointer text-xl font-semibold hover:text-red-500 transition-all duration-300 ease-in-out capitalize underline'>{product?.name}</span>
+                                    <span className='cursor-pointer text-xl font-semibold hover:text-red-500 transition-all duration-300 ease-in-out capitalize underline'>{product?.product?.name}</span>
                                 </Link>
                                 {/* <p>{product?.category?.name}</p> */}
                                 <span className='text-sm font-semibold text-[black]/[0.6] cursor-pointer hover:underline transition-all duration-300 ease-in-out '>{"Clothes"}</span>
                                 <p className='text-sm font-semibold text-[black]/[0.5]'>
-                                    <span>{`${product?.description?.substring(0, 150)}...`}</span>
+                                    <span>{`${product?.product?.description?.substring(0, 150)}...`}</span>
                                 </p>
+
                             </div>
 
                             {/* right for toatl price of prodi=uct acc. to quantity */}
                             <div>
-                                <span className='font-semibold'>Rs.{product?.price * product?.quantity}</span>
+                                <span className='font-semibold'>Rs.{product?.product?.price * product?.quantity}</span>
                             </div>
 
                         </div>
 
                         {/* lower part for quantity and shipping time */}
-                        <div className='flex justify-between items-center w-full'>
+                        <div className='flex justify-between items-center w-full mt-5'>
 
                             {/* quantity increasing or descreasing */}
-                            <div>Counter</div>
+                            <div>
+                                {/* Counter for product quantity */}
+                                <div className='flex justify-center items-center w-full '>
+
+                                    <div className='flex justify-center items-center bg-blue-600 text-white py-1 rounded-sm  '>
+                                        <button
+                                            onClick={() => descreaseFromCartHandler(product?._id)}
+                                            className='text-xl border-r-2 px-2'
+                                        ><FaMinus /></button>
+                                        <div className='font-semibold px-4 text-xl'>{product?.quantity}</div>
+                                        <button
+                                            onClick={() => addToCartHandler(product?.product?._id)}
+                                            className=' border-l-2 px-2 text-xl'
+                                        ><FaPlus /></button>
+                                    </div>
+                                </div>
+                            </div>
 
                             {/*  shipping time*/}
                             <div>
@@ -92,7 +111,9 @@ function ProductTemplate2({ product }) {
                     {/* remove button */}
                     <div className='flex cursor-pointer gap-1 justify-center items-center'>
                         <span className='text-xl'><MdDelete /></span>
-                        <button onClick={() => { removeFromCartHandler(product?._id) }} className='font-semibold'>Remove</button>
+                        <button onClick={() => {
+                            removeFromCartHandler(product?._id)
+                        }} className='font-semibold'>Remove</button>
                     </div>
                 </div>
             </div>
