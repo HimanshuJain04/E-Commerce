@@ -1,21 +1,87 @@
-import React, { useState } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Navlink } from '../../constants/navbar';
-import { IoSearchOutline } from "react-icons/io5";
-import { IoCartOutline } from "react-icons/io5";
+import { IoSearchOutline, IoCartOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa6";
 import { AppContext } from "../../context/AppContext";
-import { useContext } from 'react';
 import NavHover from '../NavHover';
-
+import { ApiCalling } from '../../services/Api';
+import ProfileDropdown from './ProfileDropdown';
 
 
 const Navbar = () => {
 
     const { isLoggedIn, categories } = useContext(AppContext);
     const [searchValue, setSearchValue] = useState("");
+    const [data, setData] = useState([]);
 
     const navigate = useNavigate();
+
+    const searchHandler = () => {
+        if (searchValue.length > 0) {
+            navigate(`/products/search/${searchValue}/query=${searchValue}`);
+        }
+    }
+
+    const onChangeInput = async (e) => {
+
+        setSearchValue(e.target.value);
+
+        if (e.target.value.length > 0) {
+
+            const res1 = await ApiCalling("GET", `product/getProductsBySearch/${e.target.value}`);
+
+            if (res1?.status) {
+
+                setData([]);
+
+                if (res1?.data.length > 5) {
+
+                    const newData = [];
+
+                    for (let i = 0; i < 5; i++) {
+                        newData.push(res1?.data[i]);
+                    }
+
+                    setData(newData);
+                } else {
+                    setData(res1?.data);
+                }
+
+
+            } else {
+                setData([]);
+            }
+
+        } else {
+            setData([]);
+        }
+
+    }
+
+    // Search Recommandation dropdown
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('click', handleOutsideClick);
+
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, []);
+
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
+
+
 
     return (
         <div className='w-full h-[80px] z-[100] bg-[white] justify-center fixed top-0 border-[2px] border-[black]/[0.1] flex items-center '>
@@ -60,24 +126,54 @@ const Navbar = () => {
                 {/* search-bar and login/cart */}
                 <div className='flex gap-10 justify-center items-center'>
 
+
                     {/* search bar */}
-                    <div className='flex bg-[black]/[0.05] rounded-md px-2 text-[black] justify-center items-center'>
-                        <input type="text"
-                            placeholder='What are you looking for?'
-                            className=' bg-transparent w-[300px] font-semibold outline-none px-3 placeholder:text-[black]/[0.7] py-2 '
-                            onChange={(e) => { setSearchValue(e.target.value) }}
-                            value={searchValue}
-                        />
-                        <button onClick={() => {
-                            if (searchValue.length > 0) {
-                                navigate(`/products/search/${searchValue}/query=${searchValue}`);
-                            }
-                        }}
-                            className=' cursor-pointer'
+                    <div className='relative'>
+                        <button
+                            ref={dropdownRef}
+                            onClick={toggleDropdown}
+                            className='flex bg-[black]/[0.05] rounded-md px-2 text-[black] justify-center items-center relative'
                         >
-                            <IoSearchOutline fontSize={20} />
+                            <input
+                                type='text'
+                                placeholder='What are you looking for?'
+                                className='bg-transparent w-[300px] font-semibold outline-none px-3 placeholder:text-[black]/[0.7] py-2'
+                                onChange={onChangeInput}
+                                value={searchValue}
+                                onKeyDown={({ key }) => {
+                                    if (key === 'Enter') {
+                                        searchHandler();
+                                    }
+                                }}
+                            />
+                            <button onClick={searchHandler} className='cursor-pointer'>
+                                <IoSearchOutline fontSize={20} />
+                            </button>
                         </button>
+
+                        {/* recommendation functionality */}
+                        <div className={`absolute bg-white z-10 w-full ${isOpen ? '' : 'hidden'}`}>
+                            {isOpen && (
+                                <div className='dropdown-content'>
+                                    <div>
+                                        <div className='flex flex-col w-full justify-start items-center p-2 font-semibold'>
+                                            {data?.map((product) => (
+                                                <div
+                                                    key={product?._id}
+                                                    className='cursor-pointer w-full flex justify-start my-1 items-center text-black px-5 py-1 hover:bg-red-500 hover:text-white rounded-md transition-all duration-200 ease-in-out'
+                                                >
+                                                    <Link to={`/productDetail/productId/${product?._id}`}>
+                                                        <p>{product?.name}</p>
+                                                    </Link>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
+
 
                     {/* login */}
                     <div className={`font-semibold cursor-pointer bg-blue-500 text-white rounded-md py-2 px-5 border-[3px] border-transparent hover:border-blue-500 hover:bg-white hover:text-blue-500 transition-all duration-200 ease-in-out ` + (isLoggedIn ? "hidden" : "block")}>
@@ -125,17 +221,18 @@ const Navbar = () => {
 
                         </Link>
 
-                        <div className='rounded-full w-[40px] h-[40px] cursor-pointer bg-red-500 flex justify-center items-center '>
-                            <p>H</p>
-                        </div>
-
+                        <ProfileDropdown />
                     </div>
 
                 </div>
 
-            </div>
+            </div >
         </div >
     )
 }
 
 export default Navbar
+
+
+
+

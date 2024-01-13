@@ -93,7 +93,7 @@ function TopSelling() {
                                         <div className='flex flex-col items-center justify-center'>
                                             <p className='font-bold'>{product.title}</p>
                                             <p className=' font-semibold text-[black]/[0.5]'>{product?.name}</p>
-                                            <p className='text-red-950 font-semibold'>$ {product?.price}</p>
+                                            <p className='text-red-950 font-semibold'>Rs. {product?.price}</p>
                                         </div>
 
                                     </Link>

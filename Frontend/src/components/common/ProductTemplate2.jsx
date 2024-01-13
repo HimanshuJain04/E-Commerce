@@ -1,15 +1,33 @@
-import React, { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
-import { ApiCalling } from '../../services/Api';
 import { AppContext } from '../../context/AppContext';
-import { toast } from "react-toastify";
 
 
 // this template used for cart,etc
 function ProductTemplate2({ product }) {
 
-    const { isLoggedIn, setIsLoggedIn, removeFromCartHandler } = useContext(AppContext);
+    const { removeFromCartHandler } = useContext(AppContext);
+    const [deliveryTime, setDeliveryTime] = useState("");
+
+
+
+    useEffect(() => {
+
+        const myDate = new Date();
+        myDate.setDate(myDate.getDate() + 7);
+
+        const daysList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const monthsList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Aug', 'Oct', 'Nov', 'Dec'];
+
+        const date = myDate.getDate();
+        const month = monthsList[myDate.getMonth()];
+        const day = daysList[myDate.getDay()];
+
+        setDeliveryTime(`${day}, ${date} ${month}`);
+
+
+    }, []);
 
 
     return (
@@ -60,7 +78,7 @@ function ProductTemplate2({ product }) {
                             <div>
                                 <span className='flex font-semibold text-sm text-[black]/[0.7] gap-1'>
                                     <span>Ships on</span>
-                                    <span>Thursday,9th March</span>
+                                    <span>{deliveryTime}</span>
                                 </span>
                             </div>
 

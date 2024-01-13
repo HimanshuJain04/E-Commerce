@@ -119,10 +119,9 @@ function ProductDetails() {
                         </div>
 
 
-
                         {/* price */}
                         <div className='mt-10 font-semibold text-red-900 text-2xl'>
-                            <p className=''>{data?.price}</p>
+                            <p className=''>Rs. {data?.price}</p>
                         </div>
                     </div>
 

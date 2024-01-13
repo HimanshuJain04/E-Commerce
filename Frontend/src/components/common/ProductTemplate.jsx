@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useRef, useEffect, useState } from 'react';
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { AppContext } from '../../context/AppContext';
@@ -8,6 +8,10 @@ function ProductTemplate({ data }) {
 
     const { isLoggedIn, addToWishlistHandler, removeFromWishlistHandler } = useContext(AppContext);
     const [isWishlisted, setIsWishlisted] = useState(false);
+    const [openSearchRec, setOpenSearchRec] = useState(false);
+
+    const profileMenu = useRef(null);
+
 
     useEffect(() => {
         const isProductInWishlist = isLoggedIn?.wishlists?.some(item => item._id === data?._id);
@@ -57,7 +61,7 @@ function ProductTemplate({ data }) {
                         <Link to={`/productDetail/productId/${data?._id}`}>
                             <p className='text-[black]/[0.6] hover:underline transition-all duration-300 ease-in-out '>{data?.name}</p>
                         </Link>
-                        <p className='text-red-800'>{data?.price}</p>
+                        <p className='text-red-800'>Rs. {data?.price}</p>
                     </div>
 
                 </div >
