@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 function NavHover({ gender, categories, images }) {
 
@@ -29,13 +30,16 @@ function NavHover({ gender, categories, images }) {
                         {
 
                             categories?.map((category) => (
-                                <button
-                                    onClick={() => { console.log("Category : ", category); }}
+                                <div
                                     key={category._id}
-                                    className=' py-3 px-5 border-2 border-[black]/[0.2]'
+                                    className=' py-3 hover:text-red-600 rounded-md text-[black]/[0.8] hover:border-red-600 transition-all duration-300 ease-in-out px-3 border-[3px] border-[black]/[0.3]'
                                 >
-                                    <p className='text-lg font-semibold text-left'>{category?.name}</p>
-                                </button>
+                                    <Link
+                                        to={`/products/category/${category?.name}/${category?._id}`}
+                                    >
+                                        <p className='text-lg text-center font-semibold'>{category?.name}</p>
+                                    </Link>
+                                </div>
                             ))
                         }
 

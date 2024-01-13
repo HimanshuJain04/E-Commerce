@@ -33,16 +33,16 @@ function Footer() {
                 <div className='flex justify-between w-full items-start '>
 
                     {
-                        ConstFooter.map((column) => (
+                        ConstFooter?.map((column, index) => (
                             <div
-                                key={column}
+                                key={column?.title + index}
                                 className='flex gap-4 justify-start items-start flex-col'
                             >
                                 <p className='font-bold  capitalize'>{column.title}</p>
                                 <div className='flex flex-col gap-2 justify-start items-start'>
                                     {
                                         column?.links?.map((record) => (
-                                            <div key={record}>
+                                            <div key={record?.name?.length + record?.name}>
                                                 <Link
                                                     to={record.path}
                                                     className="capitalize font-semibold text-[black]/[0.5] 
@@ -72,9 +72,10 @@ function Footer() {
                         <div className='flex gap-5 justify-center items-center'>
                             {
                                 localLinks?.map((link) => (
-                                    <div key={link}>
+                                    <div key={link.icon + link.path.length}>
 
-                                        <Link className='text-3xl'
+                                        <Link
+                                            className='text-3xl'
                                             to={link.path}>
                                             {link.icon}
                                         </Link>
@@ -100,10 +101,11 @@ function Footer() {
                     </div>
 
                     <div className=''>
-                        <img className='h-[45px] bg-cover' src="../../../public/payment.png" alt="payment-methods" />
+                        <img className='h-[45px] bg-cover' src="public/payment.png" alt="payment-methods" />
                     </div>
 
                 </div>
+
 
             </div>
 

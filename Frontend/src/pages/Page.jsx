@@ -41,7 +41,7 @@ function Page() {
     const curr = pathname.split("/");
     const query = curr[2];
     const value = curr[3];
-    const id = curr[4];
+    let id = curr[4];
     const [data, setData] = useState([]);
     const navigate = useNavigate();
 
@@ -56,14 +56,15 @@ function Page() {
         } else if (query === "category") {
             prefixUrl = "getProductsByCategory";
 
-        } else {
+        } else if (query === "search") {
             prefixUrl = "getProductsBySearch";
+            id = value;
 
         }
 
 
         const res1 = await ApiCalling("GET", `product/${prefixUrl}/${id}`);
-        console.log(res1);
+        console.log("Page Data : ", res1);
 
         if (res1?.status) {
             setData(res1?.data);
@@ -75,8 +76,10 @@ function Page() {
 
 
     useEffect(() => {
+
         getData();
-    }, []);
+
+    }, [pathname]);
 
 
     const [dataOrder, setDataOrder] = useState(options[0]?.value);

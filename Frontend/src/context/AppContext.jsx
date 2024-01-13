@@ -14,37 +14,71 @@ export default function AppContextProvider({ children }) {
     const [categories, setCategories] = useState([]);
     const [tags, setTags] = useState([]);
 
-    async function wishlistHandler(data, isWishlist) {
-
-        let url = "removeFromWishlist";
-
-        if (isWishlist) {
-            url = "removeFromWishlist"
-
+    async function addToCartHandler(id) {
+        const res = await ApiCalling("POST", "user/addToCart", { productId: id, userId: isLoggedIn?._id })
+        if (res?.success) {
+            setIsLoggedIn(res?.data);
+            console.log(res?.data);
+            toast.success(res?.message);
         } else {
-            url = "addToWishlist"
+            console.log("res : ", res);
+            toast.error(res?.message);
         }
+    }
 
-        const res = await ApiCalling("PUT", `user/${url}/${isLoggedIn._id}/${data._id}`);
+    async function addToWishlistHandler(id) {
+        const res = await ApiCalling("POST", "user/addToWishlist", { productId: id, userId: isLoggedIn?._id })
 
         if (res?.success) {
             setIsLoggedIn(res?.data);
             console.log(res?.data);
+            toast.success(res?.message);
         } else {
-            isLoggedIn(res?.data);
+            console.log("res : ", res);
+            toast.error(res?.message);
         }
     }
 
+    async function removeFromWishlistHandler(id) {
+        const res = await ApiCalling("POST", "user/removeFromWishlist", { productId: id, userId: isLoggedIn?._id })
+
+        if (res?.success) {
+            setIsLoggedIn(res?.data);
+            console.log(res?.data);
+            toast.success(res?.message);
+        } else {
+            console.log("res : ", res);
+            toast.error(res?.message);
+        }
+    }
+
+
+    async function removeFromCartHandler(id) {
+        const res = await ApiCalling("POST", "user/removeFromCart", { productId: id, userId: isLoggedIn?._id })
+        if (res?.success) {
+            setIsLoggedIn(res?.data);
+            console.log(res?.data);
+            toast.success(res?.message);
+        } else {
+            console.log("res : ", res);
+            toast.error(res?.message);
+        }
+    }
+
+
     const value = {
-        isLoggedIn,
-        setIsLoggedIn,
-        loading,
         tags,
-        wishlistHandler,
+        loading,
         setTags,
+        isLoggedIn,
+        categories,
         setLoading,
         setCategories,
-        categories,
+        setIsLoggedIn,
+        addToCartHandler,
+        addToWishlistHandler,
+        removeFromCartHandler,
+        removeFromWishlistHandler,
     }
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>

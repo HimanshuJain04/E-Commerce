@@ -25,7 +25,7 @@ function ActualCategory() {
 
 
             {/* category Products */}
-            <div className={`w-full flex  flex-wrap overflow-hidden gap-10 items-start justify-center ` + (showAll ? "h-[full] " : "  h-[370px]")}>
+            <div className={`w-full flex  flex-wrap overflow-hidden gap-10 items-start justify-start ` + (showAll ? "h-[full] " : "  h-[370px]")}>
 
                 {
                     tags.map((product, index) => (

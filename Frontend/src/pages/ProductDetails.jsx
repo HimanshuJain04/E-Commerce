@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import ShowDetail from '../components/ShowDetail';
 import { ApiCalling } from "../services/Api";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import ProductTemplate from '../components/common/ProductTemplate';
 import { AppContext } from '../context/AppContext';
 
+
+
 function ProductDetails() {
 
-    const { wishlistHandler, isLoggedIn } = useContext(AppContext);
+    const { isLoggedIn, addToWishlistHandler, addToCartHandler, removeFromCartHandler, removeFromWishlistHandler } = useContext(AppContext);
 
     const [data, setData] = useState([]);
     const navigate = useNavigate();
@@ -16,24 +18,22 @@ function ProductDetails() {
     const [mainImage, setMainImage] = useState("");
     const [avgRating, setAvgRating] = useState(0);
     const [similarData, setSimilarData] = useState([]);
-    const [isWishlist, setisWishlist] = useState(false);
+    const [isWishlisted, setIsWishlisted] = useState(false);
+    const [isCarted, setIsCarted] = useState(false);
+
+    useEffect(() => {
+        const isProductInWishlist = isLoggedIn?.wishlists?.some(item => item._id === id);
+        setIsWishlisted(isProductInWishlist);
+
+        const isProductInCart = isLoggedIn?.carts?.some(item => item._id === id);
+        setIsCarted(isProductInCart);
+
+    }, [id, isLoggedIn]);
 
     useEffect(() => {
 
-        // isLoggedIn?.wishlists?.forEach((id) => {
-        //     console.log(
-        //         'id'
-        //     );
-
-        //     if (id === data?._id) {
-        //         console.log("mil gyaaaaa");
-        //         setisWishlist(true);
-        //     }
-        // });
-
         ApiCalling("GET", `product/getProductById/${id}`)
             .then((data) => {
-                console.log(data.data.category);
                 // set data to the varibales
                 setMainImage(data?.data?.images[0])
                 setData(data?.data);
@@ -56,9 +56,7 @@ function ProductDetails() {
             });
 
 
-    }, [id]);
-
-
+    }, [id, navigate]);
 
 
     return (
@@ -130,18 +128,39 @@ function ProductDetails() {
 
                     {/* Add to wishlist / cart button */}
                     <div className='flex flex-col gap-5 w-full'>
+                        {/* wishlist button */}
                         <div className='w-full'>
-                            <button onClick={() => { wishlistHandler(data, isWishlist) }} className='uppercase py-3 bg-red-400 hover:bg-red-600 transition-all duration-300 ease-in-out rounded-sm text-white font-semibold w-full'>
+                            <button onClick={() => {
+                                if (isWishlisted) {
+                                    removeFromWishlistHandler(id);
+                                } else {
+                                    addToWishlistHandler(id);
+                                }
+
+                            }} className='uppercase py-3 bg-red-400 hover:bg-red-600 transition-all duration-300 ease-in-out rounded-sm text-white font-semibold w-full'>
                                 <span>
                                     {
-                                        isWishlist ? "Remove from wishlist" : "Add to wishlist"
+                                        isWishlisted ? "Remove from wishlist" : "Add to wishlist"
                                     }
                                 </span>
                             </button>
                         </div>
 
+                        {/* cart button */}
                         <div className='w-full'>
-                            <button className='uppercase py-3 bg-red-400 rounded-sm hover:bg-red-600 transition-all duration-300 ease-in-out text-white font-semibold w-full'>Add to cart</button>
+                            <button onClick={() => {
+                                if (isCarted) {
+                                    removeFromCartHandler(id);
+                                } else {
+                                    addToCartHandler(id);
+                                }
+                            }} className='uppercase py-3 bg-red-400 rounded-sm hover:bg-red-600 transition-all duration-300 ease-in-out text-white font-semibold w-full'>
+                                <span>
+                                    {
+                                        isCarted ? "Remove from cart" : "Add to cart"
+                                    }
+                                </span>
+                            </button>
                         </div>
 
                     </div>
@@ -184,7 +203,6 @@ function ProductDetails() {
 
                 </div>
             </div>
-
 
 
         </div>

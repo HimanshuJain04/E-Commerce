@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Navlink } from '../../constants/navbar';
 import { IoSearchOutline } from "react-icons/io5";
 import { IoCartOutline } from "react-icons/io5";
@@ -13,11 +13,15 @@ import NavHover from '../NavHover';
 const Navbar = () => {
 
     const { isLoggedIn, categories } = useContext(AppContext);
+    const [searchValue, setSearchValue] = useState("");
+
+    const navigate = useNavigate();
 
     return (
         <div className='w-full h-[80px] z-[100] bg-[white] justify-center fixed top-0 border-[2px] border-[black]/[0.1] flex items-center '>
 
             <div className='flex justify-between w-10/12 h-full items-center '>
+
                 {/* name/icon */}
                 <Link to="/" className='font-bold cursor-pointer'>
                     <p>E-Commerce</p>
@@ -28,7 +32,7 @@ const Navbar = () => {
 
                     {
                         Navlink?.map((data, index) => (
-                            <div className='' key={index}>
+                            <div className='' key={data + index}>
                                 {
                                     data?.path ? (
                                         <Link className='px-1' to={data.path}>{data.name}</Link>
@@ -61,25 +65,74 @@ const Navbar = () => {
                         <input type="text"
                             placeholder='What are you looking for?'
                             className=' bg-transparent w-[300px] font-semibold outline-none px-3 placeholder:text-[black]/[0.7] py-2 '
+                            onChange={(e) => { setSearchValue(e.target.value) }}
+                            value={searchValue}
                         />
-                        <IoSearchOutline fontSize={20} className='cursor-pointer' />
+                        <button onClick={() => {
+                            if (searchValue.length > 0) {
+                                navigate(`/products/search/${searchValue}/query=${searchValue}`);
+                            }
+                        }}
+                            className=' cursor-pointer'
+                        >
+                            <IoSearchOutline fontSize={20} />
+                        </button>
                     </div>
 
                     {/* login */}
                     <div className={`font-semibold cursor-pointer bg-blue-500 text-white rounded-md py-2 px-5 border-[3px] border-transparent hover:border-blue-500 hover:bg-white hover:text-blue-500 transition-all duration-200 ease-in-out ` + (isLoggedIn ? "hidden" : "block")}>
-                        <Link to={"/auth/signup"}>Signup</Link>
+                        <Link to={"/auth/login"}>Login</Link>
                     </div>
 
-                    {/* cart and bag */}
+                    {/* cart and wishlist */}
                     <div className={`flex font-semibold  justify-center items-center gap-5 ` + (!isLoggedIn ? "hidden" : "block")}>
-                        <Link to={"/wishlist"}><FaRegHeart fontSize={25} /></Link>
-                        <Link to={"/cart"}><IoCartOutline fontSize={30} /></Link >
+
+                        <Link to={"/wishlist"} className='relative'>
+                            <div className='absolute -top-[16px]'>
+                                {
+                                    isLoggedIn?.wishlists.length > 0 ? (
+                                        <div className='flex justify-center items-center  rounded-full h-[25px] w-[25px] p-3 bg-blue-500 text-white'>
+                                            <span>{isLoggedIn?.wishlists.length}</span>
+                                        </div>
+                                    ) : (
+                                        <div></div>
+                                    )
+                                }
+                            </div>
+
+                            <div>
+                                <span><FaRegHeart fontSize={25} /></span>
+                            </div>
+
+                        </Link>
+
+                        <Link to={"/cart"} className='relative'>
+                            <div className='absolute -top-[11px] left-1'>
+                                {
+                                    isLoggedIn?.carts.length > 0 ? (
+                                        <div className='flex justify-center items-center  rounded-full h-[25px] animate-bounce w-[25px] p-3 bg-red-500 text-white'>
+                                            <span>{isLoggedIn?.carts.length}</span>
+                                        </div>
+                                    ) : (
+                                        <div></div>
+                                    )
+                                }
+                            </div>
+
+                            <div>
+                                <span><IoCartOutline fontSize={30} /></span>
+                            </div>
+
+                        </Link>
+
                         <div className='rounded-full w-[40px] h-[40px] cursor-pointer bg-red-500 flex justify-center items-center '>
                             <p>H</p>
                         </div>
 
                     </div>
+
                 </div>
+
             </div>
         </div >
     )

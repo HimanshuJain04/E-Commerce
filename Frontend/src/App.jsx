@@ -99,9 +99,11 @@ function App() {
             <Route path='/productDetail/productId/:id' element={<ProductDetail />} />
           </Routes>
         </div>
+
         <Footer />
 
       </div>
+
     </div>
 
   )

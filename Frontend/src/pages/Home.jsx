@@ -21,9 +21,9 @@ function Home() {
 
 
                 {/* Trending Section */}
-                <div className='mt-20'>
+                {/* <div className='mt-20'>
                     <Trending />
-                </div>
+                </div> */}
 
                 {/* Top Selling Products Section */}
                 <div className='mt-20'>

@@ -2,37 +2,40 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { AppContext } from '../../context/AppContext';
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 function ProductTemplate({ data }) {
 
-    const { wishlistHandler } = useContext(AppContext);
-    const [isWishlist, setisWishlist] = useState(false);
-    const navigate = useNavigate();
+    const { isLoggedIn, addToWishlistHandler, removeFromWishlistHandler } = useContext(AppContext);
+    const [isWishlisted, setIsWishlisted] = useState(false);
 
-    // useEffect(() => {
-    //     userData?.wishlists?.forEach((id) => {
-    //         if (data?._id === id) {
-    //             setisWishlist(true);
-    //             console.log("milgyaa");
-    //         }
-    //     })
-    // }, []);
+    useEffect(() => {
+        const isProductInWishlist = isLoggedIn?.wishlists?.some(item => item._id === data?._id);
+        setIsWishlisted(isProductInWishlist);
+
+    }, [data?._id, isLoggedIn]);
+
 
     return (
         <div>
-            <Link to={`/productDetail/productId/${data?._id}`}>
+            <div>
                 <div
                     className=' min-w-[300px] shadow-md transition-all duration-300 ease-in-out shadow-[black]/[0.3] bg-white  max-w-[300px] p-2 relative h-[450px] flex flex-col gap-2 items-center justify-start '
                 >
                     {/* wishlist-icon */}
                     <div className='absolute right-5 top-5'>
                         <button
-                            onClick={() => { wishlistHandler(data, isWishlist) }}
+                            onClick={() => {
+                                if (isWishlisted) {
+                                    removeFromWishlistHandler(data?._id);
+                                } else {
+                                    addToWishlistHandler(data?._id);
+                                }
+                            }}
                         >
                             <span className='text-3xl'>
                                 {
-                                    isWishlist ? <FaHeart /> : <FaRegHeart />
+                                    isWishlisted ? <FaHeart /> : <FaRegHeart />
 
                                 }
                             </span>
@@ -51,12 +54,14 @@ function ProductTemplate({ data }) {
 
                     {/* for data about product */}
                     <div className="flex flex-col w-full gap-2 font-semibold justify-start items-center">
-                        <p className='text-[black]/[0.6]'>{data?.name}</p>
+                        <Link to={`/productDetail/productId/${data?._id}`}>
+                            <p className='text-[black]/[0.6] hover:underline transition-all duration-300 ease-in-out '>{data?.name}</p>
+                        </Link>
                         <p className='text-red-800'>{data?.price}</p>
                     </div>
 
                 </div >
-            </Link>
+            </div>
         </div>
     )
 }
