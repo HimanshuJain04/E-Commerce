@@ -18,7 +18,6 @@ export default function AppContextProvider({ children }) {
         const res = await ApiCalling("POST", "user/addToCart", { productId: id, userId: isLoggedIn?._id })
         if (res?.success) {
             setIsLoggedIn(res?.data);
-            console.log(res?.data);
             toast.success(res?.message);
         } else {
             console.log("res : ", res);
@@ -69,7 +68,6 @@ export default function AppContextProvider({ children }) {
         const res = await ApiCalling("POST", "user/descreaseFromCart", { cartItemId: id, userId: isLoggedIn?._id })
         if (res?.success) {
             setIsLoggedIn(res?.data);
-            console.log(res?.data);
             toast.success(res?.message);
         } else {
             console.log("res : ", res);

@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema(
         orders: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Product"
+                ref: "Order"
             }
         ],
         wishlists: [
@@ -81,6 +81,10 @@ const userSchema = new mongoose.Schema(
                     length: 10,
                 },
                 name: {
+                    type: String,
+                    trim: true
+                },
+                country: {
                     type: String,
                     trim: true
                 }

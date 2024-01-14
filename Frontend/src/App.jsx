@@ -21,6 +21,7 @@ import Verification from './pages/Verification';
 import axios from "axios";
 import Page from './pages/Page';
 import AddressPayment from "./pages/AddressPayment"
+import ThankYou from "./pages/ThankYou"
 
 
 function App() {
@@ -93,6 +94,7 @@ function App() {
             <Route path='/auth/login' element={<Login />} />
             <Route path='/wishlist' element={<Wishlist />} />
             <Route path='/auth/signup' element={<Signup />} />
+            <Route path='/thank-you-page' element={<ThankYou />} />
             <Route path='/admin/9630695842' element={<Admin />} />
             <Route path='/user/address&payment' element={<AddressPayment />} />
             <Route path='/products/:query/:value/:id' element={<Page />} />

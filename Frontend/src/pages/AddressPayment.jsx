@@ -10,6 +10,7 @@ import { IoMdArrowBack } from "react-icons/io";
 const AddressPayment = () => {
 
     const { isLoggedIn } = useContext(AppContext);
+    const navigate = useNavigate();
 
     // address field requirements
     const [selectedAddress, setSelectedAddress] = useState(isLoggedIn?.address[0]);
@@ -46,8 +47,6 @@ const AddressPayment = () => {
         }, config);
 
         if (res?.success) {
-
-            console.log("order: ", res?.data);
             return res?.data;
 
         } else {
@@ -57,6 +56,17 @@ const AddressPayment = () => {
         }
     }
 
+    const loadScript = (src) => {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    };
+
+
     async function createRazorpayOrder(order) {
 
         const config = {
@@ -65,27 +75,110 @@ const AddressPayment = () => {
             }
         };
 
-        console.log(order);
-
-        const res = await ApiCalling("POST", "user/createOrderByRazorpay", { order: order }, config);
-
-        console.log("RazorPay : ", res.data);
-
+        return await ApiCalling("POST", "user/createOrderByRazorpay", { order: order }, config);
     }
+
+
+    async function razorpayHandler(payload) {
+
+        try {
+            // Load Razorpay SDK
+            const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+
+            if (!res) {
+                throw new Error("Razorpay SDK failed to load. Please check your internet connection.");
+            }
+
+            // Create Razorpay order
+            const result = await createRazorpayOrder(payload);
+
+            if (!result) {
+                throw new Error("Server error. Please try again later.");
+            }
+
+            // Check if data is available in the result
+            if (!result?.data) {
+                throw new Error("Server returned an unexpected response. Please try again.");
+            }
+
+            // Prepare options for Razorpay payment
+            const options = {
+                key: import.meta.env.VITE_RAZORPAY_KEY,
+                amount: result.data.amount * 100,
+                currency: result.data.currency,
+                name: "Ecommerce",
+                description: "Test Transaction",
+                image: {},
+                order_id: result.data.id,
+                handler: async function (response) {
+                    console.log("Res : ", response);
+                    navigate("/thank-you-page");
+                    // const data = {
+                    //     orderCreationId: result.data.id, // Use the correct identifier for the order
+                    //     razorpayPaymentId: response.razorpay_payment_id,
+                    //     razorpayOrderId: response.razorpay_order_id,
+                    //     razorpaySignature: response.razorpay_signature,
+                    // };
+
+                    // try {
+                    //     // Send the payment response to your server endpoint
+                    //     const serverResponse = await ApiCalling("POST", "user/payment/success", data);
+
+                    //     // Display a success message to the user
+                    //     alert(serverResponse.data.msg);
+
+                    // } catch (error) {
+                    //     console.error("Error while sending payment response to server:", error.message);
+                    //     // Display an error message to the user
+                    //     alert("An error occurred while processing the payment. Please contact support.");
+                    // }
+                },
+                prefill: {
+                    name: "Himanshu Jain",
+                    email: "amanjain9551@gmail.com",
+                    contact: "9927813277",
+                },
+                notes: {
+                    address: "Gwalior (M.P)",
+                },
+                theme: {
+                    color: "#61dafb",
+                },
+            };
+
+            // Open Razorpay payment modal
+            const paymentObject = new window.Razorpay(options);
+            paymentObject.open();
+        } catch (error) {
+            console.error("Error in razorpayHandler:", error.message);
+            // Display user-friendly error message to the user
+            // You can use a library like react-toastify or show errors in a modal
+        }
+    }
+
+
+
 
     const sumbitHandler = async () => {
 
         if (selectedPaymentMethod === "COD") {
 
             alert("Comming Soon");
-
             console.log("call the backend and update the value of payment as cod and show thank u page");
 
         } else {
             const res = await createOrder();
-            const res1 = await createRazorpayOrder(res);
+            await razorpayHandler(res);
+            await ApiCalling("POST", "product/updateProductSale", {
+                orderId: res?._id
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }
+            );
+            // TODO: create another api or somethingby which user cart should be empty
         }
-
     }
 
 

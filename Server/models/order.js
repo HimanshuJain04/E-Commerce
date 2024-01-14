@@ -1,21 +1,47 @@
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
+
     {
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true
+        },
         products: [
             {
                 product: {
                     type: mongoose.Schema.Types.ObjectId,
                     ref: "Product",
+                    required: true
                 },
                 quantity: {
                     type: Number,
-                    required: true,
+                    required: true
                 },
-                status: ["Pending", "Accepted", "Rejected", "Delivered"]
+                status: {
+                    type: String,
+                    enum: ["Accepted", "Rejected", "Pending", "Delivery pending", "Delivered"]
+                },
+                DeliveredAt: {
+                    type: Date
+                },
             }
         ],
-
+        createdAt: {
+            type: Date,
+            default: Date.now(),
+            required: true
+        },
+        amount: {
+            type: Number,
+            required: true,
+        },
+        paymentOption: {
+            type: String,
+            enum: ["COD", "Razorpay"],
+            required: true,
+        }
     }
 );
 

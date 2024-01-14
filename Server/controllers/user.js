@@ -6,39 +6,45 @@ const User = require("../models/user");
 exports.updateUserAddress = async (req, res) => {
     try {
 
-        const { name, city, state, pincode, nearby, street, phoneNo, userId } = req.body;
-        console.log(req.body);
+        const { name, city, country, state, pincode, nearBy, street, phoneNo, userId } = req.body;
 
-        console.log(name, city, state, pincode, nearby, street, phoneNo, userId);
+        const user = await User.findByIdAndUpdate(
+            { _id: userId },
+            {
+                $push: {
+                    address: {
+                        name: name,
+                        city: city,
+                        state: state,
+                        pincode: pincode,
+                        nearBy: nearBy,
+                        street: street,
+                        phoneNo: phoneNo,
+                        country: country
+                    },
+                }
+            },
+            { new: true }
+        ).populate("wishlists")
+            .populate("carts.product")
+            .populate("orders")
+            .exec();
 
-        // const user = await User.findByIdAndUpdate(
-        //     { _id: userId },
-        //     {
-        //         $push: {
-        //             wishlists: productId,
-        //         }
-        //     },
-        //     { new: true }
-        // ).populate("wishlists")
-        //     .populate("carts.product")
-        //     .populate("orders")
-        //     .exec();
-
-        // if (!user) {
-        //     return res.status(500).json(
-        //         {
-        //             success: false,
-        //             message: "User not found",
-        //             error: "User not found",
-        //         }
-        //     )
-        // }
+        if (!user) {
+            return res.status(500).json(
+                {
+                    success: false,
+                    message: "User not found",
+                    error: "User not found",
+                }
+            )
+        }
 
         return res.status(200).json(
             {
                 success: true,
                 message: "User address update successfully",
-                data: "user",
+                data: user,
             }
         )
 

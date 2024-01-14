@@ -9,8 +9,6 @@ function Wishlist() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    console.log("Wishlist : ", isLoggedIn);
-
     setData(isLoggedIn?.wishlists);
 
   }, [isLoggedIn, data]);
