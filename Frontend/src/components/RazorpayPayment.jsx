@@ -33,7 +33,7 @@ function RazorpayPayment() {
             orderId: orderId,
             amount: 200,
             currency: "INR",
-            payment_capture: 1
+            payment_capture: 
         }
 
         const result = await ApiCalling("POST", "user/createOrderByRazorpay", options);

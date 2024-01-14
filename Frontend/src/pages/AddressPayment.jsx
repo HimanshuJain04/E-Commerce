@@ -31,7 +31,6 @@ const AddressPayment = () => {
         setSelectedPaymentMethod(event.target.value);
     };
 
-    let orders = [];
 
     async function createOrder() {
 
@@ -49,34 +48,32 @@ const AddressPayment = () => {
         if (res?.success) {
 
             console.log("order: ", res?.data);
-            orders = res?.data;
+            return res?.data;
 
         } else {
             toast.error("Failed to order");
             console.log("res : ", res);
-            orders = [];
+            return [];
         }
     }
 
-    async function createRazorpayOrder() {
+    async function createRazorpayOrder(order) {
 
         const config = {
             headers: {
                 'Content-Type': 'application/json',
             }
-        }
+        };
 
-        await Promise.all(orders.map(async (order) => {
+        console.log(order);
 
-            const res = await ApiCalling("POST", "user/createOrderByRazorpay", { order: order }, config);
+        const res = await ApiCalling("POST", "user/createOrderByRazorpay", { order: order }, config);
 
-        }));
+        console.log("RazorPay : ", res.data);
 
     }
 
-
-
-    const sumbitHandler = () => {
+    const sumbitHandler = async () => {
 
         if (selectedPaymentMethod === "COD") {
 
@@ -85,8 +82,8 @@ const AddressPayment = () => {
             console.log("call the backend and update the value of payment as cod and show thank u page");
 
         } else {
-            createOrder();
-            createRazorpayOrder();
+            const res = await createOrder();
+            const res1 = await createRazorpayOrder(res);
         }
 
     }
