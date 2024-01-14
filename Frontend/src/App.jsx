@@ -20,8 +20,7 @@ import ErrorWrong from './pages/ErrorWrong';
 import Verification from './pages/Verification';
 import axios from "axios";
 import Page from './pages/Page';
-import Payment from "./pages/Payment"
-import Address from "./pages/Address"
+import AddressPayment from "./pages/AddressPayment"
 
 
 function App() {
@@ -95,8 +94,7 @@ function App() {
             <Route path='/wishlist' element={<Wishlist />} />
             <Route path='/auth/signup' element={<Signup />} />
             <Route path='/admin/9630695842' element={<Admin />} />
-            <Route path='/user/address/:userId' element={<Address />} />
-            <Route path='/user/payment/:userId' element={<Payment />} />
+            <Route path='/user/address&payment' element={<AddressPayment />} />
             <Route path='/products/:query/:value/:id' element={<Page />} />
             <Route path='/error/something-went-wrong' element={<ErrorWrong />} />
             <Route path='/productDetail/productId/:id' element={<ProductDetail />} />

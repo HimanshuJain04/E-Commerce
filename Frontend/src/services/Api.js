@@ -3,15 +3,15 @@ import axios from "axios";
 // get base url from .env file
 const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
 
-export const ApiCalling = async (method, endUrl, data = "") => {
+export const ApiCalling = async (method, endUrl, data = "", config = { headers: { 'Content-Type': 'multipart/form-data' } }) => {
 
     const fullUrl = BASE_URL + endUrl;
 
-    let config = {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    };
+    // let config = {
+    //     headers: {
+    //         'Content-Type': 'multipart/form-data',
+    //     },
+    // };
 
 
     try {

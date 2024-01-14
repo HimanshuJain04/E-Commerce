@@ -4,7 +4,7 @@ import { AppContext } from "../context/AppContext";
 import { toast } from "react-toastify";
 
 
-const Address = () => {
+const CreateAddress = ({ setShowAddAddress }) => {
 
     const { setIsLoggedIn, isLoggedIn } = useContext(AppContext);
 
@@ -16,6 +16,7 @@ const Address = () => {
         nearby: "",
         street: "",
         phoneNo: "",
+        country: ""
     });
 
     const handleChange = (e) => {
@@ -27,21 +28,35 @@ const Address = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(isLoggedIn?._id);
-        console.log("Form submitted:", { formData: formData, userId: isLoggedIn?._id });
 
-        const res = await ApiCalling("POST", "user/updateUserAddress", formData);
+        const res = await ApiCalling("POST", "user/updateUserAddress", {
+            userId: isLoggedIn?._id,
+            name: formData.name,
+            state: formData.state,
+            city: formData.city,
+            pincode: formData.pincode,
+            nearBy: formData.nearby,
+            street: formData.street,
+            phoneNo: formData.phoneNo,
+            country: formData.country
+        });
+
         if (res?.success) {
             setIsLoggedIn(res?.data);
+            setShowAddAddress(false);
         } else {
             toast.error(res?.data?.message);
         }
     };
 
     return (
+
         <div className="max-w-md mx-auto mt-8 p-4 bg-gray-100 rounded-md">
+
             <h2 className="text-xl font-bold mb-4">Shipping Address</h2>
+
             <form onSubmit={handleSubmit}>
+
                 <div className="mb-4">
                     <label htmlFor="name" className="block text-sm font-medium text-gray-600">
                         Name:
@@ -56,6 +71,7 @@ const Address = () => {
                         required
                     />
                 </div>
+
                 <div className="mb-4">
                     <label htmlFor="city" className="block text-sm font-medium text-gray-600">
                         City:
@@ -70,6 +86,7 @@ const Address = () => {
                         required
                     />
                 </div>
+
                 <div className="mb-4">
                     <label htmlFor="state" className="block text-sm font-medium text-gray-600">
                         State:
@@ -84,6 +101,7 @@ const Address = () => {
                         required
                     />
                 </div>
+
                 <div className="mb-4">
                     <label htmlFor="pincode" className="block text-sm font-medium text-gray-600">
                         Pincode:
@@ -98,6 +116,22 @@ const Address = () => {
                         required
                     />
                 </div>
+
+                <div className="mb-4">
+                    <label htmlFor="country" className="block text-sm font-medium text-gray-600">
+                        Country:
+                    </label>
+                    <input
+                        type="text"
+                        id="country"
+                        name="country"
+                        value={formData.country}
+                        onChange={handleChange}
+                        className="w-full mt-1 p-2 border rounded-md"
+                        required
+                    />
+                </div>
+
                 <div className="mb-4">
                     <label htmlFor="nearby" className="block text-sm font-medium text-gray-600">
                         NearBy:
@@ -111,6 +145,7 @@ const Address = () => {
                         required
                     />
                 </div>
+
                 <div className="mb-4">
                     <label htmlFor="street" className="block text-sm font-medium text-gray-600">
                         Street:
@@ -124,7 +159,8 @@ const Address = () => {
                         required
                     />
                 </div>
-                <div className="mb-4">
+
+                <div className="mb-8">
                     <label htmlFor="phoneNo" className="block text-sm font-medium text-gray-600">
                         Phone Number:
                     </label>
@@ -138,18 +174,20 @@ const Address = () => {
                         required
                     />
                 </div>
+
                 <div className="flex justify-center">
                     <button
                         type="submit"
-                        className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                        className="bg-blue-500 font-semibold text-white py-2 transition-all duration-200 ease-in-out px-4 rounded-md hover:bg-blue-800"
                     >
-                        Place Order
+                        Add Address
                     </button>
                 </div>
+
             </form>
         </div>
     );
 
 };
 
-export default Address;
+export default CreateAddress;

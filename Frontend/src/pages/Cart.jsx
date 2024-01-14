@@ -26,13 +26,7 @@ function Cart() {
   }, [isLoggedIn]);
 
   const orderPlaceHandler = () => {
-    if (isLoggedIn?.address.length > 0) {
-      navigate(`/user/payment/${isLoggedIn?._id}`);
-
-    } else {
-      navigate(`/user/address/${isLoggedIn?._id}`);
-    }
-
+    navigate(`/user/address&payment`);
   }
 
 
