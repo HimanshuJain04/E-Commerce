@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ProductTemplate2 from '../components/common/ProductTemplate2';
 import { BsPlusCircleFill } from "react-icons/bs";
 import { AppContext } from "../context/AppContext";
@@ -10,6 +10,7 @@ function Cart() {
   const { isLoggedIn } = useContext(AppContext);
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setData(isLoggedIn?.carts);
@@ -23,6 +24,16 @@ function Cart() {
     setTotal(totalPrice);
 
   }, [isLoggedIn]);
+
+  const orderPlaceHandler = () => {
+    if (isLoggedIn?.address.length > 0) {
+      navigate(`/user/payment/${isLoggedIn?._id}`);
+
+    } else {
+      navigate(`/user/address/${isLoggedIn?._id}`);
+    }
+
+  }
 
 
   return (
@@ -132,7 +143,10 @@ function Cart() {
 
                 {/* button */}
                 <div>
-                  <button className='w-full bg-red-600 text-white rounded-md py-3  font-bold border-[3px] transition-all duration-300 ease-in-out hover:text-red-600 border-red-600 hover:bg-transparent'>Place Order</button>
+                  <button
+                    onClick={orderPlaceHandler}
+                    className='w-full bg-red-600 text-white rounded-md py-3  font-bold border-[3px] transition-all duration-300 ease-in-out hover:text-red-600 border-red-600 hover:bg-transparent'
+                  >Place Order</button>
                 </div>
 
               </div>

@@ -50,7 +50,7 @@ const ProfileDropdown = () => {
         {
             name: "Logout",
             icon: <FiLogOut />,
-            path: "/logout"
+            path: "/auth/login"
         },
 
     ];

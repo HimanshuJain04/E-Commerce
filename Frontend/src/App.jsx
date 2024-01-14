@@ -20,6 +20,8 @@ import ErrorWrong from './pages/ErrorWrong';
 import Verification from './pages/Verification';
 import axios from "axios";
 import Page from './pages/Page';
+import Payment from "./pages/Payment"
+import Address from "./pages/Address"
 
 
 function App() {
@@ -84,19 +86,21 @@ function App() {
         <Navbar />
         <div className='min-h-[calc(100vh-80px)] w-full mt-24'>
           <Routes>
-            <Route path='/' exact element={<Home />} />
             <Route path='*' element={<Error />} />
-            <Route path='/error/something-went-wrong' element={<ErrorWrong />} />
-            <Route path='/About' element={<About />} />
-            <Route path='/products/:query/:value/:id' element={<Page />} />
             <Route path='/cart' element={<Cart />} />
-            <Route path='/wishlist' element={<Wishlist />} />
-            <Route path='/auth/verify/:verificationId/:userId' element={<Verification />} />
+            <Route path='/About' element={<About />} />
+            <Route path='/' exact element={<Home />} />
             <Route path='/contact' element={<Contact />} />
             <Route path='/auth/login' element={<Login />} />
+            <Route path='/wishlist' element={<Wishlist />} />
             <Route path='/auth/signup' element={<Signup />} />
             <Route path='/admin/9630695842' element={<Admin />} />
+            <Route path='/user/address/:userId' element={<Address />} />
+            <Route path='/user/payment/:userId' element={<Payment />} />
+            <Route path='/products/:query/:value/:id' element={<Page />} />
+            <Route path='/error/something-went-wrong' element={<ErrorWrong />} />
             <Route path='/productDetail/productId/:id' element={<ProductDetail />} />
+            <Route path='/auth/verify/:verificationId/:userId' element={<Verification />} />
           </Routes>
         </div>
 

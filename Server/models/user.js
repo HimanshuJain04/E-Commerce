@@ -54,11 +54,38 @@ const userSchema = new mongoose.Schema(
         verified: {
             type: Boolean
         },
-        address: {
-            type: String,
-            trim: true,
-        }
-
+        address: [
+            {
+                city: {
+                    type: String,
+                    trim: true
+                },
+                pincode: {
+                    type: Number,
+                    length: 6,
+                },
+                state: {
+                    type: String,
+                    trim: true
+                },
+                street: {
+                    type: String,
+                    trim: true
+                },
+                nearBy: {
+                    type: String,
+                    trim: true
+                },
+                phoneNo: {
+                    type: Number,
+                    length: 10,
+                },
+                name: {
+                    type: String,
+                    trim: true
+                }
+            }
+        ]
     }
 );
 

@@ -12,21 +12,21 @@ function Verification() {
   const verificationId = pathname.split("/").at(-2);
   const userId = pathname.split("/").at(-1);
 
-  const verifyEmail = async () => {
-
-    setVerified(false);
-
-    const { data } = await ApiCalling("GET", `auth/verify/${verificationId}/${userId}`);
-    if (data.success) {
-      toast.success("Verification Successfully");
-    } else {
-      toast.error(data.message);
-    }
-
-    setVerified(true);
-  }
 
   useEffect(() => {
+    const verifyEmail = async () => {
+
+      setVerified(false);
+
+      const { data } = await ApiCalling("GET", `auth/verify/${verificationId}/${userId}`);
+      if (data?.success) {
+        toast.success("Verification Successfully");
+        setVerified(true);
+      } else {
+        toast.error(data?.message);
+      }
+    }
+
     verifyEmail();
   }, []);
 

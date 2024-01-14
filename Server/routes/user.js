@@ -10,6 +10,10 @@ const { getAllUserData } = require('../controllers/user');
 const { addToCart } = require('../controllers/user');
 const { removeFromCart } = require('../controllers/user');
 const { descreaseFromCart } = require('../controllers/user');
+const { updateUserAddress } = require('../controllers/user');
+
+// update the user
+router.post("/updateUserAddress", updateUserAddress);
 
 // Wishlist Controllers
 router.post("/removeFromWishlist", removeFromWishlist);

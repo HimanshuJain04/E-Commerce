@@ -1,6 +1,58 @@
 const Product = require("../models/product");
 const User = require("../models/user");
 
+// update the user
+
+exports.updateUserAddress = async (req, res) => {
+    try {
+
+        const { name, city, state, pincode, nearby, street, phoneNo, userId } = req.body;
+        console.log(req.body);
+
+        console.log(name, city, state, pincode, nearby, street, phoneNo, userId);
+
+        // const user = await User.findByIdAndUpdate(
+        //     { _id: userId },
+        //     {
+        //         $push: {
+        //             wishlists: productId,
+        //         }
+        //     },
+        //     { new: true }
+        // ).populate("wishlists")
+        //     .populate("carts.product")
+        //     .populate("orders")
+        //     .exec();
+
+        // if (!user) {
+        //     return res.status(500).json(
+        //         {
+        //             success: false,
+        //             message: "User not found",
+        //             error: "User not found",
+        //         }
+        //     )
+        // }
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "User address update successfully",
+                data: "user",
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "user address update failed",
+                error: err.message,
+            }
+        )
+    }
+}
+
 
 // getAllUserData
 exports.getAllUserData = async (req, res) => {
