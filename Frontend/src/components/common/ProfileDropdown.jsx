@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const ProfileDropdown = () => {
 
-    const { isLoggedIn } = useContext(AppContext)
+    const { isLoggedIn, setIsLoggedIn } = useContext(AppContext)
 
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
@@ -40,7 +40,7 @@ const ProfileDropdown = () => {
         {
             name: "My account",
             icon: <MdAccountBox />,
-            path: `/myAccount/${isLoggedIn?._id}`
+            path: `/myAccount`
         },
         {
             name: "Setting",

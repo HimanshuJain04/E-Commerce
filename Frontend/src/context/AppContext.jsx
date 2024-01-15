@@ -2,11 +2,14 @@ import { createContext } from 'react';
 import { ApiCalling } from '../services/Api';
 import { useState } from 'react';
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 
 export const AppContext = createContext();
 
 export default function AppContextProvider({ children }) {
+
+    const navigate = useNavigate();
 
 
     const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -15,63 +18,86 @@ export default function AppContextProvider({ children }) {
     const [tags, setTags] = useState([]);
 
     async function addToCartHandler(id) {
-        const res = await ApiCalling("POST", "user/addToCart", { productId: id, userId: isLoggedIn?._id })
-        if (res?.success) {
-            setIsLoggedIn(res?.data);
-            toast.success(res?.message);
+
+        if (!isLoggedIn) {
+            navigate("/auth/login");
         } else {
-            console.log("res : ", res);
-            toast.error(res?.message);
+
+            const res = await ApiCalling("POST", "user/addToCart", { productId: id, userId: isLoggedIn?._id })
+            if (res?.success) {
+                setIsLoggedIn(res?.data);
+                toast.success(res?.message);
+            } else {
+                console.log("res : ", res);
+                toast.error(res?.message);
+            }
         }
+
     }
 
     async function addToWishlistHandler(id) {
-        const res = await ApiCalling("POST", "user/addToWishlist", { productId: id, userId: isLoggedIn?._id })
-
-        if (res?.success) {
-            setIsLoggedIn(res?.data);
-            console.log(res?.data);
-            toast.success(res?.message);
+        if (!isLoggedIn) {
+            navigate("/auth/login");
         } else {
-            console.log("res : ", res);
-            toast.error(res?.message);
+            const res = await ApiCalling("POST", "user/addToWishlist", { productId: id, userId: isLoggedIn?._id })
+
+            if (res?.success) {
+                setIsLoggedIn(res?.data);
+                toast.success(res?.message);
+            } else {
+                console.log("res : ", res);
+                toast.error(res?.message);
+            }
         }
     }
 
     async function removeFromWishlistHandler(id) {
-        const res = await ApiCalling("POST", "user/removeFromWishlist", { productId: id, userId: isLoggedIn?._id })
-
-        if (res?.success) {
-            setIsLoggedIn(res?.data);
-            console.log(res?.data);
-            toast.success(res?.message);
+        if (!isLoggedIn) {
+            navigate("/auth/login");
         } else {
-            console.log("res : ", res);
-            toast.error(res?.message);
+            const res = await ApiCalling("POST", "user/removeFromWishlist", { productId: id, userId: isLoggedIn?._id })
+
+            if (res?.success) {
+                setIsLoggedIn(res?.data);
+                console.log(res?.data);
+                toast.success(res?.message);
+            } else {
+                console.log("res : ", res);
+                toast.error(res?.message);
+            }
         }
     }
 
 
     async function removeFromCartHandler(id) {
-        const res = await ApiCalling("POST", "user/removeFromCart", { productId: id, userId: isLoggedIn?._id })
-        if (res?.success) {
-            setIsLoggedIn(res?.data);
-            console.log(res?.data);
-            toast.success(res?.message);
+
+        if (!isLoggedIn) {
+            navigate("/auth/login");
         } else {
-            console.log("res : ", res);
-            toast.error(res?.message);
+            const res = await ApiCalling("POST", "user/removeFromCart", { productId: id, userId: isLoggedIn?._id })
+            if (res?.success) {
+                setIsLoggedIn(res?.data);
+                console.log(res?.data);
+                toast.success(res?.message);
+            } else {
+                console.log("res : ", res);
+                toast.error(res?.message);
+            }
         }
     }
 
     async function descreaseFromCartHandler(id) {
-        const res = await ApiCalling("POST", "user/descreaseFromCart", { cartItemId: id, userId: isLoggedIn?._id })
-        if (res?.success) {
-            setIsLoggedIn(res?.data);
-            toast.success(res?.message);
+        if (!isLoggedIn) {
+            navigate("/auth/login");
         } else {
-            console.log("res : ", res);
-            toast.error(res?.message);
+            const res = await ApiCalling("POST", "user/descreaseFromCart", { cartItemId: id, userId: isLoggedIn?._id })
+            if (res?.success) {
+                setIsLoggedIn(res?.data);
+                toast.success(res?.message);
+            } else {
+                console.log("res : ", res);
+                toast.error(res?.message);
+            }
         }
     }
 

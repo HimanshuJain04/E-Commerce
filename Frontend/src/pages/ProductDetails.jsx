@@ -5,6 +5,8 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import ProductTemplate from '../components/common/ProductTemplate';
 import { AppContext } from '../context/AppContext';
 import { FaPlus, FaMinus } from "react-icons/fa6";
+import { MdOutlineStar } from "react-icons/md";
+
 
 
 function ProductDetails() {
@@ -102,26 +104,34 @@ function ProductDetails() {
                 <div className='w-[35%]  pr-10  h-full gap-10 flex flex-col justify-start items-start '>
 
                     {/* div for name / rating / price */}
-                    <div>
+                    <div className='flex flex-col gap-2 justify-start items-start'>
 
                         {/* category */}
                         <div >
                             <Link
                                 to={`/products/category/${data?.category?.name}/${data?.category?._id}`}
-                                className='flex uppercase font-semibold px-1 mb-3 hover:underline text-sm hover:text-red-800 cursor-pointer transition-all duration-300 ease-in-out '>
+                                className='flex uppercase font-semibold px-1 hover:underline text-sm hover:text-red-800 cursor-pointer transition-all duration-300 ease-in-out '>
                                 <span>{data?.category?.name}</span>
                             </Link>
-                        </div>
-
-                        {/* rating */}
-                        <div className='flex gap-1 items-center'>
-                            <p>{avgRating}</p>
-                            <p>({data?.rating?.length})</p>
                         </div>
 
                         {/* name */}
                         <div>
                             <h3 className='text-5xl font-semibold font-sans '>{data?.name}</h3>
+                        </div>
+
+                        {/* rating */}
+                        <div className='flex gap-2 mt-2 items-center'>
+
+                            <div className='flex justify-center text-base rounded-full font-semibold px-3 py-[2px] bg-green-600 text-white items-center gap-1'>
+                                <span>{avgRating}</span>
+                                <MdOutlineStar fontSize={20} />
+                            </div>
+
+                            <div className='font-semibold text-[black]/[0.5]'>
+                                <p>{data?.rating?.length} ratings and {data?.review?.length} reviews</p>
+                            </div>
+
                         </div>
 
 

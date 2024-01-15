@@ -2,13 +2,14 @@ const Order = require("../models/order");
 const Product = require("../models/product");
 const User = require("../models/user");
 const Razorpay = require('razorpay');
+const axios = require('axios');
+const base64 = require('base-64');
 require('dotenv').config();
+
 
 exports.updateProductSale = async (req, res) => {
     try {
         const { orderId } = req.body;
-
-        console.log(orderId);
 
         const order = await Order.findById(orderId)
             .populate('products')
@@ -127,7 +128,7 @@ exports.createOrderByRazorpay = async (req, res) => {
                 key_id: process.env.RAZORPAY_KEYID,
                 key_secret: process.env.RAZORPAY_KEYSECRET,
             }
-        )
+        );
 
         const { order } = req.body;
 
@@ -171,6 +172,47 @@ exports.createOrderByRazorpay = async (req, res) => {
     }
 }
 
+
+exports.updateOrders = async (req, res) => {
+    try {
+
+        const { userId, orderId } = req.body;
+
+        let user = await User.findById(userId);
+
+        user.orders.push(orderId);
+        user.carts = [];
+
+        await user.save();
+
+        user = await User.findById(userId)
+            .populate("wishlists")
+            .populate("carts.product")
+            .populate("orders")
+            .exec();
+
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Orders update successfully",
+                data: user
+            }
+        );
+
+    }
+    catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Orders update Failed",
+                error: err.message,
+            }
+        );
+
+    }
+}
+
 exports.cardDetail = async (req, res, next) => {
     try {
 
@@ -183,7 +225,8 @@ exports.cardDetail = async (req, res, next) => {
 
         const { razorpayId } = req.body;
 
-        const order = await instance.payments.fetch(razorpayId);
+        const order = await instance.orders.fetch(razorpayId);
+        const order1 = await instance.orders.fetchPayments(razorpayId);
 
         if (!order) {
             return res.status(400).json(
@@ -199,7 +242,7 @@ exports.cardDetail = async (req, res, next) => {
             {
                 success: true,
                 message: "Order fetchde with razorpay successfully",
-                data: order
+                data: [order, order1]
             }
         );
 
@@ -217,16 +260,69 @@ exports.cardDetail = async (req, res, next) => {
 }
 
 
-// const options = {
-//     amount: 50000, // amount in paise (e.g., for ₹500, multiply by 100)
-//     currency: 'INR',
-// };
+exports.verifyPayment = async (req, res) => {
 
-// razorpay.orders.create(options, (err, order) => {
-//     if (err) {
-//         return res.status(500).json({ error: 'Error creating order' });
-//     }
+    const { paymentId } = req.body;
 
-//     res.json({ order_id: order.id });
-// });
+    // Replace these with your actual Razorpay API key and secret
+    const razorpayApiKey = process.env.RAZORPAY_KEYID;
+    const razorpayApiSecret = process.env.RAZORPAY_KEYSECRET;
+
+    // Construct the API endpoint URL
+    const apiUrl = `https://api.razorpay.com/v1/payments/${paymentId}`;
+
+    // Set up headers with your Razorpay API key and secret
+    const headers = {
+        'Authorization': `Basic ${base64.encode(`${razorpayApiKey}:${razorpayApiSecret}`)}`
+    };
+
+    try {
+        // Make a GET request to the Razorpay API
+        const response = await axios.get(apiUrl, { headers });
+
+        // Check if the request was successful (HTTP status code 200)
+        if (response.status === 200) {
+
+            // Parse the JSON response
+            const paymentData = response?.data;
+
+
+            // Check the payment status in the response
+            if (paymentData.status === 'captured') {
+
+                return res.status(200).json({
+                    success: true,
+                    message: 'Payment and order processed successfully.',
+                    data: paymentData
+                });
+
+            } else {
+                // Payment is not successful
+                return res.status(400).json({
+                    success: false,
+                    message: 'Payment verification failed.',
+                    error: 'Payment verification failed.'
+                });
+            }
+        } else {
+            // Handle unsuccessful request
+            return res.status(400).json({
+                success: false,
+                message: 'Payment verification failed.',
+                error: 'Payment verification failed.'
+            });
+        }
+    } catch (error) {
+        // Handle exceptions
+        return res.status(500).json({
+            success: false,
+            message: 'Payment verification failed.',
+            error: error.message
+        });
+    }
+
+}
+
+
+
 

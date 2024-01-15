@@ -9,7 +9,7 @@ import { IoMdArrowBack } from "react-icons/io";
 
 const AddressPayment = () => {
 
-    const { isLoggedIn } = useContext(AppContext);
+    const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
     const navigate = useNavigate();
 
     // address field requirements
@@ -18,7 +18,6 @@ const AddressPayment = () => {
     const handleAddressSelect = (address) => {
         setSelectedAddress(address);
     };
-
 
 
 
@@ -111,27 +110,47 @@ const AddressPayment = () => {
                 image: {},
                 order_id: result.data.id,
                 handler: async function (response) {
-                    console.log("Res : ", response);
-                    navigate("/thank-you-page");
-                    // const data = {
-                    //     orderCreationId: result.data.id, // Use the correct identifier for the order
-                    //     razorpayPaymentId: response.razorpay_payment_id,
-                    //     razorpayOrderId: response.razorpay_order_id,
-                    //     razorpaySignature: response.razorpay_signature,
-                    // };
+                    try {
 
-                    // try {
-                    //     // Send the payment response to your server endpoint
-                    //     const serverResponse = await ApiCalling("POST", "user/payment/success", data);
+                        // Send the payment response to your server endpoint
+                        const res = await ApiCalling("POST", "user/payment/verifyPayment",
+                            {
+                                paymentId: response.razorpay_payment_id,
+                            });
 
-                    //     // Display a success message to the user
-                    //     alert(serverResponse.data.msg);
 
-                    // } catch (error) {
-                    //     console.error("Error while sending payment response to server:", error.message);
-                    //     // Display an error message to the user
-                    //     alert("An error occurred while processing the payment. Please contact support.");
-                    // }
+                        if (res?.success) {
+
+                            toast("Payment Successfully Done");
+
+                            const res = await ApiCalling("POST", "user/updateOrders",
+                                {
+                                    orderId: payload?._id,
+                                    userId: payload.user
+                                }
+                            );
+
+                            setIsLoggedIn(res?.data);
+
+                        } else {
+
+                            toast.error("Payment Failed");
+
+                        }
+
+                        navigate("/thank-you-page");
+
+                        // Display a success message to the user
+
+                    } catch (error) {
+
+                        navigate("/cart");
+
+                        toast.error("payment Failed");
+
+                        console.error("Error while sending payment response to server:", error.message);
+                        // Display an error message to the user
+                    }
                 },
                 prefill: {
                     name: "Himanshu Jain",
@@ -157,8 +176,6 @@ const AddressPayment = () => {
     }
 
 
-
-
     const sumbitHandler = async () => {
 
         if (selectedPaymentMethod === "COD") {
@@ -177,7 +194,6 @@ const AddressPayment = () => {
                 }
             }
             );
-            // TODO: create another api or somethingby which user cart should be empty
         }
     }
 

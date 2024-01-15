@@ -9,9 +9,10 @@ const { addToCart } = require('../controllers/user');
 const { removeFromCart } = require('../controllers/user');
 const { descreaseFromCart } = require('../controllers/user');
 const { updateUserAddress } = require('../controllers/user');
-const { createOrder } = require('../controllers/order');
+const { createOrder, updateOrders } = require('../controllers/order');
 const { createOrderByRazorpay } = require('../controllers/order');
 const { cardDetail } = require('../controllers/order');
+const { verifyPayment } = require('../controllers/order');
 
 
 // update the user
@@ -36,7 +37,9 @@ router.get("/getAllUserData/:userId", getAllUserData);
 // order
 router.post("/createOrder", createOrder);
 router.post("/createOrderByRazorpay", createOrderByRazorpay);
-router.post("/cardDetail", cardDetail);
+router.get("/cardDetail", cardDetail);
+router.post("/payment/verifyPayment", verifyPayment);
+router.post("/updateOrders", updateOrders);
 
 
 module.exports = router;

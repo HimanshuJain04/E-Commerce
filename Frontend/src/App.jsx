@@ -22,6 +22,8 @@ import axios from "axios";
 import Page from './pages/Page';
 import AddressPayment from "./pages/AddressPayment"
 import ThankYou from "./pages/ThankYou"
+import MyOrders from './components/user/MyOrders';
+
 
 
 function App() {
@@ -93,11 +95,12 @@ function App() {
             <Route path='/contact' element={<Contact />} />
             <Route path='/auth/login' element={<Login />} />
             <Route path='/wishlist' element={<Wishlist />} />
+            <Route path='/myAccount' element={<MyOrders />} />
             <Route path='/auth/signup' element={<Signup />} />
-            <Route path='/thank-you-page' element={<ThankYou />} />
             <Route path='/admin/9630695842' element={<Admin />} />
-            <Route path='/user/address&payment' element={<AddressPayment />} />
+            <Route path='/thank-you-page' element={<ThankYou />} />
             <Route path='/products/:query/:value/:id' element={<Page />} />
+            <Route path='/user/address&payment' element={<AddressPayment />} />
             <Route path='/error/something-went-wrong' element={<ErrorWrong />} />
             <Route path='/productDetail/productId/:id' element={<ProductDetail />} />
             <Route path='/auth/verify/:verificationId/:userId' element={<Verification />} />

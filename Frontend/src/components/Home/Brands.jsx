@@ -11,7 +11,7 @@ function Brands() {
         "https://th.bing.com/th/id/OIP.qvz1aGluyBdxi8h8hJr5QQHaEw?rs=1&pid=ImgDetMain"
     ];
 
-    
+
     return (
         <div className='flex justify-between items-center flex-col gap-12'>
             <div>
@@ -27,7 +27,7 @@ function Brands() {
                             >
                                 <img
                                     src={images[index]}
-                                    className=' h-[100px] bg-cover' alt="images"
+                                    className=' h-[100px] mix-blend-screen bg-cover' alt="images"
                                 />
                             </li>
                         ))
