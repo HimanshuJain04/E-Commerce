@@ -24,7 +24,7 @@ function ProductTemplate({ data }) {
         <div>
             <div>
                 <div
-                    className=' min-w-[300px] shadow-md transition-all duration-300 ease-in-out shadow-[black]/[0.3] bg-white  max-w-[300px] p-2 relative h-[450px] flex flex-col gap-2 items-center justify-start '
+                    className=' min-w-[300px] hover:shadow-xl rounded-sm transition-all duration-500 ease-in-out hover:shadow-[black]/[0.3] bg-white  max-w-[300px] p-2 relative h-[450px] flex flex-col gap-2 items-center justify-start '
                 >
                     {/* wishlist-icon */}
                     <div className='absolute right-5 top-5'>

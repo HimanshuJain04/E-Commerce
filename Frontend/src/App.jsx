@@ -19,7 +19,7 @@ import Signup from './pages/Signup';
 import ErrorWrong from './pages/ErrorWrong';
 import Verification from './pages/Verification';
 import axios from "axios";
-import Page from './pages/Page';
+import Cards from './pages/Cards';
 import AddressPayment from "./pages/AddressPayment"
 import ThankYou from "./pages/ThankYou"
 import MyOrders from './components/user/MyOrders';
@@ -81,6 +81,7 @@ function App() {
     defaultApiCalling();
   }, []);
 
+
   return (
     <div>
       <div className='w-full h-[100vh] bg-[black]/[0.02] scrollbar-hide overflow-auto'>
@@ -99,7 +100,7 @@ function App() {
             <Route path='/auth/signup' element={<Signup />} />
             <Route path='/admin/9630695842' element={<Admin />} />
             <Route path='/thank-you-page' element={<ThankYou />} />
-            <Route path='/products/:query/:value/:id' element={<Page />} />
+            <Route path='/products/:query/:value/:id' element={<Cards />} />
             <Route path='/user/address&payment' element={<AddressPayment />} />
             <Route path='/error/something-went-wrong' element={<ErrorWrong />} />
             <Route path='/productDetail/productId/:id' element={<ProductDetail />} />

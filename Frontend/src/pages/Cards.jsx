@@ -64,7 +64,6 @@ function Page() {
 
 
         const res1 = await ApiCalling("GET", `product/${prefixUrl}/${id}`);
-        console.log("Page Data : ", res1);
 
         if (res1?.status) {
             setData(res1?.data);
@@ -76,11 +75,10 @@ function Page() {
 
 
     useEffect(() => {
-
         getData();
-
     }, [pathname]);
 
+    
 
     const [dataOrder, setDataOrder] = useState(options[0]?.value);
     const [range, setRange] = useState(
