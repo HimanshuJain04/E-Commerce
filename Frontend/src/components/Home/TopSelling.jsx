@@ -9,15 +9,23 @@ function TopSelling() {
 
     const { tags } = useContext(AppContext);
 
-    const [option, setOption] = useState(tags[0] || "Default Option");
+    const allTag = {
+        name: "All",
+        _id: "All"
+    };
+
+
+    const [allTags, setAllTags] = useState([]);
+    const [option, setOption] = useState(allTags[0] || "Default Option");
     const [data, setData] = useState([]);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     // initialize the tag value
     useEffect(() => {
         // Check if tags are not empty
         if (tags.length > 0) {
-            setOption(tags[0]);
+            setAllTags([allTag, ...tags]);
+            setOption(allTag);
         }
     }, [tags]);
 
@@ -55,17 +63,17 @@ function TopSelling() {
 
                         {/* categories */}
                         <div>
-                            <div className='flex gap-10 justify-center items-center '>
+                            <div className='flex gap-10 justify-center items-center w-[800px] overflow-auto scrollbar-hide '>
                                 {
 
-                                    tags?.map((cateogory) => (
+                                    allTags?.map((cateogory) => (
                                         <button
                                             onClick={() => {
                                                 setOption(cateogory)
                                             }}
                                             key={cateogory?._id}
                                             className={`px-7 py-2 hover:bg-red-900 font-semibold cursor-pointer transition-all duration-200 ease-in-out  hover:text-white rounded-full border-2 border-red-900 `
-                                                + (option.name === cateogory.name ? "bg-red-900 text-white" : " text-black")}
+                                                + (option?.name === cateogory?.name ? "bg-red-900 text-white" : " text-black")}
                                         >
                                             <p className=''>{cateogory?.name}</p>
                                         </button>
@@ -75,24 +83,24 @@ function TopSelling() {
                         </div>
 
                         {/* category Products */}
-                        <div className='w-full flex gap-5 scrollbar-hide overflow-x-auto overflow-y-hidden'>
+                        <div className='w-full flex gap-5 justify-start p-2 items-center pb-10 scrollbar-hide overflow-x-auto overflow-y-hidden'>
 
                             {
                                 data?.map((product) => (
                                     <Link
                                         to={`productDetail/productId/${product?._id}`}
                                         key={product._id}
-                                        className=' flex cursor-pointer flex-col justify-center gap-2 items-center '
+                                        className=' flex hover:shadow-xl p-2 shadow-black transition-all duration-200 ease-in-out cursor-pointer flex-col justify-center gap-2 items-center '
                                     >
-                                        <div className='w-[200px] h-[200px] overflow-hidden'>
-                                            <img className=' bg-contain w-full h-full '
+                                        <div className='w-[230px] h-[230px] overflow-hidden'>
+                                            <img className=' object-contain '
                                                 alt={product?.name}
-                                                src={product?.images[0]}
+                                                src={product?.images?.[0]}
                                             />
                                         </div>
-                                        <div className='flex flex-col items-center justify-center'>
+                                        <div className='flex flex-col items-center max-w-[200px] justify-center'>
                                             <p className='font-bold'>{product.title}</p>
-                                            <p className=' font-semibold text-[black]/[0.5]'>{product?.name}</p>
+                                            <p className=' font-semibold text-[black]/[0.5]'>{product?.name.substring(0, 20)}...</p>
                                             <p className='text-red-950 font-semibold'>Rs. {product?.price}</p>
                                         </div>
 

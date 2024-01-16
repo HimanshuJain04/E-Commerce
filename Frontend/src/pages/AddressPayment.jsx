@@ -50,7 +50,6 @@ const AddressPayment = () => {
 
         } else {
             toast.error("Failed to order");
-            console.log("res : ", res);
             return [];
         }
     }

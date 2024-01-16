@@ -18,19 +18,19 @@ function Page() {
         },
         {
             option: "Price high to low",
-            value: "priceLtoH"
+            value: "price-high-to-low"
         },
         {
             option: "Price low to high",
-            value: "priceHtoL"
+            value: "price-low-to-high"
         },
         {
             option: "Rating high to low",
-            value: "ratingHtoL"
+            value: "rating-high-to-low"
         },
         {
             option: "Rating low to high",
-            value: "ratingLtoH"
+            value: "rating-low-to-high"
         },
 
 
@@ -38,34 +38,36 @@ function Page() {
 
 
     const { pathname } = useLocation();
-    const curr = pathname.split("/");
-    const query = curr[2];
-    const value = curr[3];
-    let id = curr[4];
+    const query = pathname.split("/")[2];
+    const value = pathname.split("/")[3];
+    let id = pathname.split("/")[4];
     const [data, setData] = useState([]);
     const navigate = useNavigate();
+
+    console.log(pathname);
 
 
     async function getData() {
 
         let prefixUrl = "";
 
-        if (query === "tag") {
-            prefixUrl = "getProductsByTag";
+        if (query === "tag" && value === "All") {
+
+            prefixUrl = "getAllProducts"
+
+        } else if (query === "tag" && value !== "All") {
+            prefixUrl = `getProductsByTag/${id}`;
 
         } else if (query === "category") {
-            prefixUrl = "getProductsByCategory";
+            prefixUrl = `getProductsByCategory/${id}`;
 
         } else if (query === "search") {
-            prefixUrl = "getProductsBySearch";
-            id = value;
-
+            prefixUrl = `getProductsBySearch/${value}`;
         }
+        console.log(prefixUrl);
+        const res1 = await ApiCalling("GET", `product/${prefixUrl}`);
 
-
-        const res1 = await ApiCalling("GET", `product/${prefixUrl}/${id}`);
-
-        if (res1?.status) {
+        if (res1?.success) {
             setData(res1?.data);
         } else {
             setData([]);
@@ -78,7 +80,6 @@ function Page() {
         getData();
     }, [pathname]);
 
-    
 
     const [dataOrder, setDataOrder] = useState(options[0]?.value);
     const [range, setRange] = useState(
@@ -88,6 +89,25 @@ function Page() {
             showRange: false
         }
     );
+
+    // useEffect(() => {
+    //     // "priceRange-min-max"
+    //     async function getData() {
+
+    //         const res1 = await ApiCalling("GET", `product/${}`);
+
+    //         if (res1?.status) {
+    //             setData(res1?.data);
+    //         } else {
+    //             setData([]);
+    //             navigate("/error");
+    //         }
+    //     }
+    //     getData();
+
+    // }, [dataOrder])
+
+
 
     return (
         <div className='flex justify-center items-start'>

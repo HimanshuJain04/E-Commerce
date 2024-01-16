@@ -74,10 +74,10 @@ function ProductDetails() {
             <div className='w-11/12 flex justify-between py-5 gap-10  min-h-[100vh] h-full items-start '>
 
                 {/* left div for image*/}
-                <div className='flex max-h-[90vh] justify-between gap-5 h-full w-[55%] items-start'>
+                <div className='flex h-[80vh] justify-between gap-5 w-3/5 items-start'>
 
                     {/* div for small images */}
-                    <div className='flex overflow-y-auto max-h-[90vh] pb-5 px-2 flex-col gap-2  w-[20%] h-full'>
+                    <div className='flex overflow-y-auto border-2 p-5 rounded-sm scrollbar-hide pb-5 px-2 flex-col gap-3  w-[15%] max-h-full'>
                         {
                             data?.images?.map((image) => (
                                 <button
@@ -85,7 +85,7 @@ function ProductDetails() {
                                     key={image}
                                     className={`cursor-pointer flex justify-center items-center duration-200 transition-all ease-in-out border-[3px] rounded-sm  ` + (mainImage === image ? " border-blue-600" : "border-transparent")}
                                 >
-                                    <img className=' bg-cover max-h-[150px] max-w-[100%]' src={image} alt={image} />
+                                    <img className=' bg-cover max-h-[70px] max-w-[100%]' src={image} alt={image} />
                                 </button>
                             ))
                         }
@@ -93,15 +93,14 @@ function ProductDetails() {
                     </div>
 
                     {/* div for large image */}
-                    <div className='w-[80%] h-[90vh]'>
-                        <img className='w-full max-h-full bg-red-200' src={mainImage} alt="" />
+                    <div className='w-full h-full overflow-hidden'>
+                        <img className='object-contain h-full w-full ' src={mainImage} alt="" />
                     </div>
 
                 </div>
 
-
                 {/* right div for details */}
-                <div className='w-[35%]  pr-10  h-full gap-10 flex flex-col justify-start items-start '>
+                <div className='w-2/5  pr-10  h-full gap-10 flex flex-col justify-start items-start '>
 
                     {/* div for name / rating / price */}
                     <div className='flex flex-col gap-2 justify-start items-start'>
@@ -117,7 +116,7 @@ function ProductDetails() {
 
                         {/* name */}
                         <div>
-                            <h3 className='text-5xl font-semibold font-sans '>{data?.name}</h3>
+                            <h3 className='text-3xl font-semibold font-sans '>{data?.name}</h3>
                         </div>
 
                         {/* rating */}
@@ -210,6 +209,7 @@ function ProductDetails() {
                     </div>
 
                 </div>
+
             </div>
 
 
@@ -217,7 +217,7 @@ function ProductDetails() {
             <div className='w-full my-20'>
                 <div className='w-full flex justify-center items-start '>
 
-                    <div className='w-11/12 flex gap-5 flex-col justify-center items-center'>
+                    <div className='w-11/12 flex gap-2 flex-col justify-center items-center'>
 
                         {/* heading */}
                         <div className='w-full flex justify-start items-center'>
@@ -226,7 +226,7 @@ function ProductDetails() {
 
                         {/* data */}
                         <div className='w-full'>
-                            <div className='flex overflow-y-hidden overflow-auto scrollbar-hide w-full items-start justify-start gap-7'>
+                            <div className='flex overflow-y-hidden p-3 py-10 overflow-auto scrollbar-hide w-full items-start justify-start gap-7'>
                                 {
                                     similarData?.map((product) => (
                                         <ProductTemplate key={product._id} data={product} />

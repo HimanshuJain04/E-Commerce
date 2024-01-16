@@ -19,6 +19,7 @@ function Product() {
             stock: "",
             tag: "",
             category: "",
+            details: "",
         }
     );
 
@@ -61,6 +62,7 @@ function Product() {
         fd.append('stock', formdata.stock);
         fd.append('category', formdata.category);
         fd.append('tag', formdata.tag);
+        fd.append('details', formdata.details);
 
         for (const image of images) {
             fd.append("images", image, image.name);
@@ -81,6 +83,7 @@ function Product() {
                     stock: "",
                     tag: "",
                     category: "",
+                    details: "",
                 }
             );
 
@@ -175,6 +178,16 @@ function Product() {
                         name="description"
                         placeholder='Product Description'
                         value={formdata.description}
+                        className='outline-none w-full max-h-[200px] min-h-[200px] border-[2px] border-[black]/[0.5]  py-2 px-2 '
+                        onChange={onChangeFormData}
+                    />
+                </div>
+
+                <div>
+                    <textarea
+                        name="details"
+                        placeholder='Product Details'
+                        value={formdata.details}
                         className='outline-none w-full max-h-[200px] min-h-[200px] border-[2px] border-[black]/[0.5]  py-2 px-2 '
                         onChange={onChangeFormData}
                     />

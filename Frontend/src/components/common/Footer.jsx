@@ -101,11 +101,10 @@ function Footer() {
                     </div>
 
                     <div className=''>
-                        <img className='h-[45px] bg-cover' src="public/payment.png" alt="payment-methods" />
+                        <img className='h-[45px] bg-cover' src="/payment.png" alt="payment-methods" />
                     </div>
 
                 </div>
-
 
             </div>
 

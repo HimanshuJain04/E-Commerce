@@ -27,7 +27,7 @@ function ProductTemplate({ data }) {
                     className=' min-w-[300px] hover:shadow-xl rounded-sm transition-all duration-500 ease-in-out hover:shadow-[black]/[0.3] bg-white  max-w-[300px] p-2 relative h-[450px] flex flex-col gap-2 items-center justify-start '
                 >
                     {/* wishlist-icon */}
-                    <div className='absolute right-5 top-5'>
+                    <div className='absolute right-5 z-10 top-5'>
                         <button
                             onClick={() => {
                                 if (isWishlisted) {
@@ -50,7 +50,7 @@ function ProductTemplate({ data }) {
                     <div className='w-full h-[90%] overflow-hidden  flex justify-center items-center'>
 
                         <img
-                            className='max-w-full cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out max-h-full bg-contain'
+                            className='max-w-full cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out max-h-full bg-contain'
                             src={data?.images[0]}
                             alt={`${data?.name}`}
                         />

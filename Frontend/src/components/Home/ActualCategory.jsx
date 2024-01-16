@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { AppContext } from '../../context/AppContext';
 import { Link } from "react-router-dom";
 
@@ -12,8 +12,24 @@ function ActualCategory() {
         "https://th.bing.com/th/id/OIP.BGwhDC-5eqhHHqZkDPDMygHaE7?w=230&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
     ];
 
+    const allTag = {
+        name: "All",
+        _id: "All-Categories",
+    };
+
     const [showAll, setShowAll] = useState(false);
     const { tags } = useContext(AppContext);
+    const [allTags, setAllTags] = useState([]);
+
+
+    // initialize the tag value
+    useEffect(() => {
+        // Check if tags are not empty
+        if (tags.length > 0) {
+            setAllTags([allTag, ...tags]);
+        }
+    }, [tags]);
+
 
     return (
         <div className='flex flex-col justify-center  items-center gap-10 p-5'>
@@ -28,8 +44,8 @@ function ActualCategory() {
             <div className={`w-full flex  flex-wrap overflow-hidden gap-10 items-start justify-start ` + (showAll ? "h-[full] " : "  h-[370px]")}>
 
                 {
-                    tags.map((product, index) => (
-                        <div key={product._id}>
+                    allTags?.map((product, index) => (
+                        <div key={product?._id}>
                             <Link
                                 to={`/products/tag/${product?.name}/${product?._id}`}
                                 className=' flex group  cursor-pointer flex-col justify-center gap-2 items-center '
@@ -48,9 +64,15 @@ function ActualCategory() {
                                     <img className=' bg-contain w-full h-full '
                                         src={images[index]} alt={product?.name} />
                                 </div>
+
                                 <div className='flex flex-col items-center justify-center'>
-                                    <p className='font-bold'>{product.name}</p>
-                                    <p className=' font-semibold text-[black]/[0.5]'>{product?.categories[0]?.name},{product?.categories[1]?.name}...etc</p>
+                                    <p className='font-bold'>{product?.name}</p>
+                                    <p className=' font-semibold text-[black]/[0.5]'>
+                                        {
+                                            product.name !== "All" ? (`${product?.categories?.[0]?.name},${product?.categories?.[1]?.name}...etc`
+                                            ) : ("All Categories")
+                                        }
+                                    </p>
                                 </div>
 
                             </Link>
