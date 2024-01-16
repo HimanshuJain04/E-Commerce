@@ -13,12 +13,12 @@ exports.createProduct = async (req, res) => {
     try {
 
         // fetch the data from request
-        const { name, price, stock, description, category, tag } = req.body;
+        const { name, price, stock, details, description, category, tag } = req.body;
 
         const images = req?.files?.images;
 
         // validation
-        if (!name || !price || !description || !images || !stock || !category || !tag) {
+        if (!name || !price || !description || !details || !images || !stock || !category || !tag) {
             return res.status(400).json(
                 {
                     success: false,
@@ -86,6 +86,7 @@ exports.createProduct = async (req, res) => {
                 tag: existTag._id,
                 stock: stock,
                 images: imagesUrl,
+                productDetails: details
             }
         );
 
@@ -130,7 +131,6 @@ exports.getAllProducts = async (req, res) => {
         // create entry in database
         const data = await Product.find({})
             .populate("category")
-            .populate('tag')
             .exec();
 
         return res.status(200).json(
@@ -168,8 +168,9 @@ exports.getProductById = async (req, res) => {
         if (!existProduct) {
             return res.status(400).json(
                 {
-                    success: true,
+                    success: false,
                     message: "Product doesn't exist Successfully",
+                    error: "Product doesn't exist Successfully",
                 }
             )
         }
@@ -248,7 +249,6 @@ exports.getTopSellingProducts = async (req, res) => {
             });
 
         }
-
 
 
         const topSelling = data.sort((a, b) => b.sales - a.sales).slice(0, 10);
@@ -348,32 +348,25 @@ exports.getProductsByCategory = async (req, res) => {
         if (!allData) {
             return res.status(400).json(
                 {
-                    status: true,
+                    success: false,
                     message: "Tag doesn't exist Successfully",
+                    error: "Tag doesn't exist Successfully",
                 }
             )
         }
 
-        let categoryData = [];
-
-        console.log(allData);
-
-        allData?.products?.forEach(product => {
-            categoryData.push(product);
-        })
-
         return res.status(200).json(
             {
-                status: true,
+                success: true,
                 message: "Get Product By category Successfully",
-                data: categoryData,
+                data: allData.products,
             }
         )
 
     } catch (err) {
         return res.status(500).json(
             {
-                status: false,
+                success: false,
                 message: "Get Product By category  Failed",
                 error: err.message,
             }
@@ -403,8 +396,9 @@ exports.getProductByTag = async (req, res) => {
         if (!allData) {
             return res.status(400).json(
                 {
-                    status: true,
+                    success: false,
                     message: "Tag doesn't exist Successfully",
+                    error: "Tag doesn't exist Successfully",
                 }
             )
         }
@@ -419,7 +413,7 @@ exports.getProductByTag = async (req, res) => {
 
         return res.status(200).json(
             {
-                status: true,
+                success: true,
                 message: "Get ProductByTag Successfully",
                 data: tagData,
             }
@@ -428,13 +422,77 @@ exports.getProductByTag = async (req, res) => {
     } catch (err) {
         return res.status(500).json(
             {
-                status: false,
+                success: false,
                 message: "Get ProductByTag  Failed",
                 error: err.message,
             }
         );
     }
 }
+
+
+exports.getProductsByFiltering = async (req, res) => {
+
+    try {
+        const { query } = req.params;
+
+
+        let data = [];
+
+        if (query === "price-low-to-high") {
+
+            // Sort by price in ascending order
+            data = await Product.find().sort({ price: 1 });
+
+        } else if (query === "price-high-to-low") {
+
+            // Sort by price in descending order
+            data = await Product.find().sort({ price: -1 });
+
+        } else if (query === "popularity") {
+
+            // Sort by sales in descending order
+            data = await Product.find().sort({ sales: -1 });
+
+        } else if (query === "rating-high-to-low") {
+
+            // Sort by rating in descending order
+            data = await Product.find().sort({ "averageRating": -1 });
+
+        } else if (query === "rating-low-to-high") {
+
+            // Sort by rating in descending order
+            data = await Product.find().sort({ "averageRating": 1 });
+
+        } else if (query === "priceRange-min-max") {
+
+            const minPrice = query.split("-")[1];
+            const maxPrice = query.split("-")[2];
+
+            data = await Product.find({
+                price: { $gte: minPrice, $lte: maxPrice }
+            });
+        }
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Get ProductBy filtering Successfully",
+                data: data,
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Get ProductBy filtering  Failed",
+                error: err.message,
+            }
+        );
+    }
+}
+
 
 // TODO: check name as well as description of product for better results
 exports.getProductsBySearch = async (req, res) => {
@@ -451,7 +509,7 @@ exports.getProductsBySearch = async (req, res) => {
 
         return res.status(200).json(
             {
-                status: true,
+                success: true,
                 message: "Get Product By search  successfully",
                 data: data,
             }
@@ -459,7 +517,7 @@ exports.getProductsBySearch = async (req, res) => {
     } catch (err) {
         return res.status(500).json(
             {
-                status: false,
+                success: false,
                 message: "Get Product By Search  Failed",
                 error: err.message,
             }

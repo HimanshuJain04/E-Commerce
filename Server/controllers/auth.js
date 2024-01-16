@@ -5,8 +5,9 @@ require('dotenv').config();
 const Verification = require('../models/verification');
 const uuid = require('uuid').v4;
 const { mailSender } = require("../utils/mailSender");
+const { sendVerificationEmail } = require("../utils/sendMail");
 
-const sendVerificationEmail = async ({ _id, email }, res) => {
+const sendVerificationEmailFun = async ({ _id, email }, res) => {
 
     try {
         // TODO : Get address from env file
@@ -14,9 +15,7 @@ const sendVerificationEmail = async ({ _id, email }, res) => {
         const clientUrl = "http://localhost:3000/";
         const uniqueString = uuid() + _id;
 
-        const subject = "Verify Your Email";
-        const htmlBody = `<p>Verify your email to complete signup.<b>This link expires in 6 hour. </b></p>
-        <p> click <a href=${clientUrl + "auth/verify/" + uniqueString + "/" + _id}>here</a> to proceed.</p>`
+        const link = clientUrl + "auth/verify/" + uniqueString + "/" + _id;
 
 
         // hash the uniqueString and save them into database
@@ -32,7 +31,7 @@ const sendVerificationEmail = async ({ _id, email }, res) => {
             }
         );
 
-        if (! await mailSender(email, subject, htmlBody)) {
+        if (! await sendVerificationEmail(email, link)) {
             return false;
         }
 
@@ -98,7 +97,7 @@ exports.userSignup = async (req, res) => {
             }
         )
 
-        await sendVerificationEmail(data, res);
+        await sendVerificationEmailFun(data, res);
 
         return res.status(200).json(
             {

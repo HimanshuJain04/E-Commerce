@@ -13,6 +13,7 @@ const { createOrder, updateOrders } = require('../controllers/order');
 const { createOrderByRazorpay } = require('../controllers/order');
 const { cardDetail } = require('../controllers/order');
 const { verifyPayment } = require('../controllers/order');
+const { getOrderDetailsById } = require('../controllers/order');
 
 
 // update the user
@@ -36,6 +37,7 @@ router.get("/getAllUserData/:userId", getAllUserData);
 
 // order
 router.post("/createOrder", createOrder);
+router.post("/getOrderDetailsById", getOrderDetailsById);
 router.post("/createOrderByRazorpay", createOrderByRazorpay);
 router.get("/cardDetail", cardDetail);
 router.post("/payment/verifyPayment", verifyPayment);

@@ -1,8 +1,7 @@
 const nodemailer = require("nodemailer");
-require('dotenv').config()
+require('dotenv').config();
 
-
-exports.mailSender = async (email, title, body) => {
+const mailSender = async (mailOptions) => {
     try {
         let transporter = nodemailer.createTransport({
             host: process.env.MAIL_HOST,
@@ -11,22 +10,15 @@ exports.mailSender = async (email, title, body) => {
                 user: process.env.MAIL_USER,
                 pass: process.env.MAIL_PASS,
             }
-        })
-
-
-        let info = await transporter.sendMail({
-            from: `"E-commerce" <${process.env.MAIL_USER}>`,
-            to: `${email}`,
-            subject: `${title}`,
-            html: `${body}`,
         });
 
+        let info = await transporter.sendMail(mailOptions);
+
         return info;
-    }
-    catch (error) {
-        console.log("Mail Error : ", error.message);
+    } catch (error) {
+        console.log("Mail Error: ", error.message);
         return false;
     }
 }
 
-
+module.exports = mailSender;

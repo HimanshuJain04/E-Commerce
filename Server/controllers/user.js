@@ -27,8 +27,15 @@ exports.updateUserAddress = async (req, res) => {
             { new: true }
         ).populate("wishlists")
             .populate("carts.product")
-            .populate("orders")
-            .exec();
+            .populate(
+                {
+                    path: 'orders',
+                    populate: {
+                        path: 'products.product',
+                        model: 'Product',
+                    },
+                }
+            ).exec();
 
         if (!user) {
             return res.status(500).json(
@@ -66,7 +73,19 @@ exports.getAllUserData = async (req, res) => {
 
         const { userId } = req.params;
 
-        const user = await User.findById(userId);
+        const user = await User.findById(userId)
+            .populate("wishlists")
+            .populate("carts.product")
+            .populate(
+                {
+                    path: 'orders',
+                    populate: {
+                        path: 'products.product',
+                        model: 'Product',
+                    },
+                }
+            )
+            .exec();
 
         if (!user) {
             return res.status(500).json(
@@ -118,8 +137,15 @@ exports.addToWishlist = async (req, res) => {
             { new: true }
         ).populate("wishlists")
             .populate("carts.product")
-            .populate("orders")
-            .exec();
+            .populate(
+                {
+                    path: 'orders',
+                    populate: {
+                        path: 'products.product',
+                        model: 'Product',
+                    },
+                }
+            ).exec();
 
         if (!user) {
             return res.status(500).json(
@@ -164,8 +190,15 @@ exports.removeFromWishlist = async (req, res) => {
             { new: true }
         ).populate("wishlists")
             .populate("carts.product")
-            .populate("orders")
-            .exec();
+            .populate(
+                {
+                    path: 'orders',
+                    populate: {
+                        path: 'products.product',
+                        model: 'Product',
+                    },
+                }
+            ).exec();
 
         if (!user) {
             return res.status(500).json(
@@ -235,8 +268,15 @@ exports.addToCart = async (req, res) => {
         const data = await User.findById(userId)
             .populate("wishlists")
             .populate("carts.product")
-            .populate("orders")
-            .exec();
+            .populate(
+                {
+                    path: 'orders',
+                    populate: {
+                        path: 'products.product',
+                        model: 'Product',
+                    },
+                }
+            ).exec();
 
         return res.status(200).json(
             {
@@ -285,8 +325,15 @@ exports.removeFromCart = async (req, res) => {
         user = await User.findById(userId)
             .populate("wishlists")
             .populate("carts.product")
-            .populate("orders")
-            .exec();
+            .populate(
+                {
+                    path: 'orders',
+                    populate: {
+                        path: 'products.product',
+                        model: 'Product',
+                    },
+                }
+            ).exec();
 
         return res.status(200).json(
             {
@@ -343,8 +390,15 @@ exports.descreaseFromCart = async (req, res) => {
         user = await User.findById(userId)
             .populate("wishlists")
             .populate("carts.product")
-            .populate("orders")
-            .exec();
+            .populate(
+                {
+                    path: 'orders',
+                    populate: {
+                        path: 'products.product',
+                        model: 'Product',
+                    },
+                }
+            ).exec();
 
 
         return res.status(200).json(
@@ -367,7 +421,7 @@ exports.descreaseFromCart = async (req, res) => {
 }
 
 // Order Controllers
-
+// TODO: remove this method when
 exports.getAllOrders = async (req, res) => {
     try {
 

@@ -5,6 +5,7 @@ const Razorpay = require('razorpay');
 const axios = require('axios');
 const base64 = require('base-64');
 require('dotenv').config();
+const { sendPurchaseConfirmationEmail } = require("../utils/sendMail");
 
 
 exports.updateProductSale = async (req, res) => {
@@ -41,6 +42,35 @@ exports.updateProductSale = async (req, res) => {
         );
     }
 }
+
+// TODO : remove this method
+exports.getOrderDetailsById = async (req, res) => {
+    try {
+
+        const { orderId } = req.r;
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Order creation successfully",
+                data: order
+            }
+        );
+
+    }
+    catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Order creation Failed",
+                error: err.message,
+            }
+        );
+
+    }
+}
+
+
 
 exports.createOrder = async (req, res) => {
     try {
@@ -188,9 +218,18 @@ exports.updateOrders = async (req, res) => {
         user = await User.findById(userId)
             .populate("wishlists")
             .populate("carts.product")
-            .populate("orders")
+            .populate(
+                {
+                    path: 'orders',
+                    populate: {
+                        path: 'products.product',
+                        model: 'Product',
+                    },
+                }
+            )
             .exec();
 
+        await sendPurchaseConfirmationEmail(user.email, orderId)
 
         return res.status(200).json(
             {
@@ -212,6 +251,7 @@ exports.updateOrders = async (req, res) => {
 
     }
 }
+
 
 exports.cardDetail = async (req, res, next) => {
     try {
