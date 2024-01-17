@@ -47,10 +47,11 @@ function ActualCategory() {
                     allTags?.map((product, index) => (
                         <div key={product?._id}>
                             <Link
-                                to={`/products/tag/${product?.name}/${product?._id}`}
+                                to={
+                                    product?.name === "All" ? "/products/getAllProducts/AllProducts" : `/products/getProductsByTag/${product?._id}`
+                                }
                                 className=' flex group  cursor-pointer flex-col justify-center gap-2 items-center '
                             >
-
                                 <div className='w-[300px] relative  transition-all duration-1000 ease-in-out  h-[300px] overflow-hidden'>
 
                                     {/* hover Effect */}

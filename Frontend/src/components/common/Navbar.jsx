@@ -4,7 +4,7 @@ import { Navlink } from '../../constants/navbar';
 import { IoSearchOutline, IoCartOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa6";
 import { AppContext } from "../../context/AppContext";
-import NavHover from '../NavHover';
+import NavHover from './NavHover';
 import { ApiCalling } from '../../services/Api';
 import ProfileDropdown from './ProfileDropdown';
 
@@ -19,7 +19,7 @@ const Navbar = () => {
 
     const searchHandler = () => {
         if (searchValue.length > 0) {
-            navigate(`/products/search/${searchValue}/query=${searchValue}`);
+            navigate(`/products/getProductsBySearch/${searchValue}`);
         }
     }
 

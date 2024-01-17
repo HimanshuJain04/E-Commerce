@@ -124,22 +124,34 @@ exports.createProduct = async (req, res) => {
 }
 
 
-// TODO: send only limited data to the user
 exports.getAllProducts = async (req, res) => {
     try {
 
-        // create entry in database
+        const page = parseInt(req.query.currPage);
+        const limit = parseInt(req.query.limit);
+
+        const totalProducts = await Product.countDocuments();
+
+        const totalPages = Math.ceil(totalProducts / limit);
+
         const data = await Product.find({})
-            .populate("category")
+            .populate('category')
+            .skip((page - 1) * limit)
+            .limit(limit)
             .exec();
 
         return res.status(200).json(
             {
                 success: true,
                 message: "Get All Products Successfully",
-                data: data,
+                data: {
+                    totalPages: totalPages,
+                    totalProducts: totalProducts,
+                    data: data,
+                },
             }
-        )
+        );
+
 
     } catch (err) {
         return res.status(500).json(
@@ -247,9 +259,7 @@ exports.getTopSellingProducts = async (req, res) => {
                     data.push(product)
                 })
             });
-
         }
-
 
         const topSelling = data.sort((a, b) => b.sales - a.sales).slice(0, 10);
 
@@ -339,18 +349,37 @@ exports.getProductsByCategory = async (req, res) => {
 
     try {
         const { categoryId } = req.params;
+        const page = parseInt(req.query.currPage);
+        const limit = parseInt(req.query.limit);
 
-        // check tag in database
-        const allData = await Category.findById(categoryId)
-            .populate("products")
+        // Get the total number of products in the category
+        const category = await Category.findById(categoryId).populate("products").exec();
+        const totalProducts = category.products.length;
+
+        // Calculate the total number of pages
+        const totalPages = Math.ceil(totalProducts / limit);
+
+        // Calculate the skip value based on the page and limit
+        const skip = (page - 1) * limit;
+
+        // Query the database with pagination
+        const paginatedProducts = await Category.findById(categoryId)
+            .populate({
+                path: 'products',
+                options: {
+                    skip: skip,
+                    limit: limit,
+                },
+            })
             .exec();
 
-        if (!allData) {
+
+        if (!category) {
             return res.status(400).json(
                 {
                     success: false,
-                    message: "Tag doesn't exist Successfully",
-                    error: "Tag doesn't exist Successfully",
+                    message: "category doesn't exist Successfully",
+                    error: "category doesn't exist Successfully",
                 }
             )
         }
@@ -359,7 +388,11 @@ exports.getProductsByCategory = async (req, res) => {
             {
                 success: true,
                 message: "Get Product By category Successfully",
-                data: allData.products,
+                data: {
+                    data: paginatedProducts.products,
+                    totalPages: totalPages,
+                    totalProducts: totalProducts,
+                }
             }
         )
 
@@ -379,6 +412,8 @@ exports.getProductByTag = async (req, res) => {
 
     try {
         const { tagId } = req.params;
+        const page = parseInt(req.query.currPage);
+        const limit = parseInt(req.query.limit);
 
         // check tag in database
         const allData = await Tag.findById(tagId)
@@ -403,21 +438,31 @@ exports.getProductByTag = async (req, res) => {
             )
         }
 
-        let tagData = [];
+        // Flatten the products array from categories
+        let allProducts = [];
+        allData.categories.forEach((category) => {
+            allProducts = allProducts.concat(category.products);
+        });
 
-        allData?.categories?.forEach((categories) => {
-            categories?.products?.map((product) => {
-                tagData.push(product);
-            })
-        })
+        // Calculate the total number of products and total pages
+        const totalProducts = allProducts.length;
+        const totalPages = Math.ceil(totalProducts / limit);
 
-        return res.status(200).json(
-            {
-                success: true,
-                message: "Get ProductByTag Successfully",
-                data: tagData,
-            }
-        )
+        // Calculate the skip value based on the page and limit
+        const skip = (page - 1) * limit;
+
+        // Get the paginated products based on the skip and limit
+        const paginatedProducts = allProducts.slice(skip, skip + limit);
+
+        return res.status(200).json({
+            success: true,
+            message: "Get Products By Tag Successfully",
+            data: {
+                data: paginatedProducts,
+                totalPages: totalPages,
+                totalProducts: totalProducts,
+            },
+        });
 
     } catch (err) {
         return res.status(500).json(
@@ -494,24 +539,44 @@ exports.getProductsByFiltering = async (req, res) => {
 }
 
 
-// TODO: check name as well as description of product for better results
 exports.getProductsBySearch = async (req, res) => {
     try {
+        const { query } = req.params;
+        const lowerCaseQuery = query.toLowerCase();
 
-        let { query } = req.params;
-        query = query.toLowerCase()
+        const page = parseInt(req.query.currPage);
+        const limit = parseInt(req.query.limit);
 
         const allProducts = await Product.find({});
 
-        const data = allProducts.filter((product) => {
-            return product.name.toLowerCase().includes(query)
+        // Filter products based on the search query
+        const filteredProducts = allProducts.filter((product) => {
+            const lowerCaseName = product.name.toLowerCase();
+            const lowerCaseDescription = product.description.toLowerCase();
+
+            return lowerCaseName.includes(lowerCaseQuery) || lowerCaseDescription.includes(lowerCaseQuery);
         });
+
+        // Calculate the total number of products and total pages
+        const totalProducts = filteredProducts.length;
+        const totalPages = Math.ceil(totalProducts / limit);
+
+        // Calculate the skip value based on the page and limit
+        const skip = (page - 1) * limit;
+
+        // Get the paginated products based on the skip and limit
+        const paginatedProducts = filteredProducts.slice(skip, skip + limit);
+
 
         return res.status(200).json(
             {
                 success: true,
                 message: "Get Product By search  successfully",
-                data: data,
+                data: {
+                    data: paginatedProducts,
+                    totalProducts: totalProducts,
+                    totalPages: totalPages
+                },
             }
         );
     } catch (err) {
@@ -524,7 +589,6 @@ exports.getProductsBySearch = async (req, res) => {
         );
     }
 }
-
 
 
 

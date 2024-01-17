@@ -33,4 +33,4 @@ function ShowDetail({ heading, description }) {
     )
 }
 
-export default ShowDetail
+export default ShowDetail;

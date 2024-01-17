@@ -25,7 +25,7 @@ function Footer() {
     ];
 
     return (
-        <footer className='w-full  mt-[100px] bg-[black]/[0.04] flex justify-center items-center flex-col'>
+        <footer className='w-full  bg-[black]/[0.04] flex justify-center items-center flex-col'>
 
             {/* upper footer */}
             <div className='flex justify-between gap-20 items-start py-20 w-11/12 '>

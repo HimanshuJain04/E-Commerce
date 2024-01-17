@@ -35,7 +35,7 @@ function NavHover({ gender, categories, images }) {
                                     className=' py-3 hover:text-red-600 rounded-md text-[black]/[0.8] hover:border-red-600 transition-all duration-300 ease-in-out px-3 border-[3px] border-[black]/[0.3]'
                                 >
                                     <Link
-                                        to={`/products/category/${category?.name}/${category?._id}`}
+                                        to={`/products/getProductsByCategory/${category?._id}`}
                                     >
                                         <p className='text-lg text-center font-semibold'>{category?.name}</p>
                                     </Link>

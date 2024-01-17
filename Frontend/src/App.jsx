@@ -87,7 +87,7 @@ function App() {
       <div className='w-full h-[100vh] bg-[black]/[0.02] scrollbar-hide overflow-auto'>
         <ToastContainer />
         <Navbar />
-        <div className='min-h-[calc(100vh-80px)] w-full mt-24'>
+        <div className='min-h-[calc(100vh-80px)] py-5 w-full mt-24'>
           <Routes>
             <Route path='*' element={<Error />} />
             <Route path='/cart' element={<Cart />} />
@@ -100,7 +100,7 @@ function App() {
             <Route path='/auth/signup' element={<Signup />} />
             <Route path='/admin/9630695842' element={<Admin />} />
             <Route path='/thank-you-page' element={<ThankYou />} />
-            <Route path='/products/:query/:value/:id' element={<Cards />} />
+            <Route path='/products/:query/:value' element={<Cards />} />
             <Route path='/user/address&payment' element={<AddressPayment />} />
             <Route path='/error/something-went-wrong' element={<ErrorWrong />} />
             <Route path='/productDetail/productId/:id' element={<ProductDetail />} />

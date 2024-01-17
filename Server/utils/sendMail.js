@@ -4,7 +4,7 @@ const { purchaseConfirmationTemplate } = require('../templates/purchasing');
 
 exports.sendVerificationEmail = async (recipientEmail, verificationLink) => {
     const mailOptions = {
-        from: process.env.MAIL_USER,
+        from: `E-Commerce <${process.env.MAIL_USER}>`,
         to: recipientEmail,
         subject: 'Verify Your Email',
         html: emailVerificationTemplate(verificationLink),
@@ -15,7 +15,7 @@ exports.sendVerificationEmail = async (recipientEmail, verificationLink) => {
 
 exports.sendPurchaseConfirmationEmail = async (recipientEmail, orderId) => {
     const mailOptions = {
-        from: process.env.MAIL_USER,
+        from: `E-Commerce <${process.env.MAIL_USER}>`,
         to: recipientEmail,
         subject: 'Purchase Confirmation',
         html: purchaseConfirmationTemplate(orderId),
@@ -23,3 +23,5 @@ exports.sendPurchaseConfirmationEmail = async (recipientEmail, orderId) => {
 
     return await mailSender(mailOptions);
 };
+
+

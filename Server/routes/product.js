@@ -14,7 +14,7 @@ const { getProductsByFiltering } = require("../controllers/product");
 
 router.post("/createProduct", createProduct);
 
-router.get("/getAllProducts", getAllProducts);
+router.get('/getAllProducts', getAllProducts);
 
 router.post("/updateProductSale", updateProductSale);
 

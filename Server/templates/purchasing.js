@@ -63,7 +63,7 @@ exports.purchaseConfirmationTemplate = (orderId) => `<!DOCTYPE html>
     <div class="container">
         <h2>Purchase Confirmation</h2>
         <div class="product-details">
-            <p>Thank you for your purchase of products<strong>${"ProductName"}</strong>. Your order id is <strong>${orderId}</strong>.</p>
+            <p>Thank you for your purchase of products <strong>${"ProductName"}</strong>. Your order id is <strong>${orderId}</strong>.</p>
         </div>
         <p class="thank-you-message">Thank you for shopping with us!</p>
         <p class="footer">© 2024 e-commerce. All rights reserved.</p>

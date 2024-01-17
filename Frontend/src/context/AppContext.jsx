@@ -16,6 +16,7 @@ export default function AppContextProvider({ children }) {
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
     const [tags, setTags] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     async function addToCartHandler(id) {
 
@@ -112,6 +113,8 @@ export default function AppContextProvider({ children }) {
         setTags,
         isLoggedIn,
         categories,
+        setCurrentPage,
+        currentPage,
         setLoading,
         setCategories,
         setIsLoggedIn,
