@@ -17,7 +17,6 @@ function ProductDetails() {
     const { pathname } = useLocation();
     const [data, setData] = useState([]);
     const id = pathname.split("/").at(-1);
-    const [avgRating, setAvgRating] = useState(0);
     const [mainImage, setMainImage] = useState("");
     const [isCarted, setIsCarted] = useState(null);
     const [similarData, setSimilarData] = useState([]);
@@ -45,9 +44,7 @@ function ProductDetails() {
                 // set data to the varibales
                 setMainImage(data?.data?.images[0])
                 setData(data?.data);
-                setAvgRating(data?.rating?.reduce(function (avg, value, _, { length }) {
-                    return avg + value / length;
-                }, 0));
+                console.log("data : ", data?.data);
 
             }).catch((err) => {
                 navigate("/error");
@@ -123,12 +120,12 @@ function ProductDetails() {
                         <div className='flex gap-2 mt-2 items-center'>
 
                             <div className='flex justify-center text-base rounded-full font-semibold px-3 py-[2px] bg-green-600 text-white items-center gap-1'>
-                                <span>{avgRating}</span>
+                                <span>{data?.averageRating?.toFixed(2)}</span>
                                 <MdOutlineStar fontSize={20} />
                             </div>
 
                             <div className='font-semibold text-[black]/[0.5]'>
-                                <p>{data?.rating?.length} ratings and {data?.review?.length} reviews</p>
+                                <p>{data?.rating_review?.length} ratings and reviews</p>
                             </div>
 
                         </div>
@@ -138,6 +135,7 @@ function ProductDetails() {
                         <div className='mt-10 font-semibold text-red-900 text-2xl'>
                             <p className=''>Rs. {data?.price}</p>
                         </div>
+
                     </div>
 
                     {/* Add to wishlist / cart button */}
@@ -202,10 +200,10 @@ function ProductDetails() {
 
                     {/* product description */}
                     <div className='w-full flex flex-col gap-5'>
-                        <ShowDetail heading={"Product Details"} description={data?.description} />
-                        <ShowDetail heading={"Product Details"} description={data?.description} />
-                        <ShowDetail heading={"Product Details"} description={data?.description} />
-                        <ShowDetail heading={"Product Details"} description={data?.description} />
+                        <ShowDetail heading={"Description"} data={data?.description} />
+                        <ShowDetail heading={"Highlights"} description={data?.highlights} />
+                        <ShowDetail heading={"Details"} description={data?.productDetails} />
+                        {/* <ShowDetail heading={"Product Details"} description={data?.description} /> */}
                     </div>
 
                 </div>

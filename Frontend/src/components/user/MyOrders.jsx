@@ -2,12 +2,12 @@ import React, { useContext, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
 import { FaStar } from 'react-icons/fa';
 import { ApiCalling } from '../../services/Api';
-import toast from "react-toastify";
+import { toast } from "react-toastify";
 
 
 function MyOrders() {
 
-    const { isLoggedIn } = useContext(AppContext);
+    const { isLoggedIn, setIsLoggedIn } = useContext(AppContext);
     const [showRR, setShowRR] = useState(false);
     const [currentProduct, setCurrentProduct] = useState(null);
 
@@ -19,33 +19,26 @@ function MyOrders() {
         }
     );
 
+    console.log(isLoggedIn?.orders);
 
     const sumbitHandler = async () => {
 
-        console.log(ratingandReview);
-        console.log(currentProduct);
-
-        const res = await ApiCalling("POST", "updateRatingAndReview", {
+        const res = await ApiCalling("POST", "user/updateRatingAndReview", {
             rating: ratingandReview.rating,
             review: ratingandReview.review,
             productId: currentProduct?.product?._id,
             userId: isLoggedIn._id
         });
 
-        console.log("res : ", res);
-
         if (res?.success) {
             toast.success("Rating and review successfully");
+            setIsLoggedIn(res?.data)
+            setShowRR(false);
         } else {
             console.log("res: ", res);
             toast.error("Rating and review failed");
         }
-
-
-
     };
-
-
 
     return (
         <div className=''>
@@ -179,12 +172,21 @@ function MyOrders() {
                                                 <p>Status: {product?.status}</p>
                                             </div>
 
-                                            <div className='bg-blue-500 text-white font-semibold hover:shadow-xl hover:scale-105  shadow-black transition-all duration-200 ease-in-out px-5 py-2 rounded-sm'>
-                                                <button onClick={() => {
-                                                    setShowRR(true);
-                                                    setCurrentProduct(product);
-                                                }}>Review & Rating</button>
-                                            </div>
+                                            {
+                                                product?.status === "Delivered" && !product?.isReviewed && (
+
+                                                    <div
+                                                    >
+                                                        <div className='bg-blue-500 text-white font-semibold hover:shadow-xl hover:scale-105  shadow-black transition-all duration-200 ease-in-out px-5 py-2 rounded-sm'>
+                                                            <button onClick={() => {
+                                                                setShowRR(true);
+                                                                setCurrentProduct(product);
+                                                            }}>Review & Rating</button>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+
                                         </div>
                                     </div>
 

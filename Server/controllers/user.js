@@ -1,8 +1,9 @@
 const Product = require("../models/product");
 const User = require("../models/user");
+const RatingAndReview = require("../models/rating_review");
+const { ObjectId } = require('mongodb'); // Note the correct casing
 
 // update the user
-
 exports.updateUserAddress = async (req, res) => {
     try {
 
@@ -120,8 +121,8 @@ exports.getAllUserData = async (req, res) => {
     }
 }
 
-// Wishlist Controllers
 
+// Wishlist Controllers
 exports.addToWishlist = async (req, res) => {
     try {
 
@@ -175,6 +176,7 @@ exports.addToWishlist = async (req, res) => {
         )
     }
 }
+
 
 exports.removeFromWishlist = async (req, res) => {
     try {
@@ -297,6 +299,7 @@ exports.addToCart = async (req, res) => {
     }
 }
 
+
 exports.removeFromCart = async (req, res) => {
     try {
 
@@ -353,6 +356,7 @@ exports.removeFromCart = async (req, res) => {
         )
     }
 }
+
 
 exports.descreaseFromCart = async (req, res) => {
     try {
@@ -452,6 +456,97 @@ exports.getAllOrders = async (req, res) => {
             {
                 success: false,
                 message: "add to wishlist failed",
+                error: err.message,
+            }
+        )
+    }
+}
+
+
+// TODO:Upadte it for only one time use
+// rating and review
+exports.updateRatingAndReview = async (req, res) => {
+    try {
+
+        const { rating, review, productId, userId } = req.body;
+        const ratingInt = parseInt(rating);
+
+        let user = await User.findById(userId).populate("orders").exec();
+        const product = await Product.findById(productId).populate("rating_review").exec();
+
+        if (!user || !product) {
+            return res.status(500).json(
+                {
+                    success: false,
+                    message: "User or product not found",
+                    error: "User or product not found",
+                }
+            )
+        }
+
+        const ratingReview = await RatingAndReview.create(
+            {
+                user: user._id,
+                product: product._id,
+                rating: rating,
+                review: review
+            }
+        );
+
+
+        const totalRating = (product.rating_review.reduce((acc, entry) => acc + entry.rating, 0))
+
+        const avg = (totalRating + ratingInt) / (product.rating_review.length + 1);
+
+        product.rating_review.push(ratingReview);
+        product.averageRating = avg;
+
+        const matchingProduct = user.orders
+            .map(order =>
+                order.products.find(product =>
+                    new ObjectId(product.product).equals(new ObjectId(productId))
+                )
+            )
+            .filter(product => product !== undefined)[0];
+
+        matchingProduct.isReviewed = true;
+
+        await user.save();
+
+        await product.save();
+
+        await Product.findById(productId)
+            .populate("rating_review")
+            .exec();
+
+        user = await User.findById(userId)
+            .populate("wishlists")
+            .populate("carts.product")
+            .populate(
+                {
+                    path: 'orders',
+                    populate: {
+                        path: 'products.product',
+                        model: 'Product',
+                    },
+                }
+            )
+            .exec();
+
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "update rating and review successfully",
+                data: user,
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "update rating and review failed ",
                 error: err.message,
             }
         )

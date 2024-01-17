@@ -14,6 +14,7 @@ const { createOrderByRazorpay } = require('../controllers/order');
 const { cardDetail } = require('../controllers/order');
 const { verifyPayment } = require('../controllers/order');
 const { getOrderDetailsById } = require('../controllers/order');
+const { updateRatingAndReview } = require("../controllers/user");
 
 
 // update the user
@@ -42,6 +43,9 @@ router.post("/createOrderByRazorpay", createOrderByRazorpay);
 router.get("/cardDetail", cardDetail);
 router.post("/payment/verifyPayment", verifyPayment);
 router.post("/updateOrders", updateOrders);
+
+// rating and review
+router.post("/updateRatingAndReview", updateRatingAndReview);
 
 
 module.exports = router;

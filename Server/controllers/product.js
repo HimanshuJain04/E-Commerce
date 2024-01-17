@@ -1,6 +1,4 @@
 const User = require("../models/user");
-const Rating = require("../models/rating");
-const Review = require("../models/review");
 const Product = require("../models/product");
 const Category = require("../models/category");
 const Tag = require("../models/tag");
@@ -589,6 +587,8 @@ exports.getProductsBySearch = async (req, res) => {
         );
     }
 }
+
+
 
 
 

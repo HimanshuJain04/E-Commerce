@@ -30,6 +30,10 @@ const orderSchema = new mongoose.Schema(
                 DeliveredAt: {
                     type: Date
                 },
+                isReviewed: {
+                    type: Boolean,
+                    default: false,
+                }
             }
         ],
         createdAt: {

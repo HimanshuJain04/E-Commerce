@@ -78,16 +78,10 @@ const productSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
-        rating: [
+        rating_review: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Rating"
-            }
-        ],
-        review: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Review"
+                ref: "RatingAndReview"
             }
         ],
         variations: [

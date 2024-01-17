@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { GoPlus } from "react-icons/go";
 import { LuMinus } from "react-icons/lu";
 
-function ShowDetail({ heading, description }) {
+function ShowDetail({ heading, data }) {
 
     const [showDetail, setShowDetail] = useState(false);
 
@@ -26,7 +26,7 @@ function ShowDetail({ heading, description }) {
             </div>
 
             <div className={`text-[black]/[0.5] pl-5  font-semibold ` + (showDetail ? " block" : " hidden")}>
-                <p>{description}</p>
+                <p>{data}</p>
             </div>
 
         </div>
