@@ -5,6 +5,23 @@ const Tag = require("../models/tag");
 const { uploadMultipleFile } = require("../utils/uploadFileToCloudinary");
 require('dotenv').config();
 
+function getSortOption(filter) {
+    switch (filter) {
+        case "popularity":
+            return { sales: -1 };
+        case "price-high-to-low":
+            return { price: -1 };
+        case "price-low-to-high":
+            return { price: 1 };
+        case "rating-high-to-low":
+            return { averageRating: -1 };
+        case "rating-low-to-high":
+            return { averageRating: 1 };
+        default:
+            // Default sorting or custom sorting logic for "relevance"
+            return {};
+    }
+}
 
 
 exports.createProduct = async (req, res) => {
@@ -127,13 +144,26 @@ exports.getAllProducts = async (req, res) => {
 
         const page = parseInt(req.query.currPage);
         const limit = parseInt(req.query.limit);
+        const filter = (req.query.filter);
+        const minPrice = parseInt(req.query.minPrice);
+        const maxPrice = parseInt(req.query.maxPrice);
 
-        const totalProducts = await Product.countDocuments();
+        const totalProducts = await Product.countDocuments({
+            price: { $gte: minPrice, $lte: maxPrice },
+        });
 
         const totalPages = Math.ceil(totalProducts / limit);
 
-        const data = await Product.find({})
-            .populate('category')
+        const sortOptions = getSortOption(filter);
+
+
+        const data = await Product.find({
+            price: { $gte: minPrice, $lte: maxPrice },
+        })
+            .populate({
+                path: 'category',
+            })
+            .sort(sortOptions)
             .skip((page - 1) * limit)
             .limit(limit)
             .exec();
@@ -349,26 +379,13 @@ exports.getProductsByCategory = async (req, res) => {
         const { categoryId } = req.params;
         const page = parseInt(req.query.currPage);
         const limit = parseInt(req.query.limit);
+        const filter = req.query.filter;
+        const minPrice = parseInt(req.query.minPrice);
+        const maxPrice = parseInt(req.query.maxPrice);
 
         // Get the total number of products in the category
-        const category = await Category.findById(categoryId).populate("products").exec();
-        const totalProducts = category.products.length;
-
-        // Calculate the total number of pages
-        const totalPages = Math.ceil(totalProducts / limit);
-
-        // Calculate the skip value based on the page and limit
-        const skip = (page - 1) * limit;
-
-        // Query the database with pagination
-        const paginatedProducts = await Category.findById(categoryId)
-            .populate({
-                path: 'products',
-                options: {
-                    skip: skip,
-                    limit: limit,
-                },
-            })
+        const category = await Category.findById(categoryId)
+            .populate("products")
             .exec();
 
 
@@ -381,6 +398,39 @@ exports.getProductsByCategory = async (req, res) => {
                 }
             )
         }
+
+        let products = category.products;
+
+        // Apply the price range condition if provided
+        if (minPrice !== undefined || maxPrice !== undefined) {
+            products = products.filter(product => {
+                const price = product.price;
+                return (minPrice === undefined || price >= minPrice) &&
+                    (maxPrice === undefined || price <= maxPrice);
+            });
+        }
+
+
+        const totalProducts = products.length;
+
+        // Calculate the total number of pages
+        const totalPages = Math.ceil(totalProducts / limit);
+
+        // Calculate the skip value based on the page and limit
+        const skip = (page - 1) * limit;
+
+        const sortOptions = getSortOption(filter);
+
+        // Query the database with pagination
+        const paginatedProducts = await Category.findById(categoryId)
+            .populate({
+                path: 'products',
+                match: { _id: { $in: products.map(p => p._id) } }, // Use _id for matching
+            })
+            .sort(sortOptions)
+            .skip(skip)
+            .limit(limit)
+            .exec();
 
         return res.status(200).json(
             {
@@ -412,6 +462,9 @@ exports.getProductByTag = async (req, res) => {
         const { tagId } = req.params;
         const page = parseInt(req.query.currPage);
         const limit = parseInt(req.query.limit);
+        const filter = req.query.filter;
+        const minPrice = parseInt(req.query.minPrice);
+        const maxPrice = parseInt(req.query.maxPrice);
 
         // check tag in database
         const allData = await Tag.findById(tagId)
@@ -440,6 +493,26 @@ exports.getProductByTag = async (req, res) => {
         let allProducts = [];
         allData.categories.forEach((category) => {
             allProducts = allProducts.concat(category.products);
+        });
+
+
+        // min and max functionality
+        if (minPrice !== undefined || maxPrice !== undefined) {
+            allProducts = allProducts.filter((product) => {
+                const price = product.price;
+                return (minPrice === undefined || price >= minPrice) &&
+                    (maxPrice === undefined || price <= maxPrice);
+            })
+        }
+
+        // Apply sorting based on the filter
+        const sortOptions = getSortOption(filter);
+        allProducts.sort((a, b) => {
+            for (const key in sortOptions) {
+                const comparison = sortOptions[key] * (a[key] - b[key]);
+                if (comparison !== 0) return comparison;
+            }
+            return 0;
         });
 
         // Calculate the total number of products and total pages
@@ -474,69 +547,6 @@ exports.getProductByTag = async (req, res) => {
 }
 
 
-exports.getProductsByFiltering = async (req, res) => {
-
-    try {
-        const { query } = req.params;
-
-
-        let data = [];
-
-        if (query === "price-low-to-high") {
-
-            // Sort by price in ascending order
-            data = await Product.find().sort({ price: 1 });
-
-        } else if (query === "price-high-to-low") {
-
-            // Sort by price in descending order
-            data = await Product.find().sort({ price: -1 });
-
-        } else if (query === "popularity") {
-
-            // Sort by sales in descending order
-            data = await Product.find().sort({ sales: -1 });
-
-        } else if (query === "rating-high-to-low") {
-
-            // Sort by rating in descending order
-            data = await Product.find().sort({ "averageRating": -1 });
-
-        } else if (query === "rating-low-to-high") {
-
-            // Sort by rating in descending order
-            data = await Product.find().sort({ "averageRating": 1 });
-
-        } else if (query === "priceRange-min-max") {
-
-            const minPrice = query.split("-")[1];
-            const maxPrice = query.split("-")[2];
-
-            data = await Product.find({
-                price: { $gte: minPrice, $lte: maxPrice }
-            });
-        }
-
-        return res.status(200).json(
-            {
-                success: true,
-                message: "Get ProductBy filtering Successfully",
-                data: data,
-            }
-        )
-
-    } catch (err) {
-        return res.status(500).json(
-            {
-                success: false,
-                message: "Get ProductBy filtering  Failed",
-                error: err.message,
-            }
-        );
-    }
-}
-
-
 exports.getProductsBySearch = async (req, res) => {
     try {
         const { query } = req.params;
@@ -544,15 +554,39 @@ exports.getProductsBySearch = async (req, res) => {
 
         const page = parseInt(req.query.currPage);
         const limit = parseInt(req.query.limit);
+        const filter = req.query.filter;
+        const minPrice = parseInt(req.query.minPrice);
+        const maxPrice = parseInt(req.query.maxPrice);
 
         const allProducts = await Product.find({});
 
         // Filter products based on the search query
-        const filteredProducts = allProducts.filter((product) => {
+        let filteredProducts = allProducts.filter((product) => {
             const lowerCaseName = product.name.toLowerCase();
             const lowerCaseDescription = product.description.toLowerCase();
 
             return lowerCaseName.includes(lowerCaseQuery) || lowerCaseDescription.includes(lowerCaseQuery);
+        });
+
+        // min and max functionality
+        if (minPrice !== undefined || maxPrice !== undefined) {
+            filteredProducts = filteredProducts.filter((product) => {
+                const price = product.price;
+                return (minPrice === undefined || price >= minPrice) &&
+                    (maxPrice === undefined || price <= maxPrice);
+            })
+        }
+
+
+
+        // Apply sorting based on the filter
+        const sortOptions = getSortOption(filter);
+        filteredProducts.sort((a, b) => {
+            for (const key in sortOptions) {
+                const comparison = sortOptions[key] * (a[key] - b[key]);
+                if (comparison !== 0) return comparison;
+            }
+            return 0;
         });
 
         // Calculate the total number of products and total pages

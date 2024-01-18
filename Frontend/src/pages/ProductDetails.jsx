@@ -116,19 +116,21 @@ function ProductDetails() {
                             <h3 className='text-3xl font-semibold font-sans '>{data?.name}</h3>
                         </div>
 
-                        {/* rating */}
-                        <div className='flex gap-2 mt-2 items-center'>
+                        {
+                            data?.averageRating > 0 &&
+                            <div className='flex gap-2 mt-2 items-center'>
 
-                            <div className='flex justify-center text-base rounded-full font-semibold px-3 py-[2px] bg-green-600 text-white items-center gap-1'>
-                                <span>{data?.averageRating?.toFixed(2)}</span>
-                                <MdOutlineStar fontSize={20} />
+                                <div className='flex justify-center text-base rounded-full font-semibold px-3 py-[2px] bg-green-600 text-white items-center gap-1'>
+                                    <span>{data?.averageRating?.toFixed(2)}</span>
+                                    <MdOutlineStar fontSize={20} />
+                                </div>
+
+                                <div className='font-semibold text-[black]/[0.5]'>
+                                    <p>{data?.rating_review?.length} ratings and reviews</p>
+                                </div>
+
                             </div>
-
-                            <div className='font-semibold text-[black]/[0.5]'>
-                                <p>{data?.rating_review?.length} ratings and reviews</p>
-                            </div>
-
-                        </div>
+                        }
 
 
                         {/* price */}
@@ -198,21 +200,41 @@ function ProductDetails() {
 
                     </div>
 
-                    {/* product description */}
+                    {/* product description ,etc*/}
                     <div className='w-full flex flex-col gap-5'>
-                        <ShowDetail heading={"Description"} data={data?.description} />
-                        <ShowDetail heading={"Highlights"} description={data?.highlights} />
-                        <ShowDetail heading={"Details"} description={data?.productDetails} />
-                        {/* <ShowDetail heading={"Product Details"} description={data?.description} /> */}
+                        {
+                            data?.description?.length > 0 && (
+                                <ShowDetail heading={"Description"} data={data?.description} />
+                            )
+                        }
+
+                        {
+                            data?.highlights?.length > 0 && (
+                                <ShowDetail heading={"Highlights"} data={data?.highlights} />
+                            )
+                        }
+
+                        {
+                            data?.productDetails?.length > 0 && (
+                                <ShowDetail heading={"Details"} data={data?.productDetails} />
+                            )
+                        }
+
+                        {
+                            data?.rating_review?.length > 0 && (
+                                <ShowDetail heading={"Reviews"} data={data?.rating_review} />
+                            )
+                        }
+
                     </div>
 
                 </div>
 
-            </div>
+            </div >
 
 
             {/* similar Products */}
-            <div className='w-full my-20'>
+            <div div className='w-full my-20' >
                 <div className='w-full flex justify-center items-start '>
 
                     <div className='w-11/12 flex gap-2 flex-col justify-center items-center'>
@@ -236,10 +258,10 @@ function ProductDetails() {
                     </div>
 
                 </div>
-            </div>
+            </div >
 
 
-        </div>
+        </div >
     )
 }
 

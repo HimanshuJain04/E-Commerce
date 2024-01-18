@@ -6,6 +6,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ApiCalling } from '../services/Api';
 import Navigation from '../components/Navigation';
 import { AppContext } from '../context/AppContext';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+
 
 function Page() {
 
@@ -48,6 +51,12 @@ function Page() {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
 
+
+    const [dataOrder, setDataOrder] = useState(options[0]?.value);
+    const [showRange, setShowRange] = useState(false);
+    const [priceRange, setPriceRange] = useState([0, 100000]);
+
+
     async function getData() {
 
         let url;
@@ -58,7 +67,7 @@ function Page() {
             url = `${query}/${value}`;
         }
 
-        const res1 = await ApiCalling("GET", `product/${url}?currPage=${currentPage}&limit=${limit}`);
+        const res1 = await ApiCalling("GET", `product/${url}?currPage=${currentPage}&limit=${limit}&filter=${dataOrder}&minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}`);
 
         if (res1?.success) {
             setData(res1?.data);
@@ -69,19 +78,15 @@ function Page() {
         }
     }
 
+
+
+    const handlePriceRangeChange = (newRange) => {
+        setPriceRange(newRange);
+    };
+
     useEffect(() => {
         getData();
-    }, [pathname, currentPage]);
-
-
-    const [dataOrder, setDataOrder] = useState(options[0]?.value);
-    const [range, setRange] = useState(
-        {
-            minRange: 0,
-            maxRange: 100000000,
-            showRange: false
-        }
-    );
+    }, [pathname, currentPage, priceRange, dataOrder])
 
     return (
         <div className='flex justify-center items-start'>
@@ -108,7 +113,7 @@ function Page() {
                             </div>
 
                             {/* filters */}
-                            <div className='flex justify-center font-semibold items-center gap-10'>
+                            <div className='flex justify-between font-semibold items-center gap-10'>
                                 {/* by popularity */}
                                 <div className='bg-white shadow-md shadow-[black]/[0.2] px-5 py-2 rounded-full cursor-pointer '>
                                     <select
@@ -136,31 +141,34 @@ function Page() {
                                         {/* show price  */}
                                         <button
                                             onClick={() => {
-                                                setRange(
-                                                    {
-                                                        ...range,
-                                                        showRange: !range.showRange,
-                                                    }
-                                                )
+                                                setShowRange(!showRange)
                                             }}
 
                                             className='flex cursor-pointer justify-center items-center gap-2'>
 
-                                            <span>Price {range.minRange}-{range.maxRange}</span>
+                                            <span>Price {priceRange[0]}-{priceRange[1]}</span>
                                             <span className='text-xl'>
                                                 {
-                                                    range.showRange === true ? <IoIosArrowUp /> : <IoIosArrowDown />
+                                                    showRange === true ? <IoIosArrowUp /> : <IoIosArrowDown />
                                                 }
                                             </span>
                                         </button>
 
                                         {/* range */}
-                                        <div className={`absolute rounded-md z-10 shadow-2xl shadow-black bg-white px-5 py-2 top-16 right-5  ` + (range.showRange ? "block" : "hidden")}>
-                                            <input type="range" />
+                                        <div className={`absolute rounded-md z-10 shadow-2xl shadow-black bg-white px-5 py-2 top-16 right-5  ` + (showRange ? "block" : "hidden")}>
+                                            <Slider
+                                                range
+                                                min={0}
+                                                max={100000}
+                                                defaultValue={priceRange}
+                                                onChange={handlePriceRangeChange}
+                                                className='w-[150px]'
+                                            />
                                         </div>
 
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 

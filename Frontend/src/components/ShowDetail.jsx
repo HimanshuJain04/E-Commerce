@@ -25,8 +25,20 @@ function ShowDetail({ heading, data }) {
                 </button>
             </div>
 
-            <div className={`text-[black]/[0.5] pl-5  font-semibold ` + (showDetail ? " block" : " hidden")}>
-                <p>{data}</p>
+            <div className={`text-[black]/[0.5] max-h-[400px] overflow-auto px-2 text-justify  font-semibold ` + (showDetail ? " block" : " hidden")}>
+                {Array.isArray(data) ? (
+                    <ul className=''>
+                        {data?.map((item, index) => (
+                            <li className='pb-1'
+                                key={item + index}
+                            >
+                                <span>{item} </span>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>{data}</p>
+                )}
             </div>
 
         </div>
