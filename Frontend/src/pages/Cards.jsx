@@ -173,7 +173,7 @@ function Page() {
                         </div>
 
                         {/* lower part for products */}
-                        <div className=' flex justify-center items-start'>
+                        <div className=' flex w-full justify-start items-start'>
                             <div
                                 className='flex flex-wrap gap-10 justify-start items-start'
                             >

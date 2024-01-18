@@ -19,7 +19,7 @@ const Navbar = () => {
 
     const searchHandler = () => {
         if (searchValue.length > 0) {
-            navigate(`/products/getProductsBySearch/${searchValue}`);
+            navigate(`/products/getProductsByNameAndDesc/${searchValue}`);
         }
     }
 
@@ -31,24 +31,9 @@ const Navbar = () => {
 
             const res1 = await ApiCalling("GET", `product/getProductsBySearch/${e.target.value}`);
 
-            if (res1?.status) {
+            if (res1?.success) {
 
-                setData([]);
-
-                if (res1?.data.length > 5) {
-
-                    const newData = [];
-
-                    for (let i = 0; i < 5; i++) {
-                        newData.push(res1?.data[i]);
-                    }
-
-                    setData(newData);
-                } else {
-                    setData(res1?.data);
-                }
-
-
+                setData(res1?.data);
             } else {
                 setData([]);
             }

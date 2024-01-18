@@ -9,6 +9,7 @@ const { getProductByTag } = require("../controllers/product");
 const { getProductsByCategory } = require("../controllers/product");
 const { getTopSellingProducts } = require("../controllers/product");
 const { getProductsBySearch } = require("../controllers/product");
+const { getProductsByNameAndDesc } = require("../controllers/product");
 const { updateProductSale } = require("../controllers/order");
 
 router.post("/createProduct", createProduct);
@@ -26,6 +27,8 @@ router.get("/getTopSellingProducts/:tagId", getTopSellingProducts);
 router.get("/getProductsByTag/:tagId", getProductByTag);
 
 router.get("/getProductsBySearch/:query", getProductsBySearch);
+
+router.get("/getProductsByNameAndDesc/:query", getProductsByNameAndDesc);
 
 router.get("/getProductsByCategory/:categoryId", getProductsByCategory);
 

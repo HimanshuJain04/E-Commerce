@@ -552,6 +552,54 @@ exports.getProductsBySearch = async (req, res) => {
         const { query } = req.params;
         const lowerCaseQuery = query.toLowerCase();
 
+        const allProducts = await Product.find({});
+
+        let allData = allProducts.filter((product) => {
+            const lowerCaseName = product.name.toLowerCase();
+            const lowerCaseDescription = product.description.toLowerCase();
+
+            return lowerCaseName.includes(lowerCaseQuery) || lowerCaseDescription.includes(lowerCaseQuery);
+        });
+
+        let data = [];
+
+        if (allData.length > 5) {
+            for (let i = 0; i < 5; i++) {
+                data.push(allData[i]);
+            }
+
+        } else {
+            data = [...allData];
+        }
+
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Get Product By Search success",
+                data: data,
+            }
+        );
+
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Get Product By Search  Failed",
+                error: err.message,
+            }
+        );
+    }
+}
+
+
+
+exports.getProductsByNameAndDesc = async (req, res) => {
+    try {
+        const { query } = req.params;
+        const lowerCaseQuery = query.toLowerCase();
+
         const page = parseInt(req.query.currPage);
         const limit = parseInt(req.query.limit);
         const filter = req.query.filter;
@@ -611,6 +659,7 @@ exports.getProductsBySearch = async (req, res) => {
                 },
             }
         );
+
     } catch (err) {
         return res.status(500).json(
             {
@@ -621,6 +670,8 @@ exports.getProductsBySearch = async (req, res) => {
         );
     }
 }
+
+
 
 
 
