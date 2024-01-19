@@ -43,6 +43,11 @@ const ProfileDropdown = () => {
             path: `/myAccount`
         },
         {
+            name: "Change Password",
+            icon: <MdAccountBox />,
+            path: `/change-user-password`
+        },
+        {
             name: "Setting",
             icon: <IoSettingsSharp />,
             path: "/setting"
@@ -50,14 +55,18 @@ const ProfileDropdown = () => {
         {
             name: "Logout",
             icon: <FiLogOut />,
-            path: "/auth/login"
+            path: "/"
         },
-
     ];
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
+
+    function logOut() {
+        setIsLoggedIn(null);
+    }
+
 
     return (
         <div
@@ -71,7 +80,7 @@ const ProfileDropdown = () => {
             </button>
 
             {/*  options*/}
-            <div className={`absolute w-[170px] -right-5 bg-white shadow-lg shadow-black rounded-md ` + (isOpen ? "block" : "hidden")}>
+            <div className={`absolute w-[250px] -right-5 bg-white shadow-lg shadow-black rounded-md ` + (isOpen ? "block" : "hidden")}>
                 <div className='bg-[black]/[0.02] rounded-md p-2'>
                     {
                         options?.map((option) => (
@@ -79,12 +88,28 @@ const ProfileDropdown = () => {
                                 key={option?.icon + option.name}
                                 className='p-2 cursor-pointer hover:border-[black]/[0.5] border-transparent transition-all rounded-md duration-300 ease-in-out border-2 '
                             >
-                                <Link
-                                    to={option?.path} className='flex justify-start gap-2 items-center'
-                                >
-                                    <span className='text-xl'>{option?.icon}</span>
-                                    <span>{option?.name}</span>
-                                </Link>
+                                {
+                                    option.name === "Logout" ? (
+                                        <button
+                                            onClick={logOut}
+                                        >
+                                            <Link
+                                                to={option?.path} className='flex justify-start gap-2 items-center'
+                                            >
+                                                <span className='text-xl'>{option?.icon}</span>
+                                                <span>{option?.name}</span>
+                                            </Link>
+                                        </button>
+                                    ) : (
+
+                                        <Link
+                                            to={option?.path} className='flex justify-start gap-2 items-center'
+                                        >
+                                            <span className='text-xl'>{option?.icon}</span>
+                                            <span>{option?.name}</span>
+                                        </Link>
+                                    )
+                                }
                             </div>
                         ))
                     }

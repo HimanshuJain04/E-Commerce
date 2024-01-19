@@ -2,6 +2,8 @@ const Product = require("../models/product");
 const User = require("../models/user");
 const RatingAndReview = require("../models/rating_review");
 const { ObjectId } = require('mongodb'); // Note the correct casing
+const { uploadFileToCloudinary } = require("../utils/uploadFileToCloudinary");
+const bcrypt = require('bcrypt');
 
 // update the user
 exports.updateUserAddress = async (req, res) => {
@@ -67,6 +69,110 @@ exports.updateUserAddress = async (req, res) => {
                 error: err.message,
             }
         )
+    }
+}
+
+//  change Password
+exports.changePassword = async (req, res) => {
+    try {
+        const { userId, oldPass, newPass, confPass } = req.body;
+
+        if (newPass !== confPass) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Password and confirm password should be same",
+                    error: "Password and confirm password should be same",
+                }
+            )
+        }
+
+        // fetch user from Db
+        let user = await User.findById(userId);
+
+        // compare old password
+        const result = await bcrypt.compare(oldPass, user.password);
+
+        if (!result) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Password and old password should be same",
+                    error: "Password and old password should be same",
+                }
+            )
+        }
+
+        // hash the new pass
+        const hashedPass = await bcrypt.hash(newPass, 10);
+
+        user.password = hashedPass;
+
+        await user.save();
+
+        user = await User.findById(userId);
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "change-Password successfully",
+                data: user
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Change password failed",
+                error: err.message,
+            }
+        )
+    }
+}
+
+// update userInfo
+exports.updateUserInfo = async (req, res) => {
+    try {
+        const { userId, name, gender, phoneNo } = req.body;
+
+        const { image } = req.files;
+
+        let user = await User.findById(userId);
+
+        if (image) {
+            const res = await uploadFileToCloudinary(image, process.env.FOLDER_IMAGES)
+            user.profileImg = res.secure_url;
+        }
+
+
+        user.name = name;
+        user.gender = gender;
+        user.phoneNo = phoneNo;
+
+        // user.profileImg = `https://api.dicebear.com/6.x/initials/svg?seed=${name} &backgroundColor=00897b,00acc1,039be5,1e88e5,3949ab,43a047,5e35b1,7cb342,8e24aa,c0ca33,d81b60,e53935,f4511e,fb8c00,fdd835,ffb300,ffd5dc,ffdfbf,c0aede,d1d4f9,b6e3f4&backgroundType=solid,gradientLinear&backgroundRotation=0,360,-350,-340,-330,-320&fontFamily=Arial&fontWeight=600`
+
+        await user.save();
+
+        user = await User.findById(userId);
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "update user info successfully",
+                data: user
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Update user info failed",
+                error: err.message,
+            }
+        )
+
     }
 }
 

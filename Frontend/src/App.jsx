@@ -24,6 +24,8 @@ import AddressPayment from "./pages/AddressPayment"
 import ThankYou from "./pages/ThankYou"
 import MyOrders from './components/user/MyOrders';
 import Profile from "./pages/Profile";
+import ChangePassword from "./pages/ChangePassword";
+import ForgotPassword from "./pages/ForgotPassword";
 
 
 
@@ -95,13 +97,15 @@ function App() {
             <Route path='/contact' element={<Contact />} />
             <Route path='/auth/login' element={<Login />} />
             <Route path='/wishlist' element={<Wishlist />} />
+            <Route path='/auth/signup' element={<Signup />} />
             <Route path='/myAccount' element={<MyOrders />} />
             <Route path='/user-profile' element={<Profile />} />
-            <Route path='/auth/signup' element={<Signup />} />
             <Route path='/admin/9630695842' element={<Admin />} />
             <Route path='/thank-you-page' element={<ThankYou />} />
             <Route path='/products/:query/:value' element={<Cards />} />
             <Route path='/user/address&payment' element={<AddressPayment />} />
+            <Route path='/auth/forget-password' element={<ForgotPassword />} />
+            <Route path='/change-user-password' element={<ChangePassword />} />
             <Route path='/error/something-went-wrong' element={<ErrorWrong />} />
             <Route path='/productDetail/productId/:id' element={<ProductDetail />} />
             <Route path='/auth/verify/:verificationId/:userId' element={<Verification />} />

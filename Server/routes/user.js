@@ -16,10 +16,14 @@ const { verifyPayment } = require('../controllers/order');
 const { getOrderDetailsById } = require('../controllers/order');
 const { updateRatingAndReview } = require("../controllers/user");
 const { addProductIntoRecentView } = require("../controllers/user");
+const { updateUserInfo } = require("../controllers/user");
+const { changePassword } = require("../controllers/user");
 
 
 // update the user
 router.post("/updateUserAddress", updateUserAddress);
+router.post("/updateUserInfo", updateUserInfo);
+router.post("/changePassword", changePassword);
 
 // Wishlist Controllers
 router.post("/removeFromWishlist", removeFromWishlist);

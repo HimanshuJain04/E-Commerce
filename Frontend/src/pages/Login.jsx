@@ -115,9 +115,8 @@ function Login() {
                         {/* forget password link */}
                         <div className='w-full flex justify-end'>
                             <Link
-                                to="auth/forget-password"
+                                to="/auth/forget-password"
                                 className='text-blue-500 font-semibold hover:underline transition-all duration-300 ease-in-out'
-
                             >Forget password</Link>
 
                         </div>
