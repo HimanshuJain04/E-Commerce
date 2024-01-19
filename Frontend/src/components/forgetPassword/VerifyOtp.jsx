@@ -1,31 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 function VerifyOtp() {
 
-    const [otp, setOtp] = useState(
-        {
-            box1: "",
-            box2: "",
-            box3: "",
-            box4: "",
-            box5: "",
-        }
-    )
+
+    const [otp, setOtp] = useState(["", "", "", "", ""])
 
 
     function verifyHandler() {
 
     }
-    function changeHandler(e) {
-        setOtp(
-            {
-                ...otp,
-                [e.target.name]: e.target.value
-            }
-        )
 
+    function changeHandler(e, index) {
+        const arr = [...otp];
+        arr[index] = e.target.value;
+        console.log(arr);
+        setOtp(arr);
     }
-
 
 
     return (
@@ -35,80 +25,22 @@ function VerifyOtp() {
                 <p className='text-2xl font-semibold text-[black]/[0.6]'>Verify OTP</p>
             </div>
 
-            {/* otp field */}
-            <div
-                className='flex gap-5 justify-center items-center'
-            >
-
-                {/* box-1 */}
-                <div>
-                    <input
-                        required
-                        type="text"
-                        maxLength={1}
-                        className='p-5 text-xl w-[55px]  outline-none rounded-xl bg-white font-semibold'
-                        value={otp.box1}
-                        onChange={changeHandler}
-                        name='box1'
-                    />
-                </div>
-
-                {/* box-2 */}
-
-                <div>
-                    <input
-                        required
-                        type="text"
-                        maxLength={1}
-                        className='p-5 text-xl w-[55px]  outline-none rounded-xl bg-white font-semibold'
-                        value={otp.box2}
-                        onChange={changeHandler}
-                        name='box2'
-                    />
-                </div>
-
-                {/* box-3 */}
-                <div>
-                    <input
-                        required
-                        type="text"
-                        maxLength={1}
-                        className='p-5 text-xl w-[55px]  outline-none rounded-xl bg-white font-semibold'
-                        value={otp.box3}
-                        onChange={changeHandler}
-                        name='box3'
-                    />
-                </div>
-
-                {/* box-4 */}
-                <div>
-                    <input
-                        required
-                        type="text"
-                        maxLength={1}
-                        className='p-5 text-xl w-[55px]  outline-none rounded-xl bg-white font-semibold'
-                        value={otp.box4}
-                        onChange={changeHandler}
-                        name='box4'
-                    />
-                </div>
-
-                {/* box-5 */}
-                <div>
-                    <input
-                        required
-                        type="text"
-                        maxLength={1}
-                        className='p-5 text-xl w-[55px]  outline-none rounded-xl bg-white font-semibold'
-                        value={otp.box5}
-                        onChange={changeHandler}
-                        name='box5'
-                    />
-                </div>
-
+            {/* OTP fields */}
+            <div className='flex gap-5 justify-center items-center'>
+                {otp.map((digit, index) => (
+                    <div key={index}>
+                        <input
+                            required
+                            type="text"
+                            maxLength={1}
+                            className='p-5 text-xl w-[55px] outline-none rounded-xl bg-white font-semibold'
+                            value={otp[index]}
+                            onChange={(e) => changeHandler(e, index)}
+                            name={`box${index}`}
+                        />
+                    </div>
+                ))}
             </div>
-
-
 
             {/* button */}
             <div className='my-5' >

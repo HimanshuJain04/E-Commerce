@@ -16,7 +16,7 @@ function EmailForOtp() {
                 <p className='text-2xl text-[black]/[0.6]'>Otp will be sent on your email address</p>
             </div>
 
-            {/* Old password */}
+            {/* email for otp */}
             <div className='flex flex-col gap-1'>
                 <label
                     htmlFor="email"
