@@ -26,8 +26,10 @@ exports.updateUserAddress = async (req, res) => {
                 }
             },
             { new: true }
-        ).populate("wishlists")
+        )
+            .populate("wishlists")
             .populate("carts.product")
+            .populate("recentlyViewed.product")
             .populate(
                 {
                     path: 'orders',
@@ -36,7 +38,8 @@ exports.updateUserAddress = async (req, res) => {
                         model: 'Product',
                     },
                 }
-            ).exec();
+            )
+            .exec();
 
         if (!user) {
             return res.status(500).json(
@@ -77,6 +80,7 @@ exports.getAllUserData = async (req, res) => {
         const user = await User.findById(userId)
             .populate("wishlists")
             .populate("carts.product")
+            .populate("recentlyViewed.product")
             .populate(
                 {
                     path: 'orders',
@@ -138,6 +142,7 @@ exports.addToWishlist = async (req, res) => {
             { new: true }
         ).populate("wishlists")
             .populate("carts.product")
+            .populate("recentlyViewed.product")
             .populate(
                 {
                     path: 'orders',
@@ -192,6 +197,7 @@ exports.removeFromWishlist = async (req, res) => {
             { new: true }
         ).populate("wishlists")
             .populate("carts.product")
+            .populate("recentlyViewed.product")
             .populate(
                 {
                     path: 'orders',
@@ -270,6 +276,7 @@ exports.addToCart = async (req, res) => {
         const data = await User.findById(userId)
             .populate("wishlists")
             .populate("carts.product")
+            .populate("recentlyViewed.product")
             .populate(
                 {
                     path: 'orders',
@@ -328,6 +335,7 @@ exports.removeFromCart = async (req, res) => {
         user = await User.findById(userId)
             .populate("wishlists")
             .populate("carts.product")
+            .populate("recentlyViewed.product")
             .populate(
                 {
                     path: 'orders',
@@ -394,6 +402,7 @@ exports.descreaseFromCart = async (req, res) => {
         user = await User.findById(userId)
             .populate("wishlists")
             .populate("carts.product")
+            .populate("recentlyViewed.product")
             .populate(
                 {
                     path: 'orders',
@@ -403,6 +412,82 @@ exports.descreaseFromCart = async (req, res) => {
                     },
                 }
             ).exec();
+
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "descrease from cart successfully",
+                data: user,
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "descrease from cart failed",
+                error: err.message,
+            }
+        )
+    }
+}
+
+// addProductIntoRecentView
+exports.addProductIntoRecentView = async (req, res) => {
+    try {
+
+        const { productId, userId } = req.body;
+
+        let user = await User.findById(userId);
+        let product = await Product.findById(productId);
+
+
+        if (!user || !product) {
+            return res.status(500).json(
+                {
+                    success: false,
+                    message: "user or product not found",
+                    error: "user or product not found",
+                }
+            )
+        }
+
+        // Check if the product is already in recentlyViewed array
+        const existingIndex = user.recentlyViewed.findIndex(item => item.product.equals(product._id));
+
+        if (existingIndex !== -1) {
+            // If the product is already in the array, remove it
+            user.recentlyViewed.splice(existingIndex, 1);
+        }
+
+        // Add the product to recentlyViewed array with the current date
+        user.recentlyViewed.unshift({
+            product: product._id,
+            viewAt: new Date(),
+        });
+
+        // Check if the array length exceeds 10, and truncate if necessary
+        if (user.recentlyViewed.length > 10) {
+            user.recentlyViewed = user.recentlyViewed.slice(user.recentlyViewed.length - 10);
+        }
+
+        await user.save();
+
+        user = await User.findById(userId)
+            .populate("wishlists")
+            .populate("carts.product")
+            .populate("recentlyViewed.product")
+            .populate(
+                {
+                    path: 'orders',
+                    populate: {
+                        path: 'products.product',
+                        model: 'Product',
+                    },
+                }
+            )
+            .exec();
 
 
         return res.status(200).json(
@@ -522,6 +607,7 @@ exports.updateRatingAndReview = async (req, res) => {
         user = await User.findById(userId)
             .populate("wishlists")
             .populate("carts.product")
+            .populate("recentlyViewed.product")
             .populate(
                 {
                     path: 'orders',

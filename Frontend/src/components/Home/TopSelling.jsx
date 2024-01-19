@@ -99,7 +99,6 @@ function TopSelling() {
                                             />
                                         </div>
                                         <div className='flex flex-col items-center max-w-[200px] justify-center'>
-                                            <p className='font-bold'>{product.title}</p>
                                             <p className=' font-semibold text-[black]/[0.5]'>{product?.name.substring(0, 20)}...</p>
                                             <p className='text-red-950 font-semibold'>Rs. {product?.price}</p>
                                         </div>

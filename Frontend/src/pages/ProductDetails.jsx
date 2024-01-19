@@ -11,7 +11,7 @@ import { MdOutlineStar } from "react-icons/md";
 
 function ProductDetails() {
 
-    const { isLoggedIn, addToWishlistHandler, descreaseFromCartHandler, addToCartHandler, removeFromWishlistHandler } = useContext(AppContext);
+    const { isLoggedIn, setIsLoggedIn, addToWishlistHandler, descreaseFromCartHandler, addToCartHandler, removeFromWishlistHandler } = useContext(AppContext);
 
     const navigate = useNavigate();
     const { pathname } = useLocation();
@@ -35,24 +35,23 @@ function ProductDetails() {
 
     }, [id, isLoggedIn]);
 
+    const callApis = async () => {
 
-
-    useEffect(() => {
-
-        ApiCalling("GET", `product/getProductById/${id}`)
+        // get products details
+        await ApiCalling("GET", `product/getProductById/${id}`)
             .then((data) => {
                 // set data to the varibales
                 setMainImage(data?.data?.images[0])
                 setData(data?.data);
-                console.log("data : ", data?.data);
 
             }).catch((err) => {
                 navigate("/error");
                 console.log(err);
             });
 
+
         // call the next api for simialr data
-        ApiCalling("GET", `product/getSimilarProducts/${id}`)
+        await ApiCalling("GET", `product/getSimilarProducts/${id}`)
             .then((data) => {
                 setSimilarData(data?.data);
             }).catch((err) => {
@@ -61,6 +60,25 @@ function ProductDetails() {
             });
 
 
+
+
+        // push product into recentView array
+        await ApiCalling("POST", "user/addProductIntoRecentView", {
+            productId: id,
+            userId: isLoggedIn._id
+        })
+            .then((res) => {
+                setIsLoggedIn(res?.data);
+            }).catch((err) => {
+                navigate("/error");
+                console.log(err);
+            });
+
+    }
+
+
+    useEffect(() => {
+        callApis();
     }, [id, navigate]);
 
 
@@ -220,11 +238,11 @@ function ProductDetails() {
                             )
                         }
 
-                        {
+                        {/* {
                             data?.rating_review?.length > 0 && (
                                 <ShowDetail heading={"Reviews"} data={data?.rating_review} />
                             )
-                        }
+                        } */}
 
                     </div>
 
@@ -234,7 +252,7 @@ function ProductDetails() {
 
 
             {/* similar Products */}
-            <div div className='w-full my-20' >
+            <div className='w-full my-20' >
                 <div className='w-full flex justify-center items-start '>
 
                     <div className='w-11/12 flex gap-2 flex-col justify-center items-center'>

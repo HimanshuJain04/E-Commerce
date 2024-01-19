@@ -202,6 +202,7 @@ exports.getProductById = async (req, res) => {
         // check product in database
         const existProduct = await Product.findById(productId)
             .populate("category")
+            .populate("rating_review")
             .exec();
 
 
@@ -234,7 +235,7 @@ exports.getProductById = async (req, res) => {
     }
 }
 
-
+// TODO: send only 10 products
 // get Top selling products
 exports.getTopSellingProducts = async (req, res) => {
 
@@ -255,7 +256,8 @@ exports.getTopSellingProducts = async (req, res) => {
                             model: 'Product', // Assuming 'Product' is the actual model name
                         },
                     }
-                ).exec();
+                )
+                .exec();
 
             // push products into data array
             allData.forEach((tag) => {
@@ -264,9 +266,8 @@ exports.getTopSellingProducts = async (req, res) => {
                         data.push(product)
                     })
                 });
-            }
+            });
 
-            )
         } else {
 
             allData = await Tag.findById(tagId)
@@ -339,6 +340,8 @@ exports.getSimilarProducts = async (req, res) => {
         const existCategory = await Category.findById(categoryId)
             .populate("products")
             .exec();
+
+
 
         if (!existCategory) {
             return res.status(400).json(

@@ -15,6 +15,7 @@ const { cardDetail } = require('../controllers/order');
 const { verifyPayment } = require('../controllers/order');
 const { getOrderDetailsById } = require('../controllers/order');
 const { updateRatingAndReview } = require("../controllers/user");
+const { addProductIntoRecentView } = require("../controllers/user");
 
 
 // update the user
@@ -35,6 +36,10 @@ router.get("/getAllOrders/:userId", getAllOrders);
 
 // get All User Data in single api
 router.get("/getAllUserData/:userId", getAllUserData);
+
+// update userData
+router.post("/addProductIntoRecentView/", addProductIntoRecentView);
+
 
 // order
 router.post("/createOrder", createOrder);

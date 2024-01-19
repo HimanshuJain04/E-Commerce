@@ -30,9 +30,9 @@ function ShowDetail({ heading, data }) {
                     <ul className=''>
                         {data?.map((item, index) => (
                             <li className='pb-1'
-                                key={item + index}
+                                key={index}
                             >
-                                <span>{item} </span>
+                                <span>{item}</span>
                             </li>
                         ))}
                     </ul>

@@ -16,6 +16,7 @@ router.get("/validate", Auth, async (req, res) => {
         const data = await User.findById(req.user.id)
             .populate("carts.product")
             .populate("wishlists")
+            .populate("recentlyViewed.product")
             .populate(
                 {
                     path: 'orders',

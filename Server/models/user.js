@@ -41,6 +41,24 @@ const userSchema = new mongoose.Schema(
                 ref: "Order"
             }
         ],
+        role: {
+            type: String,
+            enum: ["Admin", "User"],
+            default: "User"
+        },
+        recentlyViewed: [
+            {
+
+                product: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Product"
+                },
+                viewAt: {
+                    type: Date,
+                    default: Date.now()
+                }
+            }
+        ],
         wishlists: [
             {
                 type: mongoose.Schema.Types.ObjectId,

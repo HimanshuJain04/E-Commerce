@@ -7,11 +7,11 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import Wishlist from './pages/Wishlist';
 import Error from './pages/Error';
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Footer from "./components/common/Footer";
 import ProductDetail from './pages/ProductDetails';
 import Admin from './pages/Admin';
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useRef } from 'react';
 import { AppContext } from './context/AppContext';
 import { ApiCalling } from './services/Api';
 import Login from './pages/Login';
@@ -23,6 +23,7 @@ import Cards from './pages/Cards';
 import AddressPayment from "./pages/AddressPayment"
 import ThankYou from "./pages/ThankYou"
 import MyOrders from './components/user/MyOrders';
+import Profile from "./pages/Profile";
 
 
 
@@ -30,8 +31,6 @@ function App() {
 
   const { setCategories, setTags, setIsLoggedIn } = useContext(AppContext);
   const navigate = useNavigate();
-
-
 
   async function defaultApiCalling() {
 
@@ -97,6 +96,7 @@ function App() {
             <Route path='/auth/login' element={<Login />} />
             <Route path='/wishlist' element={<Wishlist />} />
             <Route path='/myAccount' element={<MyOrders />} />
+            <Route path='/user-profile' element={<Profile />} />
             <Route path='/auth/signup' element={<Signup />} />
             <Route path='/admin/9630695842' element={<Admin />} />
             <Route path='/thank-you-page' element={<ThankYou />} />

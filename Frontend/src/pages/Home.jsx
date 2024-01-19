@@ -7,6 +7,7 @@ import NewArrival from '../components/Home/NewArrival';
 import TopSelling from '../components/Home/TopSelling';
 import { AppContext } from '../context/AppContext';
 import { cards } from "../constants/home";
+import RecentlyViewed from '../components/Home/RecentlyViewed';
 
 function Home() {
 
@@ -17,6 +18,12 @@ function Home() {
                 {/* Carousel */}
                 <div>
                     <HomeCarousel></HomeCarousel>
+                </div>
+
+
+                {/* Recently Viewed Section */}
+                <div className=''>
+                    <RecentlyViewed />
                 </div>
 
 

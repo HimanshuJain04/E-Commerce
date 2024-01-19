@@ -35,7 +35,7 @@ const ProfileDropdown = () => {
         {
             name: "Profile",
             icon: <FaUser />,
-            path: `/profile/${isLoggedIn?._id}`
+            path: `/user-profile`
         },
         {
             name: "My account",
