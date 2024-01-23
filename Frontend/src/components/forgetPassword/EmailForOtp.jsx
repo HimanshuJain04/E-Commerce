@@ -1,13 +1,22 @@
 import React, { useState } from 'react'
-
-function EmailForOtp() {
-
-    const [email, setEmail] = useState("");
+import { ApiCalling } from '../../services/Api';
+import { toast } from "react-toastify";
 
 
-    function sendHandler() {
-        //TODO: send otp to email
-        console.log(email);
+
+function EmailForOtp({ email, setEmail, setState }) {
+
+
+
+    async function sendHandler() {
+        const res = await ApiCalling("POST", "auth/sendOTPForForgotPassword", { email });
+        console.log(res)
+        if (res.success) {
+            toast.success("Otp Sent Successfully")
+            setState("VerifyOtp");
+        } else {
+            toast.error(res.message)
+        }
     }
 
     return (

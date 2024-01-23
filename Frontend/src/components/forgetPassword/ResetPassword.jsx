@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { ApiCalling } from '../../services/Api';
 
 function ResetPassword() {
 
@@ -9,7 +10,10 @@ function ResetPassword() {
         }
     );
 
-    function saveHandler() {
+    async function saveHandler() {
+
+        const res = await ApiCalling("POST", "auth/changeForgotPassword", data);
+        console.log(res)
 
     }
 

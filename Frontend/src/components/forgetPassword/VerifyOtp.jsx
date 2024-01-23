@@ -1,13 +1,25 @@
 import React, { useState, useRef } from 'react'
+import { ApiCalling } from '../../services/Api';
+import { toast } from "react-toastify";
 
-function VerifyOtp() {
+function VerifyOtp({ email, setState }) {
 
 
     const [otp, setOtp] = useState(["", "", "", "", ""])
 
 
-    function verifyHandler() {
+    async function verifyHandler() {
 
+        let OTP = otp.join("");
+
+        const res = await ApiCalling("POST", "auth/VerifyOtpForgotPassword", { OTP, email });
+        if (res.success) {
+            toast.success("OTP Verified!");
+            setState("RESET");
+        } else {
+            toast.error(res.message);
+
+        }
     }
 
     function changeHandler(e, index) {
@@ -16,7 +28,6 @@ function VerifyOtp() {
         console.log(arr);
         setOtp(arr);
     }
-
 
     return (
         <div className='flex flex-col gap-10 mt-5 justify-start items-center w-full'  >

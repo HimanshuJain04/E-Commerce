@@ -24,7 +24,7 @@ export const ApiCalling = async (method, endUrl, data = "", config = { headers: 
                     return res?.data;
                 })
                 .catch((err) => {
-                    return err?.response;
+                    return err?.response?.data;
                 })
         }
         else if (method === "POST") {
@@ -35,9 +35,8 @@ export const ApiCalling = async (method, endUrl, data = "", config = { headers: 
                     return res?.data;
                 })
                 .catch((err) => {
-                    return err?.response;
+                    return err?.response?.data;
                 })
-
         }
         else if (method === "PUT") {
 
@@ -46,7 +45,7 @@ export const ApiCalling = async (method, endUrl, data = "", config = { headers: 
                     return res?.data;
                 })
                 .catch((err) => {
-                    return err?.response;
+                    return err?.response?.data;
                 })
         }
         else if (method === "DELETE") {
@@ -56,7 +55,7 @@ export const ApiCalling = async (method, endUrl, data = "", config = { headers: 
                     return res?.data;
                 })
                 .catch((err) => {
-                    return err?.response;
+                    return err?.response?.data;
                 })
 
         } else {
@@ -67,7 +66,7 @@ export const ApiCalling = async (method, endUrl, data = "", config = { headers: 
 
     } catch (err) {
 
-        return err;
+        return err.response?.data;
 
     }
 }

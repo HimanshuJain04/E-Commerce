@@ -4,8 +4,16 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const Verification = require('../models/verification');
 const uuid = require('uuid').v4;
-const { mailSender } = require("../utils/mailSender");
-const { sendVerificationEmail } = require("../utils/sendMail");
+const { sendVerificationEmail, sendOTPEmail } = require("../utils/sendMail");
+const Otp = require("../models/otp");
+
+
+// Generate a random 5-digit OTP
+function generateOTP() {
+    const otp = Math.floor(10000 + Math.random() * 90000);
+    return otp;
+}
+
 
 const sendVerificationEmailFun = async ({ _id, email }, res) => {
 
@@ -207,4 +215,165 @@ exports.userLogin = async (req, res) => {
         );
     }
 }
+
+
+
+exports.sendOTPForForgotPassword = async (req, res) => {
+    try {
+        // fetch the data from request
+        const { email } = req.body;
+
+        // validation
+        if (!email) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "All Fields Required",
+                    error: "All Fields Required",
+                }
+            )
+        }
+
+        // check email is already exist or not
+        const existUser = await User.findOne({ email: email })
+
+
+        if (!existUser) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Email not registered,please signup",
+                    error: "Email not registered,please signup",
+                }
+            )
+        }
+
+        if (!existUser.verified) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Verify your email",
+                    error: "Verify your email",
+                }
+            );
+        }
+
+        const otp = generateOTP();
+
+        // send the otp to the user email
+        const emailRes = await sendOTPEmail(email, otp);
+
+        if (!emailRes) {
+            return res.status(500).json(
+                {
+                    success: false,
+                    message: "Error while send email",
+                }
+            );
+        }
+
+        // store the otp in user db
+        const otpRes = await Otp.create(
+            {
+                email,
+                otp,
+                expiredAt: Date.now() + 21600 * 1000
+            }
+        )
+
+        if (!otpRes) {
+            return res.status(500).json(
+                {
+                    success: false,
+                    message: "Error while creating otp",
+                }
+            );
+        }
+
+        return res.status(200).json(
+            {
+                message: "Otp Send Successfully",
+                data: otpRes.userId,
+                success: true
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Otp for Forgot failed",
+                error: err.message,
+            }
+        );
+    }
+}
+
+
+exports.VerifyOtpForgotPassword = async (req, res) => {
+    try {
+        // fetch the data from request
+        const { email, OTP } = req.body;
+
+
+        // validation
+        if (!email || !OTP) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "All Fields Required",
+                    error: "All Fields Required",
+                }
+            )
+        }
+
+        // Find the OTP with the latest expiration time
+        const latestOtp = await Otp.findOne({ email })
+            .sort({ createdAt: -1 })
+            .limit(1);
+
+
+        if (!latestOtp) {
+            return res.status(400).json({
+                success: false,
+                message: "No OTP found for the user",
+                error: "No OTP found for the user",
+            });
+        }
+
+        if (latestOtp.expiredAt < Date.now()) {
+            return res.status(400).json({
+                success: false,
+                message: "Otp Expired,Try again",
+                error: "Otp Expired,Try again",
+            });
+        }
+
+        if (String(latestOtp.otp) !== OTP) {
+            return res.status(400).json({
+                success: false,
+                message: "Otp doesn't match",
+                error: "Otp doesn't match",
+            });
+        }
+
+        return res.status(200).json(
+            {
+                message: "Otp Verfired successfully",
+                data: {},
+                success: true
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Otp Verfication failed",
+                error: err.message,
+            }
+        );
+    }
+}
+
 
