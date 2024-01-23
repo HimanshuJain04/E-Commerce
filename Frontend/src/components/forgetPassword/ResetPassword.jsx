@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { ApiCalling } from '../../services/Api';
+import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
-function ResetPassword() {
+function ResetPassword({ email }) {
 
     const [data, setData] = useState(
         {
@@ -10,10 +12,25 @@ function ResetPassword() {
         }
     );
 
+    const navigate = useNavigate();
+
     async function saveHandler() {
 
-        const res = await ApiCalling("POST", "auth/changeForgotPassword", data);
-        console.log(res)
+        const fd = new FormData();
+
+        fd.append("password", data.pass);
+        fd.append("confirmPass", data.conPass);
+        fd.append("email", email);
+
+        const res = await ApiCalling("POST", "auth/changeForgotPassword", fd);
+
+        if (res.success) {
+            toast.success("Password reset successfully");
+            navigate("/auth/login");
+        } else {
+            toast.error(res.message);
+
+        }
 
     }
 

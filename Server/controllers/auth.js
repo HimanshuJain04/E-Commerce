@@ -126,7 +126,6 @@ exports.userSignup = async (req, res) => {
     }
 }
 
-
 exports.userLogin = async (req, res) => {
     try {
         // fetch the data from request
@@ -370,6 +369,65 @@ exports.VerifyOtpForgotPassword = async (req, res) => {
             {
                 success: false,
                 message: "Otp Verfication failed",
+                error: err.message,
+            }
+        );
+    }
+}
+
+
+exports.changeForgotPassword = async (req, res) => {
+    try {
+        // fetch the data from request
+        const { email, password, confirmPass } = req.body;
+
+
+        // validation
+        if (!email || !password || !confirmPass) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "All Fields Required",
+                    error: "All Fields Required",
+                }
+            )
+        }
+
+        // validation
+        if (password !== confirmPass) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Password and Confirm password must be same",
+                    error: "Password and Confirm password must be same",
+                }
+            )
+        }
+
+
+        // Find the user
+        const user = await User.findOne({ email });
+
+        const hashedPass = await bcrypt.hash(password, 10);
+
+        user.password = hashedPass;
+
+        await user.save();
+
+
+        return res.status(200).json(
+            {
+                message: "Password reset successfull",
+                data: {},
+                success: true
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Reset Password failed",
                 error: err.message,
             }
         );

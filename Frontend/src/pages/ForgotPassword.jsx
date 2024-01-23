@@ -20,7 +20,7 @@ function ForgotPassword() {
                         state === "VerifyOtp" ? (
                             <VerifyOtp email={email} setState={setState} />
                         ) : (
-                            <ResetPassword />
+                            <ResetPassword email={email} />
                         )
                     )
                 }

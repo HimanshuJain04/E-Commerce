@@ -25,7 +25,6 @@ function VerifyOtp({ email, setState }) {
     function changeHandler(e, index) {
         const arr = [...otp];
         arr[index] = e.target.value;
-        console.log(arr);
         setOtp(arr);
     }
 

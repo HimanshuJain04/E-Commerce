@@ -6,13 +6,14 @@ const { userSignup } = require("../controllers/auth");
 const { userLogin } = require("../controllers/auth");
 const { Auth } = require("../middleware/auth");
 const { userVerification } = require("../controllers/verification");
-const { sendOTPForForgotPassword, VerifyOtpForgotPassword } = require("../controllers/auth");
+const { sendOTPForForgotPassword, VerifyOtpForgotPassword, changeForgotPassword } = require("../controllers/auth");
 
 router.post("/login", userLogin);
 router.post("/signup", userSignup);
 router.get("/verify/:uniqueString/:userId", userVerification);
 router.post("/sendOTPForForgotPassword", sendOTPForForgotPassword);
 router.post("/VerifyOtpForgotPassword", VerifyOtpForgotPassword);
+router.post("/changeForgotPassword", changeForgotPassword);
 
 router.get("/validate", Auth, async (req, res) => {
     try {
