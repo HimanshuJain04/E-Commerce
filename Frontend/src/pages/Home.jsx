@@ -55,7 +55,7 @@ function Home() {
                 {/* Services cards */}
                 <div className=' mt-20 px-10'>
 
-                    <div className='w-full  flex justify-between items-center '>
+                    <div className='w-full flex-wrap flex lg:justify-between justify-center items-center '>
 
                         {
 
@@ -73,8 +73,8 @@ function Home() {
 
                                     {/* text */}
                                     <div className='flex flex-col gap-2 justify-center items-center'>
-                                        <p className='font-bold text-xl uppercase'>{card?.heading}</p>
-                                        <p className='font-semibold'>{card?.desc}</p>
+                                        <p className='font-bold text-xl uppercase text-center '>{card?.heading}</p>
+                                        <p className='font-semibold text-center'>{card?.desc}</p>
                                     </div>
 
                                 </div>

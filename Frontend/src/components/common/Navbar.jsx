@@ -75,11 +75,12 @@ const Navbar = () => {
 
                 {/* name/icon */}
                 <Link to="/" className='font-bold cursor-pointer'>
-                    <p>E-Commerce</p>
+                    <p className='sm:hidden block'>OBS</p>
+                    <p className='sm:block hidden'>OneBasketStop</p>
                 </Link>
 
                 {/* features  list*/}
-                <div className='flex justify-center font-semibold items-center gap-5'>
+                <div className=' justify-center font-semibold xl:flex hidden items-center gap-5'>
 
                     {
                         Navlink?.map((data, index) => (
@@ -113,7 +114,7 @@ const Navbar = () => {
 
 
                     {/* search bar */}
-                    <div className='relative'>
+                    <div className='relative  md:block hidden'>
                         <button
                             ref={dropdownRef}
                             onClick={toggleDropdown}
@@ -157,8 +158,8 @@ const Navbar = () => {
                                 </div>
                             )}
                         </div>
-                    </div>
 
+                    </div>
 
                     {/* login */}
                     <div className={`font-semibold cursor-pointer bg-blue-500 text-white rounded-md py-2 px-5 border-[3px] border-transparent hover:border-blue-500 hover:bg-white hover:text-blue-500 transition-all duration-200 ease-in-out ` + (isLoggedIn ? "hidden" : "block")}>

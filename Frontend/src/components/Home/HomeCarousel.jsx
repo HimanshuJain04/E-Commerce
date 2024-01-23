@@ -14,8 +14,8 @@ function HomeCarousel() {
         >
             {
                 carousel?.map((data) => (
-                    <div className="w-full h-[80vh]" key={data.image}>
-                        <img src={data.image} className="w-full h-full" />
+                    <div className="max-w-full overflow-hidden" key={data.image}>
+                        <img src={data.image} className="object-cover" />
                     </div>
                 ))
 

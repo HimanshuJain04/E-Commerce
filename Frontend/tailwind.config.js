@@ -14,7 +14,15 @@ export default {
           from: { transform: 'translateX(0)' },
           to: { transform: 'translateX(-100%)' },
         }
-      }
+      },
+      screens: {
+        'xsm': '450px',
+        'sm': '600px',
+        'md': '750px',
+        'lg': '1050px',
+        'xl': '1200px',
+        '2xl': '1500px',
+      },
     },
   },
   plugins: [],
