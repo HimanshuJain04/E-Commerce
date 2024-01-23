@@ -191,6 +191,97 @@ exports.userLogin = async (req, res) => {
 
         // Set cookie for token and return success response
         const options = {
+            expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // set cookie for 3 days
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+        };
+
+        // send cookie
+        res.cookie("token", token, options).status(200).json({
+            success: true,
+            token,
+            existUser,
+            message: "User Login Success",
+        });
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Login Failed",
+                error: err,
+            }
+        );
+    }
+}
+
+
+exports.userLogout = async (req, res) => {
+    try {
+        // fetch the data from request
+        const { email, password } = req.body;
+
+        // validation
+        if (!email || !password) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "All Fields Required",
+                    error: "All Fields Required",
+                }
+            )
+        }
+
+        // check email is already exist or not
+        const existUser = await User.findOne({ email: email });
+        if (!existUser) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Email not registered,please signup",
+                    error: "Email not registered,please signup",
+                }
+            )
+        }
+
+        if (!existUser.verified) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Verify your email",
+                    error: "Verify your email",
+                }
+            );
+        }
+
+
+
+        // compare the password
+        const comparePass = await bcrypt.compare(password, existUser.password);
+        if (!comparePass) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Password doesn't match",
+                    error: "Password doesn't match",
+                }
+            )
+        }
+
+        // create jwt token and store that into cookie and localStorage
+        const token = jwt.sign(
+            { email: existUser.email, id: existUser._id },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "24h",
+            }
+        );
+
+        existUser.token = token;
+
+        // Set cookie for token and return success response
+        const options = {
             expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // set cookie for 3 day
             httpOnly: true,
         };
