@@ -36,7 +36,7 @@ function Cart() {
         data?.length > 0 ? (
           // cart is not empty
 
-          <div className='w-11/12 flex justify-between gap-10 items-start'>
+          <div className='w-11/12 flex flex-col xl:flex-row justify-between gap-10 items-start'>
 
             {/* left part for product detail */}
             <div className='w-full  flex flex-col gap-5 justify-start items-start'>
@@ -81,9 +81,9 @@ function Cart() {
             </div>
 
             {/* right part for priceing and all that stuff */}
-            <div>
+            <div className='w-full'>
 
-              <div className='w-[450px] px-10 border-2 border-[black]/[0.1] flex flex-col gap-5 py-10 mt-10 '>
+              <div className='w-full xl:w-[450px] px-10 border-2 border-[black]/[0.1] flex flex-col gap-5 py-10 mt-10 '>
 
                 <div>
                   <p className='text-2xl font-bold'>Price Details</p>
@@ -94,7 +94,7 @@ function Cart() {
                   {/* bag toatl */}
                   <div className='flex w-full justify-between items-center'>
                     <p>Bag Total</p>
-                    <span>Rs. {500}</span>
+                    <span>Rs. {total}</span>
                   </div>
 
                   {/* bag discount */}
@@ -118,14 +118,20 @@ function Cart() {
                   {/* Delivery */}
                   <div className='flex w-full justify-between items-center'>
                     <p>Delivery</p>
-                    <span>Rs. {100}</span>
+                    {
+                      total >= 1000 ? (
+                        <span>Free</span>
+                      ) : (
+                        <span>Rs. {100}</span>
+                      )
+                    }
                   </div>
 
                 </div>
 
-                {/* delivery discount div */}
-                <div className='flex w-full justify-center mt-3 items-center'>
-                  <span className='bg-green-600 text-white w-[50%] text-center py-2 font-semibold'>Free Delivery</span>
+                {/* delivery discount section/tag */}
+                <div className='flex flex-col sm:flex-row w-full justify-center mt-3 items-center'>
+                  <span className='bg-green-600 text-white w-full sm:w-[50%] text-center py-2 font-semibold'>Free Delivery</span>
                   <span className='bg-[black]/[0.8] text-white py-2 text-center w-full font-semibold'>For order above Rs.1000</span>
                 </div>
 
@@ -146,6 +152,7 @@ function Cart() {
               </div>
 
             </div>
+
 
           </div>
 
