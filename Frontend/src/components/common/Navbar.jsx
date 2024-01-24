@@ -25,7 +25,7 @@ const FeatureList = ({ css }) => {
                             data?.path ? (
                                 <Link className='px-1' to={data.path}>{data.name}</Link>
                             ) : (
-                                <div className='cursor-pointer px-1 border-b-[3px] border-transparent hover:border-blue-500 flex justify-center items-center md:h-[80px] text-center group relative'>
+                                <div className='cursor-pointer px-1 border-b-[3px] border-transparent hover:border-blue-500 flex justify-center items-center xl:h-[80px] text-center group relative'>
                                     <p>{data?.name}</p>
                                     <div className='absolute hidden rounded-xl group-hover:block z-10 top-[80px] bg-white -left-[300px]'>
                                         <NavHover gender={data.name} categories={
@@ -156,7 +156,7 @@ const Navbar = () => {
                         </button>
                     </button>
 
-                    {/* recommendation functionality
+                    {/* recommendation functionality */}
                     <div className={`absolute bg-white z-10 w-full ${isOpen ? '' : 'hidden'}`}>
                         {isOpen && (
                             <div className='dropdown-content'>
@@ -176,7 +176,7 @@ const Navbar = () => {
                                 </div>
                             </div>
                         )}
-                    </div> */}
+                    </div>
 
                 </div>
 
@@ -317,6 +317,7 @@ const Navbar = () => {
                 </div>
 
             </div >
+
         </div >
     )
 }
