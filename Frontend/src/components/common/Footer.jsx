@@ -30,18 +30,19 @@ function Footer() {
         <footer className='w-full  bg-[black]/[0.04] flex justify-center items-center flex-col'>
 
             {/* upper footer */}
-            <div className='flex justify-center py-20 w-11/12  xl:justify-between gap-14 items-start '>
+            <div className='flex flex-wrap justify-center py-20 w-11/12  xl:justify-between gap-14 items-start '>
 
                 {
                     ConstFooter?.map((column) => (
                         <div
                             key={column.title}
+                            className='w-full sm:w-auto '
                         >
                             {
                                 column.title !== "E-Commerce" ? (
 
-                                    <div className=' justify-start items-start flex-col gap-3 flex p-2 max-w-[250px] '>
-                                        <p className='font-bold  capitalize'>{column.title}</p>
+                                    <div className=' justify-start  items-center md:items-start flex-col gap-3 flex p-2 w-full sm:max-w-[250px] '>
+                                        <p className='font-bold text-center capitalize'>{column.title}</p>
                                         <div className='flex flex-col gap-2 justify-start items-start'>
                                             {
                                                 column?.links?.map((record) => (
@@ -58,7 +59,7 @@ function Footer() {
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className=' justify-start items-start flex-col gap-3 flex p-2 max-w-[250px] '>
+                                    <div className=' justify-start items-center md:items-start flex-col gap-3 flex p-2 w-full md:max-w-[250px] '>
                                         <p className='font-bold text-lg'>E-Commerce</p>
                                         <p className='text-[black]/[0.5] text-justify text-sm font-semibold '>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                                             Ab minima aliquid facilis voluptas totam, sint qui soluta quo

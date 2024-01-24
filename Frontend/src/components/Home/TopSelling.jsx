@@ -62,17 +62,16 @@ function TopSelling() {
                         </div>
 
                         {/* categories */}
-                        <div className='flex justify-center items-center'>
-                            <div className='flex gap-10 justify-center items-center lg:w-[800px] max-w-[80vw] lg:px-10 lg:py-5 overflow-x-scroll bg-red-100 scrollbar-hide '>
+                        <div className='flex justify-center w-full items-center'>
+                            <div className='flex gap-5 md:gap-10 justify-center flex-wrap items-center  w-full px-10 py-2 lg:py-5 overflow-auto scrollbar-hide '>
                                 {
-
                                     allTags?.map((cateogory) => (
                                         <button
                                             onClick={() => {
                                                 setOption(cateogory)
                                             }}
                                             key={cateogory?._id}
-                                            className={`px-7 py-2 hover:bg-red-900 flex-shrink-0 font-semibold cursor-pointer transition-all duration-200 ease-in-out  hover:text-white rounded-full border-2 border-red-900 `
+                                            className={`px-4 py-1 md:px-7 md:py-2 hover:bg-red-900  flex-shrink-0 font-semibold cursor-pointer transition-all duration-200 ease-in-out  hover:text-white rounded-full border-2 border-red-900 `
                                                 + (option?.name === cateogory?.name ? "bg-red-900 text-white" : " text-black")}
                                         >
                                             <p className=''>{cateogory?.name}</p>
