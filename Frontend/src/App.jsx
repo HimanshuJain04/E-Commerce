@@ -88,7 +88,7 @@ function App() {
       <div className='w-full h-[100vh] bg-[black]/[0.02] scrollbar-hide overflow-auto'>
         <ToastContainer />
         <Navbar />
-        <div className='min-h-[calc(100vh-80px)] py-5 w-full mt-24'>
+        <div className='min-h-[calc(100vh-80px)] py-5 w-full mt-16 xl:mt-24'>
           <Routes>
             <Route path='*' element={<Error />} />
             <Route path='/cart' element={<Cart />} />

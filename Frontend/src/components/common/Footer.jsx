@@ -30,7 +30,7 @@ function Footer() {
         <footer className='w-full  bg-[black]/[0.04] flex justify-center items-center flex-col'>
 
             {/* upper footer */}
-            <div className='flex flex-wrap justify-center py-20 w-11/12  xl:justify-between gap-14 items-start '>
+            <div className='flex flex-wrap justify-center md:py-20 w-11/12 py-10  xl:justify-between gap-14 items-start '>
 
                 {
                     ConstFooter?.map((column) => (

@@ -86,21 +86,21 @@ function ProductDetails() {
         <div className='w-full flex justify-start flex-col items-center'>
 
             {/* product details */}
-            <div className='w-11/12 flex justify-between py-5 gap-10  min-h-[100vh] h-full items-start '>
+            <div className='w-11/12 flex flex-col bg-red-50 xl:flex-row items-center justify-between py-5 gap-5 md:gap-20  min-h-[100vh] h-full xl:items-start '>
 
                 {/* left div for image*/}
-                <div className='flex h-[80vh] justify-between gap-5 w-3/5 items-start'>
+                <div className='flex  md:flex-row flex-col-reverse  h-[90vh] justify-between md:gap-5 w-full xl:w-3/5 items-start'>
 
                     {/* div for small images */}
-                    <div className='flex overflow-y-auto border-2 p-5 rounded-sm scrollbar-hide pb-5 px-2 flex-col gap-3  w-[15%] max-h-full'>
+                    <div className='flex  overflow-y-auto md:border-2 w-full p-1 md:p-5 rounded-sm scrollbar-hide pb-5 px-2 flex-row md:flex-col gap-3  md:w-[15%] md:max-h-full'>
                         {
                             data?.images?.map((image) => (
                                 <button
                                     onClick={() => { setMainImage(image) }}
                                     key={image}
-                                    className={`cursor-pointer flex justify-center items-center duration-200 transition-all ease-in-out border-[3px] rounded-sm  ` + (mainImage === image ? " border-blue-600" : "border-transparent")}
+                                    className={`cursor-pointer p-1 flex justify-center items-center duration-200 transition-all ease-in-out border-[3px] rounded-sm  ` + (mainImage === image ? " border-blue-600" : "border-transparent")}
                                 >
-                                    <img className=' bg-cover max-h-[70px] max-w-[100%]' src={image} alt={image} />
+                                    <img className=' bg-cover max-h-[60px] object-contain max-w-[100px] md:max-h-[70px] md:max-w-[100%]' src={image} alt={image} />
                                 </button>
                             ))
                         }
@@ -115,10 +115,10 @@ function ProductDetails() {
                 </div>
 
                 {/* right div for details */}
-                <div className='w-2/5  pr-10  h-full gap-10 flex flex-col justify-start items-start '>
+                <div className=' w-full xl:w-2/5  pr-10  h-full gap-10 flex flex-col justify-start items-start '>
 
                     {/* div for name / rating / price */}
-                    <div className='flex flex-col gap-2 justify-start items-start'>
+                    <div className='flex flex-col gap-3 justify-start items-start'>
 
                         {/* category */}
                         <div >
@@ -131,7 +131,7 @@ function ProductDetails() {
 
                         {/* name */}
                         <div>
-                            <h3 className='text-3xl font-semibold font-sans '>{data?.name}</h3>
+                            <h3 className='text-xl sm:text-3xl font-semibold font-sans '>{data?.name}</h3>
                         </div>
 
                         {
@@ -152,14 +152,14 @@ function ProductDetails() {
 
 
                         {/* price */}
-                        <div className='mt-10 font-semibold text-red-900 text-2xl'>
+                        <div className='mt-10 font-semibold text-red-900 text-xl sm:text-2xl'>
                             <p className=''>Rs. {data?.price}</p>
                         </div>
 
                     </div>
 
                     {/* Add to wishlist / cart button */}
-                    <div className='flex flex-col gap-5 w-full'>
+                    <div className='flex px-5 sm:p-0 w-full sm:w-[500px] flex-col gap-7 xl:w-full'>
                         {/* wishlist button */}
                         <div className='w-full'>
                             <button onClick={() => {
@@ -219,7 +219,7 @@ function ProductDetails() {
                     </div>
 
                     {/* product description ,etc*/}
-                    <div className='w-full flex flex-col gap-5'>
+                    <div className='w-full flex flex-col gap-7'>
                         {
                             data?.description?.length > 0 && (
                                 <ShowDetail heading={"Description"} data={data?.description} />
@@ -252,7 +252,7 @@ function ProductDetails() {
 
 
             {/* similar Products */}
-            <div className='w-full my-20' >
+            <div className='w-full md:my-20 my-10 ' >
                 <div className='w-full flex justify-center items-start '>
 
                     <div className='w-11/12 flex gap-2 flex-col justify-center items-center'>
