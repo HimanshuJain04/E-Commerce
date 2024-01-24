@@ -71,7 +71,7 @@ const Navbar = () => {
     return (
         <div className='w-full h-[80px] z-[100] bg-[white] justify-center fixed top-0 border-[2px] border-[black]/[0.1] flex items-center '>
 
-            <div className='flex justify-between w-10/12 h-full items-center '>
+            <div className='flex justify-between w-11/12 h-full items-center '>
 
                 {/* name/icon */}
                 <Link to="/" className='font-bold cursor-pointer'>

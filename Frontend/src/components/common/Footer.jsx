@@ -1,9 +1,28 @@
 import React from 'react';
 import { ConstFooter } from "../../constants/footer";
 import { Link } from "react-router-dom"
+import { FaGithub, FaLinkedinIn, FaTwitter } from 'react-icons/fa';
 
 
 function Footer() {
+
+    const iconLinks = [
+        {
+            name: "Github",
+            path: "Github",
+            icon: <FaGithub />
+        },
+        {
+            name: "LinkedIn",
+            path: "LinkedIn",
+            icon: <FaLinkedinIn />
+        },
+        {
+            name: "Twitter",
+            path: "Twitter",
+            icon: <FaTwitter />
+        }
+    ]
 
 
 
@@ -11,70 +30,61 @@ function Footer() {
         <footer className='w-full  bg-[black]/[0.04] flex justify-center items-center flex-col'>
 
             {/* upper footer */}
-            <div className='flex justify-between gap-20 items-start py-20 w-11/12 '>
+            <div className='flex justify-center py-20 w-11/12  xl:justify-between gap-14 items-start '>
 
-                <div className='flex flex-wrap justify-center xl:justify-between gap-14 w-full items-start '>
+                {
+                    ConstFooter?.map((column) => (
+                        <div
+                            key={column.title}
+                        >
+                            {
+                                column.title !== "E-Commerce" ? (
 
-                    {
-                        ConstFooter?.map((column, index) => (
-                            <div
-                                key={column?.title + index}
-                                className='flex gap-4 justify-start items-start flex-col'
-                            >
-                                {
-                                    column.title !== "E-Commerce" ? (
-
-                                        <div>
-                                            <p className='font-bold  capitalize'>{column.title}</p>
-                                            <div className='flex flex-col gap-2 justify-start items-start'>
-                                                {
-                                                    column?.links?.map((record) => (
-                                                        <div key={record?.name?.length + record?.name}>
-                                                            <Link
-                                                                to={record.path}
-                                                                className="capitalize font-semibold text-[black]/[0.5] 
+                                    <div className=' justify-start items-start flex-col gap-3 flex p-2 max-w-[250px] '>
+                                        <p className='font-bold  capitalize'>{column.title}</p>
+                                        <div className='flex flex-col gap-2 justify-start items-start'>
+                                            {
+                                                column?.links?.map((record) => (
+                                                    <div key={record?.name?.length + record?.name}>
+                                                        <Link
+                                                            to={record.path}
+                                                            className="capitalize font-semibold text-[black]/[0.5] 
                                                 hover:underline transition-all duration-300 ease-in-out "
-                                                            >{record?.name}</Link>
-                                                        </div>
-                                                    ))
+                                                        >{record?.name}</Link>
+                                                    </div>
+                                                ))
 
-                                                }
-                                            </div>
+                                            }
                                         </div>
-                                    ) : (
-                                        <div>
-                                            <p className='font-bold text-lg'>E-Commerce</p>
-                                            <p className='text-[black]/[0.5] text-justify text-sm font-semibold '>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                                Ab minima aliquid facilis voluptas totam, sint qui soluta quo
-                                            </p>
-                                            <div className='flex gap-5 justify-center items-center'>
-                                                {
-                                                    column.links?.map((link) => (
-                                                        <div key={link.icon + link.path.length}>
+                                    </div>
+                                ) : (
+                                    <div className=' justify-start items-start flex-col gap-3 flex p-2 max-w-[250px] '>
+                                        <p className='font-bold text-lg'>E-Commerce</p>
+                                        <p className='text-[black]/[0.5] text-justify text-sm font-semibold '>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                            Ab minima aliquid facilis voluptas totam, sint qui soluta quo
+                                        </p>
+                                        <div className='flex mt-2 gap-8 justify-center items-center'>
+                                            {
+                                                iconLinks.map((link) => (
+                                                    <div key={link.icon}>
 
-                                                            <Link
-                                                                className='text-3xl'
-                                                                to={link.path}>
-                                                                {link.icon}
-                                                            </Link>
-                                                        </div>
-                                                    ))
-                                                }
-                                            </div>
-
+                                                        <Link
+                                                            className='text-3xl'
+                                                            to={link.path}>
+                                                            {link.icon}
+                                                        </Link>
+                                                    </div>
+                                                ))
+                                            }
                                         </div>
-                                    )
-                                }
 
-                            </div>
-                        ))
-                    }
-                </div>
+                                    </div>
+                                )
+                            }
 
-                <div>
-
-                </div>
-
+                        </div>
+                    ))
+                }
 
             </div>
 

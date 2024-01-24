@@ -1,5 +1,4 @@
-import { FaGithub } from "react-icons/fa";
-import { FaTwitter, FaLinkedinIn } from "react-icons/fa";
+
 
 export const ConstFooter = [
     {
@@ -99,23 +98,6 @@ export const ConstFooter = [
     {
         title: "E-Commerce",
         desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit Ab minima aliquid facilis voluptas totam, sint qui soluta quo",
-        links: [
-            {
-                name: "Github",
-                path: "Github",
-                icon: <FaGithub />
-            },
-            {
-                name: "LinkedIn",
-                path: "LinkedIn",
-                icon: <FaLinkedinIn />
-            },
-            {
-                name: "Twitter",
-                path: "Twitter",
-                icon: <FaTwitter />
-            }
-        ]
     }
 ];
 
