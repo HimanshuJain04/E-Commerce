@@ -95,16 +95,16 @@ function Page() {
                 <div className='relative w-full flex gap-14 justify-between items-start'>
 
                     {/* left part for category */}
-                    <div className='w-[400px] h-[600px] bg-blue-100 '>
+                    {/* <div className='w-[400px] h-[600px] bg-blue-100 '>
                         category
 
-                    </div>
+                    </div> */}
 
                     {/* right part for data */}
                     <div className='w-full  flex flex-col gap-10 justify-center items-center  h-full '>
 
                         {/* upper part for filters */}
-                        <div className='justify-between w-full items-center flex'>
+                        <div className='justify-between w-full flex-col-reverse gap-5 md:flex-row items-center flex'>
 
                             {/* total results */}
                             <div>
@@ -113,7 +113,7 @@ function Page() {
                             </div>
 
                             {/* filters */}
-                            <div className='flex justify-between font-semibold items-center gap-10'>
+                            <div className='flex flex-col sm:flex-row justify-between gap-3 font-semibold items-center sm:gap-10'>
                                 {/* by popularity */}
                                 <div className='bg-white shadow-md shadow-[black]/[0.2] px-5 py-2 rounded-full cursor-pointer '>
                                     <select
@@ -170,12 +170,13 @@ function Page() {
                                 </div>
 
                             </div>
+
                         </div>
 
                         {/* lower part for products */}
                         <div className=' flex w-full justify-start items-start'>
                             <div
-                                className='flex flex-wrap gap-10 justify-start items-start'
+                                className='flex flex-wrap gap-10  justify-center items-start'
                             >
                                 {
                                     data?.data?.map((product) => (

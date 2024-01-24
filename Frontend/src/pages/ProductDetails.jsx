@@ -86,10 +86,10 @@ function ProductDetails() {
         <div className='w-full flex justify-start flex-col items-center'>
 
             {/* product details */}
-            <div className='w-11/12 flex flex-col bg-red-50 xl:flex-row items-center justify-between py-5 gap-5 md:gap-20  min-h-[100vh] h-full xl:items-start '>
+            <div className='w-11/12 flex flex-col xl:flex-row items-center justify-between py-5 gap-5 md:gap-20  min-h-[100vh] h-full xl:items-start '>
 
                 {/* left div for image*/}
-                <div className='flex  md:flex-row flex-col-reverse  h-[90vh] justify-between md:gap-5 w-full xl:w-3/5 items-start'>
+                <div className='flex  md:flex-row flex-col-reverse h-[65vh]  sm:h-[90vh] justify-between md:gap-5 w-full xl:w-3/5 items-start'>
 
                     {/* div for small images */}
                     <div className='flex  overflow-y-auto md:border-2 w-full p-1 md:p-5 rounded-sm scrollbar-hide pb-5 px-2 flex-row md:flex-col gap-3  md:w-[15%] md:max-h-full'>
