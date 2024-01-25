@@ -7,6 +7,8 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { MdAccountBox } from "react-icons/md";
 import { SlArrowUp } from "react-icons/sl";
 import { Link } from "react-router-dom";
+import { GiShoppingBag } from "react-icons/gi";
+
 
 const ProfileDropdown = () => {
 
@@ -35,17 +37,17 @@ const ProfileDropdown = () => {
         {
             name: "Profile",
             icon: <FaUser />,
-            path: `/user-profile`
+            path: `/profile`
         },
         {
-            name: "My account",
-            icon: <MdAccountBox />,
-            path: `/myAccount`
+            name: "My orders",
+            icon: <GiShoppingBag />,
+            path: `/orders`
         },
         {
             name: "Change Password",
             icon: <MdAccountBox />,
-            path: `/change-user-password`
+            path: `/change-password`
         },
         {
             name: "Setting",

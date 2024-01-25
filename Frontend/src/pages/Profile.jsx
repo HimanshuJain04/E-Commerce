@@ -3,6 +3,8 @@ import React, { useContext, useRef, useState } from 'react';
 import { AppContext } from "../context/AppContext";
 import { ApiCalling } from '../services/Api';
 import { toast } from 'react-toastify';
+import { FaUserLarge } from "react-icons/fa6";
+
 
 function Profile() {
 
@@ -57,12 +59,18 @@ function Profile() {
         <div>
             <div className='flex w-full justify-center items-center'>
                 <div className='flex w-10/12 flex-col gap-5 py-5 bg-[black]/[0.05] justify-start items-center'>
+
                     {/* upper part for image */}
                     <div className='justify-center w-full items-center flex py-5'>
+
                         {/* profile-image */}
                         <button
                             onClick={() => { inputRef.current.click(); }}
-                            className='rounded-full bg-black border-2 border-black relative h-[200px] flex justify-center items-center w-[200px] overflow-hidden'>
+                            className='rounded-full group bg-black border-2 transition-all duration-500 ease-in-out  relative border-black  h-[200px] flex justify-center items-center w-[200px] overflow-hidden'>
+
+                            <div className='w-full h-full group-hover:flex hidden  justify-center items-center bg-[white]/[0.5] transition-all duration-500 ease-in-out z-10 absolute'>
+                                <span className='text-[150px] '><FaUserLarge /></span>
+                            </div>
                             <input
                                 ref={inputRef}
                                 type="file"
@@ -84,6 +92,7 @@ function Profile() {
                                 }
                                 alt={data.name}
                             />
+
                         </button>
 
                     </div>
