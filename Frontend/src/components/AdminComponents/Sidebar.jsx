@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { IoMdHome } from "react-icons/io";
 import { FaUserAlt } from "react-icons/fa";
 import { MdLock } from "react-icons/md";
 import { PiPackageLight } from "react-icons/pi";
@@ -11,6 +10,8 @@ import { GrAnalytics } from "react-icons/gr";
 import { AppContext } from "../../context/AppContext";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { TiShoppingCart } from "react-icons/ti";
+import { HiOutlineViewGridAdd } from "react-icons/hi";
+
 
 
 
@@ -26,6 +27,10 @@ const options1 = [
     {
         title: "Analysis",
         icon: <GrAnalytics />
+    },
+    {
+        title: "Create",
+        icon: <HiOutlineViewGridAdd />
     },
     {
         title: "All Products",
