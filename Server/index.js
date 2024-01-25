@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
 const fileUpload = require('express-fileupload');
-// const fs = require('fs');
 
 
 // import routes
@@ -16,6 +15,7 @@ const tagRoute = require('./routes/tag');
 const categoryRoute = require('./routes/category');
 const userRoute = require('./routes/user');
 const productRoute = require('./routes/product');
+const adminRoute = require("./routes/adminRoute");
 
 
 // extras
@@ -43,6 +43,7 @@ app.use("/api/v1/category", categoryRoute);
 app.use("/api/v1/tag", tagRoute);
 app.use("/api/v1/product", productRoute);
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/admin", adminRoute);
 
 
 
@@ -61,4 +62,11 @@ app.listen(PORT, () => {
 app.get("/", (req, res) => {
     res.send("E-Commerce Default Route");
 });
+
+
+
+// TODOS:
+// remove old image from clodinary when user chnage his profile image samw with product when deleted
+// create logout route
+
 
