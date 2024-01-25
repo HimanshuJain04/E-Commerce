@@ -33,9 +33,9 @@ function Footer() {
             <div className='flex flex-wrap justify-center md:py-20 w-11/12 py-10  xl:justify-between gap-14 items-start '>
 
                 {
-                    ConstFooter?.map((column) => (
+                    ConstFooter?.map((column, index) => (
                         <div
-                            key={column.title}
+                            key={column.title + index}
                             className='w-full sm:w-auto '
                         >
                             {
@@ -45,8 +45,8 @@ function Footer() {
                                         <p className='font-bold text-center capitalize'>{column.title}</p>
                                         <div className='flex flex-col gap-2 justify-start items-start'>
                                             {
-                                                column?.links?.map((record) => (
-                                                    <div key={record?.name?.length + record?.name}>
+                                                column?.links?.map((record, index) => (
+                                                    <div key={record?.name?.length + record?.name + index}>
                                                         <Link
                                                             to={record.path}
                                                             className="capitalize font-semibold text-[black]/[0.5] 
@@ -66,8 +66,8 @@ function Footer() {
                                         </p>
                                         <div className='flex mt-2 gap-8 justify-center items-center'>
                                             {
-                                                iconLinks.map((link) => (
-                                                    <div key={link.icon}>
+                                                iconLinks.map((link, index) => (
+                                                    <div key={link.icon + index}>
 
                                                         <Link
                                                             className='text-3xl'

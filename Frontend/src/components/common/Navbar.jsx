@@ -131,7 +131,7 @@ const Navbar = () => {
             {/* for mobile view searchbar */}
             <div className={` absolute md:hidden z-10 w-full h-full bg-white flex justify-center items-center  ${showSearchbar ? "block" : "hidden"}`}>
                 <div className='relative w-full px-5 sm:px-10'>
-                    <button
+                    <div
                         onClick={toggleDropdown}
                         className='flex bg-[black]/[0.05]  w-full rounded-md px-2 text-[black] justify-center items-center relative'
                     >
@@ -154,7 +154,7 @@ const Navbar = () => {
                         }} className='cursor-pointer'>
                             <IoSearchOutline fontSize={20} />
                         </button>
-                    </button>
+                    </div>
 
                     {/* recommendation functionality */}
                     <div className={`absolute bg-white z-10 w-full ${isOpen ? '' : 'hidden'}`}>
@@ -213,7 +213,7 @@ const Navbar = () => {
 
                     {/* search bar */}
                     <div className='relative  md:block hidden'>
-                        <button
+                        <div
                             ref={dropdownRef}
                             onClick={toggleDropdown}
                             className='flex bg-[black]/[0.05] rounded-md px-2 text-[black] justify-center items-center relative'
@@ -233,7 +233,7 @@ const Navbar = () => {
                             <button onClick={searchHandler} className='cursor-pointer'>
                                 <IoSearchOutline fontSize={20} />
                             </button>
-                        </button>
+                        </div>
 
                         {/* recommendation functionality */}
                         <div className={`absolute bg-white z-10 w-full ${isOpen ? '' : 'hidden'}`}>

@@ -20,7 +20,7 @@ const sendVerificationEmailFun = async ({ _id, email }, res) => {
     try {
         // TODO : Get address from env file
 
-        const clientUrl = "http://localhost:3000/";
+        const clientUrl = process.env.FRONTEND_URL;
         const uniqueString = uuid() + _id;
 
         const link = clientUrl + "auth/verify/" + uniqueString + "/" + _id;
@@ -39,7 +39,10 @@ const sendVerificationEmailFun = async ({ _id, email }, res) => {
             }
         );
 
-        if (! await sendVerificationEmail(email, link)) {
+
+        const mailRes = await sendVerificationEmail(email, link);
+
+        if (!mailRes) {
             return false;
         }
 
@@ -105,7 +108,17 @@ exports.userSignup = async (req, res) => {
             }
         )
 
-        await sendVerificationEmailFun(data, res);
+        const mailRes = await sendVerificationEmailFun(data, res);
+
+        if (!mailRes) {
+            return res.status(500).json(
+                {
+                    success: false,
+                    message: "Something went wrong while sending the verification email",
+                    error: "Something went wrong while sending the verification email",
+                }
+            )
+        }
 
         return res.status(200).json(
             {

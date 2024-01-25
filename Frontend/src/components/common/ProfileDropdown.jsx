@@ -67,6 +67,7 @@ const ProfileDropdown = () => {
 
     function logOut() {
         setIsLoggedIn(null);
+        localStorage.setItem('EcommerceUser', "");
     }
 
 
