@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from "./components/AdminComponents/Sidebar";
 import NavbarAdmin from "./components/AdminComponents/NavbarAdmin";
+import Create from './components/AdminComponents/Create';
 
 function AdminDashboard() {
     return (
@@ -15,10 +16,9 @@ function AdminDashboard() {
                 </div>
 
                 {/* Children */}
-                <div className='w-full  flex justify-center items-start'>
-                    <div className='w-11/12'>
-                        {/* f4f7fe */}
-
+                <div className='w-full bg-[#F4F7FE] ml-10 flex justify-center items-start'>
+                    <div className='w-11/12 min-h-[100vh]'>
+                        <Create />
                     </div>
                 </div>
 

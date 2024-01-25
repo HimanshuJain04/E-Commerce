@@ -1,7 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { AppContext } from "../../context/AppContext";
-import { ApiCalling } from "../../services/Api";
+import { AppContext } from "../../../context/AppContext";
+import { ApiCalling } from "../../../services/Api";
 import { toast } from "react-toastify";
+import { MdAdd } from "react-icons/md";
+import { IoMdImages } from "react-icons/io";
 
 
 function Product() {
@@ -97,13 +99,20 @@ function Product() {
 
     return (
 
-        <div className='w-full'>
+        <div className='w-full mt-5'>
 
-            <form className='flex text-lg gap-5 font-semibold p-5 flex-col w-full  bg-[black]/[0.035] '>
+            <form className='flex text-lg gap-5 font-semibold rounded-lg flex-col w-full bg-white p-10 '>
 
+
+                <div>
+
+                </div>
                 {/* images */}
                 <div className='border-[2px] border-[black]/[0.5] w-full h-[200px] flex justify-center items-center '>
                     <input multiple className='' type="file" id='images' name='images' placeholder='Image' onChange={onChangeFile} />
+                    <div>
+                        <IoMdImages className='text-[100px]' />
+                    </div>
                 </div>
 
                 {/* name and price*/}
@@ -196,8 +205,11 @@ function Product() {
                 <div className='w-full flex justify-center text-white items-center'>
                     <button
                         onClick={sumbitHandler}
-                        className='w-[50%] rounded-lg py-3 bg-blue-500'
-                    >Create Product</button>
+                        className='w-full flex justify-center items-center gap-1 rounded-lg font-semibold py-3 bg-blue-700 border-[2px] border-transparent transition-all duration-300 ease-in-out hover:text-blue-800 hover:border-blue-700 hover:bg-white'
+                    >
+                        <span className='text-3xl'><MdAdd /></span>
+                        <span>Create Product</span>
+                    </button>
                 </div>
 
             </form>

@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { ApiCalling } from "../../services/Api";
-import { AppContext } from '../../context/AppContext';
+import { ApiCalling } from "../../../services/Api";
+import { AppContext } from '../../../context/AppContext';
 import { toast } from "react-toastify"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import { MdAdd } from "react-icons/md";
 
 
 function Category() {
@@ -45,13 +46,13 @@ function Category() {
   }
 
   return (
-    <div className='w-full flex justify-center items-center h-full'>
+    <div className='w-full flex justify-center mt-10 bg-white p-10 rounded-xl items-center h-full'>
       <form className='flex flex-col gap-10 w-full'>
 
-        <div className='flex justify-around items-center'>
+        <div className='flex flex-col gap-8 justify-start items-center'>
 
           {/* tags */}
-          <select onChange={(e) => { setTag(e.target.value) }} name="tag" className='outline-none border-[2px]  border-[black]/[0.5]  py-2 px-2 w-[300px] uppercase'>
+          <select onChange={(e) => { setTag(e.target.value) }} name="tag" className='outline-none rounded-md border-[2px] font-semibold border-[black]/[0.15]  py-2 px-2 w-[300px] uppercase'>
             <option value="">Select Tag</option>
             {
               tags.map((tag) => (
@@ -67,7 +68,7 @@ function Category() {
 
           {/* category */}
           <input
-            className='outline-none border-[2px] border-[black]/[0.5] py-2 px-2 w-[200px] '
+            className='outline-none font-semibold border-[2px] rounded-md border-[black]/[0.15] py-2 px-2 w-full '
             type="text"
             placeholder='Category Name'
             name="name"
@@ -79,8 +80,11 @@ function Category() {
         <div className='w-full flex justify-center text-white items-center'>
           <button
             onClick={sumbitHandler}
-            className='w-[50%] rounded-lg py-3 bg-blue-500'
-          >Create Category</button>
+            className='w-full flex justify-center items-center gap-1 rounded-lg py-3 font-semibold bg-blue-700'
+          >
+            <span className='text-2xl'><MdAdd /></span>
+            <span>Create Category</span>
+          </button>
         </div>
 
       </form>

@@ -1,9 +1,11 @@
 import React from 'react';
-import { ApiCalling } from "../../services/Api";
+import { ApiCalling } from "../../../services/Api";
 import { useState, useContext } from 'react';
-import { AppContext } from '../../context/AppContext';
+import { AppContext } from '../../../context/AppContext';
 import { toast } from "react-toastify"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import { MdAdd } from "react-icons/md";
+
 
 
 function Tag() {
@@ -43,12 +45,12 @@ function Tag() {
   }
 
   return (
-    <div className='w-full flex justify-center items-center h-full'>
+    <div className='w-full flex justify-center mt-10 bg-white p-10 rounded-lg items-center h-full'>
       <form className='flex flex-col gap-10'>
 
         <div>
           <input
-            className='outline-none border-[2px] border-[black]/[0.5] py-2 px-2 w-[200px] '
+            className='outline-none border-2 font-semibold border-[black]/[0.15] rounded-md py-2 px-2 w-[300px] '
             type="text"
             placeholder='Tag Name'
             name="name"
@@ -60,8 +62,11 @@ function Tag() {
         <div className='w-full flex justify-center text-white items-center'>
           <button
             onClick={sumbitHandler}
-            className='w-full rounded-lg py-3 bg-blue-500'
-          >Create Tag</button>
+            className='w-full flex justify-center items-center gap-1 rounded-lg font-semibold py-3 bg-blue-700 border-2 border-transparent transition-all duration-300 ease-in-out hover:text-blue-800 hover:border-blue-700 hover:bg-white'
+          >
+            <span className='text-2xl'><MdAdd /></span>
+            <span>Create Tag</span>
+          </button>
         </div>
 
       </form>
