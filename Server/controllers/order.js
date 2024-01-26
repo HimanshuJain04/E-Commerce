@@ -129,6 +129,35 @@ exports.updateProductStatus = async (req, res) => {
 }
 
 
+exports.deleteOrderbyId = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+
+        await Order.findByIdAndDelete(id);
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Delete Order by id successfully",
+                data: []
+            }
+        );
+
+    }
+    catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Delete Order by id Failed",
+                error: err.message,
+            }
+        );
+
+    }
+}
+
+
 exports.getAllOrders = async (req, res) => {
     try {
 

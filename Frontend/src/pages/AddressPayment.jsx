@@ -132,14 +132,13 @@ const AddressPayment = () => {
                             );
 
                             setIsLoggedIn(res?.data);
-
+                            navigate("/thank-you-page");
                         } else {
-
+                            await ApiCalling("DELETE", `order/deleteOrderbyId/${payload._id}`)
                             toast.error("Payment Failed");
-
+                            navigate("/Payment-Failed");
                         }
 
-                        navigate("/thank-you-page");
 
                         // Display a success message to the user
 

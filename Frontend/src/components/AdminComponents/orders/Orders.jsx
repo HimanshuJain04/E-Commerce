@@ -63,7 +63,6 @@ function Orders() {
 
     setSelectedProductId(null);
     setSelectedStatus(null);
-
   };
 
   return (
@@ -104,6 +103,7 @@ function Orders() {
                                   }
                                 </span>
                               </div>
+                              <div className='text-center font-semibold'>Quantity: <span className='font-bold text-blue-900'>{product.quantity}</span></div>
                               {/* address */}
                               <div className='flex gap-2 font-semibold flex-col'>
                                 <p>Address:</p>

@@ -46,7 +46,7 @@ function AllProducts() {
                                 data.map((product) => (
                                     <div
                                         key={product._id}
-                                        className='flex bg-white relative p-3 rounded-sm shadow-md gap-2 w-full flex-col overflow-hidden h-[320px] max-w-[250px]'
+                                        className='flex bg-white relative p-3 rounded-sm shadow-md gap-2 w-full flex-col overflow-hidden h-[350px] max-w-[250px]'
                                     >
                                         <div className='flex absolute right-1 top-1 text-xl flex-col gap-2'>
                                             <button onClick={editHandler} className='cursor-pointer shadow-[black]/[0.5] bg-white  rounded-full p-2 shadow-sm'><GrEdit /></button>
@@ -62,8 +62,9 @@ function AllProducts() {
 
                                         {/* price and name */}
                                         <div className='flex flex-col gap-2 font-semibold justify-center items-center'>
-                                            <p>{product.name.substring(0, 50)}...</p>
-                                            <p>{product.price}</p>
+                                            <p className='text-sm'>{product.name.substring(0, 50)}...</p>
+                                            <p className='text-sm'>Rs. {product.price}</p>
+                                            <p>ID: {product._id}</p>
                                         </div>
 
                                     </div>
