@@ -76,7 +76,7 @@ function AllProducts() {
             </div >
 
         </div >
-    )
+    );
 }
 
 export default AllProducts;

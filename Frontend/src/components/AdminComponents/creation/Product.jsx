@@ -121,7 +121,7 @@ function Product() {
         }
 
 
-        const res = await ApiCalling("POST", "product/createProduct", fd)
+        const res = await ApiCalling("POST", "product/createProduct", fd);
 
         if (res?.success === true) {
 
@@ -131,7 +131,18 @@ function Product() {
                 {
                     name: "",
                     price: "",
+                    basePrice: "",
+                    discount: "",
+                    weight: "",
                     description: "",
+                    availability: availabilityArr[0].name,
+                    dimensions: {
+                        length: "",
+                        width: "",
+                        height: "",
+                    },
+                    highlights: [],
+                    brand: "",
                     stock: "",
                     tag: "",
                     category: "",
@@ -140,7 +151,7 @@ function Product() {
             );
 
         } else {
-            toast.error(res.data.message);
+            toast.error(res.message);
         }
 
     }

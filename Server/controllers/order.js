@@ -72,12 +72,39 @@ exports.getOrderDetailsById = async (req, res) => {
 
 
 
+exports.getAllOrders = async (req, res) => {
+    try {
+
+        const orders = await Order.find({});
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Get All Orders successfully",
+                data: orders
+            }
+        );
+
+    }
+    catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Get All Orders Failed",
+                error: err.message,
+            }
+        );
+
+    }
+}
+
+
 exports.createOrder = async (req, res) => {
     try {
 
-        const { cartItems, userId } = req.body;
+        const { cartItems, email, address } = req.body;
 
-        let user = await User.findById(userId);
+        let user = await User.findOne({ email });
 
         // user exist or not
         if (!user) {
@@ -121,7 +148,10 @@ exports.createOrder = async (req, res) => {
 
         // Create the order
         const order = await Order.create({
-            user: userId,
+            userInfo: {
+                email,
+                address
+            },
             products: orderProducts,
             createdAt: new Date(),
             amount: totalAmount,

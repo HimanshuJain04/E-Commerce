@@ -16,6 +16,7 @@ const categoryRoute = require('./routes/category');
 const userRoute = require('./routes/user');
 const productRoute = require('./routes/product');
 const adminRoute = require("./routes/adminRoute");
+const orderRoute = require("./routes/orderRoute");
 
 
 // extras
@@ -43,6 +44,7 @@ app.use("/api/v1/category", categoryRoute);
 app.use("/api/v1/tag", tagRoute);
 app.use("/api/v1/product", productRoute);
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/order", orderRoute);
 app.use("/api/v1/admin", adminRoute);
 
 

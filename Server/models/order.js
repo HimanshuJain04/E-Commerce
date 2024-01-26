@@ -3,10 +3,16 @@ const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema(
 
     {
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: true
+        userInfo: {
+            email: {
+                type: String,
+                required: true,
+                trim: true
+            },
+            address: {
+                type: mongoose.Schema.Types.Mixed,
+                required: true,
+            }
         },
         products: [
             {
@@ -36,11 +42,6 @@ const orderSchema = new mongoose.Schema(
                 }
             }
         ],
-        createdAt: {
-            type: Date,
-            default: Date.now(),
-            required: true
-        },
         amount: {
             type: Number,
             required: true,
@@ -50,7 +51,8 @@ const orderSchema = new mongoose.Schema(
             enum: ["COD", "Razorpay"],
             required: true,
         }
-    }
+    },
+    { timestamps: true }
 );
 
 module.exports = mongoose.model("Order", orderSchema);

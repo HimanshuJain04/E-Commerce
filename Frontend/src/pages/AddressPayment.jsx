@@ -42,7 +42,9 @@ const AddressPayment = () => {
 
         const res = await ApiCalling("POST", "user/createOrder", {
             cartItems: isLoggedIn?.carts,
-            userId: isLoggedIn?._id
+            email: isLoggedIn?.email,
+            address: selectedAddress,
+
         }, config);
 
         if (res?.success) {
@@ -200,7 +202,6 @@ const AddressPayment = () => {
     return (
 
         <div>
-
             <div className="container mx-auto mt-8 flex w-full justify- items-start">
 
                 {/* address */}
