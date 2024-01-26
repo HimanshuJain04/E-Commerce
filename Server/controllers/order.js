@@ -75,7 +75,9 @@ exports.getOrderDetailsById = async (req, res) => {
 exports.getAllOrders = async (req, res) => {
     try {
 
-        const orders = await Order.find({});
+        const orders = await Order.find({})
+            .populate("products.product")
+            .exec();
 
         return res.status(200).json(
             {
@@ -236,16 +238,18 @@ exports.createOrderByRazorpay = async (req, res) => {
 exports.updateOrders = async (req, res) => {
     try {
 
-        const { userId, orderId } = req.body;
+        const { userEmail, orderId } = req.body;
 
-        let user = await User.findById(userId);
+        console.log(userEmail, orderId)
+
+        let user = await User.findOne({ email: userEmail });
 
         user.orders.push(orderId);
         user.carts = [];
 
         await user.save();
 
-        user = await User.findById(userId)
+        user = await User.findById(user._id)
             .populate("wishlists")
             .populate("carts.product")
             .populate(

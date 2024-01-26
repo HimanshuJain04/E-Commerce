@@ -127,7 +127,7 @@ const AddressPayment = () => {
                             const res = await ApiCalling("POST", "user/updateOrders",
                                 {
                                     orderId: payload?._id,
-                                    userId: payload.user
+                                    userEmail: payload.userInfo.email
                                 }
                             );
 

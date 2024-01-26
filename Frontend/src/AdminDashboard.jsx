@@ -111,7 +111,7 @@ function AdminDashboard() {
                 </div>
 
                 {/* Children */}
-                <div className='w-full bg-[#F4F7FE] ml-10 flex justify-center items-start'>
+                <div className='w-full bg-[#F4F7FE] ml-16 flex justify-center items-start'>
                     <div className='w-11/12 min-h-[100vh]'>
                         {content}
                     </div>
