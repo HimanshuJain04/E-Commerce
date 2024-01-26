@@ -85,6 +85,7 @@ function Profile() {
                                 }}
                                 className='hidden'
                             />
+
                             <img
                                 className='object-cover scale-110 '
                                 src={

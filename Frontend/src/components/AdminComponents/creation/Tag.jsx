@@ -45,7 +45,7 @@ function Tag() {
   }
 
   return (
-    <div className='w-full flex justify-center mt-10 bg-white p-10 rounded-lg items-center h-full'>
+    <div className='w-full flex justify-center shadow-xl mt-10 bg-white p-10 rounded-lg items-center h-full'>
       <form className='flex flex-col gap-10'>
 
         <div>

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { AppContext } from "../../../context/AppContext";
 import { ApiCalling } from "../../../services/Api";
 import { toast } from "react-toastify";
@@ -11,6 +11,8 @@ function Product() {
 
     const { categories, tags } = useContext(AppContext);
     const [filteredCat, setFilteredCat] = useState(categories);
+
+    const inputRef = useRef(null);
 
     const [images, setImages] = useState([]);
 
@@ -34,7 +36,7 @@ function Product() {
             discount: "",
             weight: "",
             description: "",
-            availability: "",
+            availability: availabilityArr[0].name,
             dimensions: {
                 length: "",
                 width: "",
@@ -56,7 +58,7 @@ function Product() {
             if (name === "highlights") {
                 return {
                     ...prevFormData,
-                    highlights: value.split(',').map(item => item.trim()),
+                    highlights: value ? [value] : [], // Set it as an array with the single value
                 };
             } else if (name.startsWith("dimensions")) {
                 const dimensionName = name.split('.')[1];
@@ -106,6 +108,13 @@ function Product() {
         fd.append('category', formdata.category);
         fd.append('tag', formdata.tag);
         fd.append('details', formdata.details);
+        fd.append('basePrice', formdata.basePrice);
+        fd.append('discount', formdata.discount);
+        fd.append('weight', formdata.weight);
+        fd.append('availability', formdata.availability);
+        fd.append('dimensions', formdata.dimensions);
+        fd.append('highlights', formdata.highlights);
+        fd.append('brand', formdata.brand);
 
         for (const image of images) {
             fd.append("images", image, image.name);
@@ -148,10 +157,20 @@ function Product() {
                 <div className='flex flex-row gap-10'>
 
                     {/* images */}
-                    <div className='border-[2px] w-[200px] rounded-md cursor-pointer border-[black]/[0.15] flex justify-center items-center '>
-                        <input multiple className='' hidden type="file" id='images' name='images' placeholder='Image' onChange={onChangeFile} />
+                    <div onClick={() => {
+                        inputRef.current.click();
+                    }} className='border-[2px] w-[200px] rounded-md cursor-pointer border-[black]/[0.15] flex justify-center items-center '>
+                        <input multiple ref={inputRef} hidden type="file" id='images' name='images' placeholder='Image' onChange={onChangeFile} />
                         <div>
-                            <IoMdImages className='text-[100px]' />
+                            {
+                                images.length > 0 ? (
+                                    <div>
+                                        {images.length} Images selected
+                                    </div>
+                                ) : (
+                                    <IoMdImages className='text-[100px]' />
+                                )
+                            }
                         </div>
                     </div>
 
@@ -266,8 +285,8 @@ function Product() {
                 <div className='flex flex-row gap-10'>
 
                     {/* highlights */}
-                    <div className='w-1/3 bg-red-100 relative'>
-                        <ProductHighlights />
+                    <div className='w-1/3 relative border-2 border-[black]/[0.2] rounded-md p-1'>
+                        <ProductHighlights formdata={formdata} setFormdata={setFormdata} />
                     </div>
 
                     {/* brand , dimanesion ,etc */}

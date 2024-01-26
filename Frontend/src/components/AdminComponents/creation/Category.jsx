@@ -42,11 +42,10 @@ function Category() {
       toast.error(res?.data?.message);
     }
     setCategory("");
-
   }
 
   return (
-    <div className='w-full flex justify-center mt-10 bg-white p-10 rounded-xl items-center h-full'>
+    <div className='w-full flex justify-center shadow-xl mt-10 bg-white p-10 rounded-xl items-center h-full'>
       <form className='flex flex-col gap-10 w-full'>
 
         <div className='flex flex-col gap-8 justify-start items-center'>
