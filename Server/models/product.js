@@ -1,15 +1,13 @@
 const mongoose = require('mongoose');
 
+// TODO: Add Variation Field in schema like - color, size etc...
+
 const productSchema = new mongoose.Schema(
     {
         name: {
             type: String,
             required: true,
             trim: true,
-        },
-        favorite: {
-            type: Boolean,
-            default: false,
         },
         price: {
             type: Number,
@@ -44,17 +42,9 @@ const productSchema = new mongoose.Schema(
             width: Number,
             height: Number,
         },
-        createdAt: {
-            type: Date,
-            default: Date.now,
-        },
-        updatedAt: {
-            type: Date,
-            default: null,
-        },
         basePrice: {
             type: Number,
-            // required: true,
+            required: true,
         },
         discount: {
             type: Number,
@@ -84,19 +74,21 @@ const productSchema = new mongoose.Schema(
                 ref: "RatingAndReview"
             }
         ],
-        variations: [
-            {
-                size: String,
-                color: String,
-                price: Number,
-                stock: Number,
-            },
-        ],
         category: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Category"
         }
-    }
+    },
+    { timestamps: true }
 );
 
 module.exports = mongoose.model("Product", productSchema);
+
+// variations: [
+//     {
+//         size: String,
+//         color: String,
+//         price: Number,
+//         stock: Number,
+//     },
+// ],
