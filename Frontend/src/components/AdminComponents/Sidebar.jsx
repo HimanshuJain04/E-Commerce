@@ -1,66 +1,14 @@
-import React, { useContext, useState } from 'react';
-import { FaUserAlt } from "react-icons/fa";
-import { MdLock } from "react-icons/md";
-import { PiPackageLight } from "react-icons/pi";
-import { MdDashboard } from "react-icons/md";
-import { FaBorderAll } from "react-icons/fa";
-import { LuSettings } from "react-icons/lu";
-import { RiLogoutBoxRLine } from "react-icons/ri";
-import { GrAnalytics } from "react-icons/gr";
+import { useContext } from 'react';
+
 import { AppContext } from "../../context/AppContext";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { TiShoppingCart } from "react-icons/ti";
-import { HiOutlineViewGridAdd } from "react-icons/hi";
 
 
 
-
-const options1 = [
-    {
-        title: "Dashboard",
-        icon: <MdDashboard />
-    },
-    {
-        title: "Orders",
-        icon: <PiPackageLight />
-    },
-    {
-        title: "Analysis",
-        icon: <GrAnalytics />
-    },
-    {
-        title: "Create",
-        icon: <HiOutlineViewGridAdd />
-    },
-    {
-        title: "All Products",
-        icon: <FaBorderAll />
-    },
-    {
-        title: "Profile",
-        icon: <FaUserAlt />
-    },
-    {
-        title: "Sign In",
-        icon: <MdLock />
-    },
-    {
-        title: "Setting",
-        icon: <LuSettings />
-    },
-    {
-        title: "Logout",
-        icon: <RiLogoutBoxRLine />
-    }
-];
-
-
-
-function Sidebar() {
+function Sidebar({ option, setOption, options1 }) {
 
     const { isLoggedIn } = useContext(AppContext);
-
-    const [option, setOption] = useState(options1[0].title);
 
     return (
         <div className='w-full h-full flex flex-col py-10 justify-between items-start'>
@@ -100,7 +48,7 @@ function Sidebar() {
                                         setOption(options.title)
                                     }}
                                     key={options.title + options.icon}
-                                    className={`flex justify-between cursor-pointer items-center w-full rounded-xl  ${options.title === option ? "shadow-md " : ""}`}
+                                    className={`flex justify-between hover:shadow-lg cursor-pointer items-center w-full rounded-xl  ${options.title === option ? "shadow-lg " : ""}`}
                                 >
                                     <div
                                         className='w-full flex-row pl-10 h-full  py-2 flex justify-start gap-10 items-center'>

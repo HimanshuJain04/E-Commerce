@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Product from "./creation/Product";
-import Category from "./creation/Category";
-import Tag from "./creation/Tag";
+import Product from "./Product";
+import Category from "./Category";
+import Tag from "./Tag";
 
 function Create() {
 

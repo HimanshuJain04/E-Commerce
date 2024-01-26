@@ -56,7 +56,7 @@ export const ApiCalling = async (method, endUrl, data = "", config = { headers: 
                 })
                 .catch((err) => {
                     return err?.response?.data;
-                })
+                });
 
         } else {
             response = "Wrong Method";
@@ -66,7 +66,7 @@ export const ApiCalling = async (method, endUrl, data = "", config = { headers: 
 
     } catch (err) {
 
-        return err.response?.data;
+        return err?.response?.data;
 
     }
 }

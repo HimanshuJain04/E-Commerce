@@ -193,6 +193,60 @@ exports.getAllProducts = async (req, res) => {
 
 }
 
+// TODO: delete images from cloudinary
+exports.deleteProductById = async (req, res) => {
+    try {
+
+        const { id } = req.params;
+
+        await Product.findByIdAndDelete(id);
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "delete Product by id Successfully",
+                data: []
+            }
+        );
+
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "delete Product by id Failed",
+                error: err.message,
+            }
+        );
+    }
+
+}
+
+exports.getAllProductsAtOnce = async (req, res) => {
+    try {
+
+        const products = await Product.find({});
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Get All Products At Once Successfully",
+                data: products
+            }
+        );
+
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Get All Products At Once Failed",
+                error: err.message,
+            }
+        );
+    }
+
+}
 
 exports.getProductById = async (req, res) => {
     try {
