@@ -72,6 +72,63 @@ exports.getOrderDetailsById = async (req, res) => {
 
 
 
+exports.updateProductStatus = async (req, res) => {
+    try {
+
+        const { orderId, productId, status } = req.body;
+
+        console.log(orderId, productId, status);
+
+        const orders = await Order.findById(orderId);
+
+        if (!orders) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Order not found",
+                    error: "Order not found",
+                }
+            );
+        }
+
+        const product = orders.products.find(product => product._id.toString() === productId)
+
+        if (!Product) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "product not found",
+                    error: "Product not found",
+                }
+            );
+        }
+
+        product.status = status;
+
+        await orders.save();
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Update Product Status successfully",
+                data: []
+            }
+        );
+
+    }
+    catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Update Product Status Failed",
+                error: err.message,
+            }
+        );
+
+    }
+}
+
+
 exports.getAllOrders = async (req, res) => {
     try {
 

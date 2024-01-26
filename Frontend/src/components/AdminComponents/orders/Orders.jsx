@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { ApiCalling } from "../../../services/Api";
 import { BsPencilSquare } from "react-icons/bs";
 
-
-
+const statusOptions = ["Accepted", "Rejected", "Delivery processing", "Delivered"];
 
 function Orders() {
 
   const [orders, setOrders] = useState([]);
+
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState(null);
 
   async function fun() {
     const res = await ApiCalling("GET", "order/getAllOrders");
@@ -21,7 +23,48 @@ function Orders() {
 
     fun();
 
-  }, [])
+  }, []);
+
+
+
+  const handleEditClick = (productId, orderId) => {
+    const obj = {
+      singleOrderId: productId,
+      orderId: orderId
+    };
+
+    setSelectedProductId(obj);
+
+  };
+
+  const handleOptionClick = (option) => {
+    setSelectedStatus(option);
+  };
+
+  const handleSaveClick = async () => {
+
+    // call api and save the status of product 
+
+    if (!selectedStatus) {
+      return;
+    }
+
+    const res = await ApiCalling("POST", "order/updateProductStatus",
+      {
+        orderId: selectedProductId.orderId,
+        productId: selectedProductId.singleOrderId,
+        status: selectedStatus
+      }
+    );
+
+    if (res.success) {
+      fun();
+    }
+
+    setSelectedProductId(null);
+    setSelectedStatus(null);
+
+  };
 
   return (
     <div className='py-10'>
@@ -48,9 +91,10 @@ function Orders() {
 
                           {/* details about user and orders */}
                           <div>
-                            <div className='flex flex-col gap-3 max-w-[300px]  justify-around'>
+                            <div className='flex flex-col gap-3 max-w-[310px] items-start justify-around'>
                               {/* orderId */}
                               <div className='text-center font-semibold'>Order Id: <span className='font-bold text-blue-900'>{order._id}</span></div>
+                              <div className='text-center font-semibold'>Per OrderId: <span className='font-bold text-blue-900'>{product._id}</span></div>
                               {/* payment status */}
                               <div className='flex flex-row gap-3'>
                                 <p className='font-semibold'>Payment: </p>
@@ -92,10 +136,51 @@ function Orders() {
                             <p className='font-semibold'>ProductId: <span className='text-blue-900 '>{product.product._id}</span></p>
                           </div>
 
+                          {/* status related */}
                           <div>
                             <div className='flex gap-3 items-center justify-center'>
-                              <p className='font-semibold'>Status: <span className='text-blue-900 font-bold '>{product.status}</span></p>
-                              <span className='text-xl cursor-pointer'><BsPencilSquare /></span>
+                              <p className='font-semibold'>
+                                Status:{' '}
+                                {
+                                  selectedProductId?.singleOrderId !== product._id &&
+                                  <span className='text-blue-900 font-bold'>
+                                    {product.status}
+                                  </span>
+                                }
+                              </p>
+
+                              <span
+                                className='text-xl cursor-pointer'
+                                onClick={() => handleEditClick(product._id, order._id)}
+                              >
+                                <BsPencilSquare />
+                              </span>
+
+                              {selectedProductId?.singleOrderId === product._id && (
+                                <div className='options-dropdown flex flex-col gap-4 justify-center items-center'>
+                                  {/* options */}
+                                  <select
+                                    value={selectedStatus}
+                                    className='border-2 border-[black]/[0.15] outline-none rounded-md px-2 py-1 cursor-pointer'
+                                    onChange={(e) => handleOptionClick(e.target.value)}
+                                  >
+                                    <option value=''>Select Status</option>
+                                    {statusOptions.map((option) => (
+                                      <option key={option} value={option}>
+                                        {option}
+                                      </option>
+                                    ))}
+                                  </select>
+
+                                  {/* button */}
+                                  <div >
+                                    <button
+                                      className='bg-blue-700  transition-all duration-300 font-semibold hover:bg-white border-2 border-blue-700 hover:border-blue-700 hover:text-blue-700 ease-in-out text-white py-2 px-10 rounded-md'
+                                      onClick={handleSaveClick}
+                                    >Save</button>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           </div>
 
