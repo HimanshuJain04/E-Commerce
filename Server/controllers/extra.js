@@ -2,6 +2,11 @@ const useragent = require('useragent');
 const Browser = require("../models/browser");
 
 
+// Helper function to determine if the User-Agent corresponds to a mobile device
+function isMobile(userAgent) {
+    return userAgent.includes('Mobile');
+}
+
 exports.getUserAgentsData = async (req, res) => {
     try {
 
@@ -11,11 +16,6 @@ exports.getUserAgentsData = async (req, res) => {
         // Analyze User-Agent data and categorize users
         const desktopUsers = [];
         const mobileUsers = [];
-
-        // Helper function to determine if the User-Agent corresponds to a mobile device
-        function isMobile(userAgent) {
-            return userAgent.includes('Mobile');
-        }
 
         browsers.forEach(browser => {
             if (isMobile(browser.userAgent)) {

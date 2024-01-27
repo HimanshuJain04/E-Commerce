@@ -2,13 +2,9 @@ const User = require('../models/user');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
-exports.Auth = async (req, res, next) => {
+exports.validateUser = async (req, res, next) => {
     try {
-
-        console.log("cookies: ", req)
-
         const token = req.cookies.token || req.body.token || req.headers.authorization;
-        console.log("token: ", token)
 
         if (!token) {
             return res.status(400).json(

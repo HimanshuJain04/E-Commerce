@@ -16,7 +16,6 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ErrorWrong from './pages/ErrorWrong';
 import Verification from './pages/Verification';
-import axios from "axios";
 import Cards from './pages/Cards';
 import AddressPayment from "./pages/AddressPayment"
 import ThankYou from "./pages/ThankYou"
@@ -29,7 +28,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 
 function UserDashboard() {
 
-  const { setCategories, setTags, setIsLoggedIn } = useContext(AppContext);
+  const { setCategories, setTags } = useContext(AppContext);
   const navigate = useNavigate();
 
   async function defaultApiCalling() {
@@ -57,20 +56,6 @@ function UserDashboard() {
       navigate("/error/something-went-wrong")
 
     }
-
-
-    // validate the user
-    const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
-
-    const response = await axios.get(BASE_URL + "auth/validate");
-    console.log(response);
-
-    // headers: {
-    //   "Content-Type": "application/json",
-    //     "Authorization": token,
-    // }
-    // setIsLoggedIn(data?.data);
-    // navigate("/auth/login");
 
   }
 

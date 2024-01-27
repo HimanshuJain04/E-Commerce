@@ -274,9 +274,9 @@ const Navbar = () => {
                         <Link to={"/wishlist"} className='relative'>
                             <div className='absolute -top-[16px]'>
                                 {
-                                    isLoggedIn?.wishlists.length > 0 ? (
+                                    isLoggedIn?.wishlists?.length > 0 ? (
                                         <div className='flex justify-center items-center  rounded-full h-[25px] w-[25px] p-3 bg-blue-500 text-white'>
-                                            <span>{isLoggedIn?.wishlists.length}</span>
+                                            <span>{isLoggedIn?.wishlists?.length}</span>
                                         </div>
                                     ) : (
                                         <div></div>
@@ -293,9 +293,9 @@ const Navbar = () => {
                         <Link to={"/cart"} className='relative'>
                             <div className='absolute -top-[11px] left-1'>
                                 {
-                                    isLoggedIn?.carts.length > 0 ? (
+                                    isLoggedIn?.carts?.length > 0 ? (
                                         <div className='flex justify-center items-center  rounded-full h-[25px] animate-bounce w-[25px] p-3 bg-red-500 text-white'>
-                                            <span>{isLoggedIn?.carts.length}</span>
+                                            <span>{isLoggedIn?.carts?.length}</span>
                                         </div>
                                     ) : (
                                         <div></div>

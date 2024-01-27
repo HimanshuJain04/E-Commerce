@@ -67,7 +67,7 @@ const ProfileDropdown = () => {
 
     const logout = async () => {
 
-        const res = await ApiCalling("POST", `auth/logout`, { id: isLoggedIn._id });
+        const res = await ApiCalling("GET", `auth/logout`, { id: isLoggedIn._id });
 
         console.log("res: ", res);
         if (res.success) {
@@ -76,9 +76,7 @@ const ProfileDropdown = () => {
         } else {
             toast.error("Logout Failed")
         }
-
     }
-
 
     return (
         <div

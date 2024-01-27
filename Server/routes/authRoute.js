@@ -13,20 +13,19 @@ const {
 
 } = require("../controllers/auth");
 
-const { Auth } = require("../middleware/auth");
+const { validateUser } = require("../middleware/auth");
 const { userVerification } = require("../controllers/verification");
 
 
 router.post("/login", userLogin);
 router.post("/signup", userSignup);
-router.post("/logout", userLogout);
+router.get("/logout", userLogout);
 router.get("/verify/:uniqueString/:userId", userVerification);
 router.post("/sendOTPForForgotPassword", sendOTPForForgotPassword);
 router.post("/VerifyOtpForgotPassword", VerifyOtpForgotPassword);
 router.post("/changeForgotPassword", changeForgotPassword);
 
-
-router.get("/validate", Auth, async (req, res) => {
+router.get("/validate", validateUser, async (req, res) => {
     try {
         const data = await User.findById(req.user.id)
             .populate("carts.product")
@@ -54,6 +53,5 @@ router.get("/validate", Auth, async (req, res) => {
         });
     }
 });
-
 
 module.exports = router;
