@@ -34,6 +34,9 @@ function UserDashboard() {
 
   async function defaultApiCalling() {
 
+    // Default route
+    await ApiCalling("GET", "extra/saveUserAgent");
+
     // for categories
     const res = await ApiCalling("GET", "category/getAllCategory");
     if (res?.success) {
