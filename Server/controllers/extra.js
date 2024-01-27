@@ -2,11 +2,58 @@ const useragent = require('useragent');
 const Browser = require("../models/browser");
 
 
+exports.getUserAgentsData = async (req, res) => {
+    try {
+
+        // Query the database to retrieve browser data
+        const browsers = await Browser.find({});
+
+        // Analyze User-Agent data and categorize users
+        const desktopUsers = [];
+        const mobileUsers = [];
+
+        // Helper function to determine if the User-Agent corresponds to a mobile device
+        function isMobile(userAgent) {
+            return userAgent.includes('Mobile');
+        }
+
+        browsers.forEach(browser => {
+            if (isMobile(browser.userAgent)) {
+                mobileUsers.push(browser);
+            } else {
+                desktopUsers.push(browser);
+            }
+        });
+
+        // Format categorized user data
+        const userData = {
+            desktopUsers: desktopUsers.length,
+            mobileUsers: mobileUsers.length
+        };
+
+        return res.status(200).json(
+            {
+                success: true,
+                data: userData,
+                mesage: "User agent fetched successfully"
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                mesage: "User agent fetched failed",
+                error: err.message
+            }
+        )
+    }
+}
+
 exports.saveUserAgent = async (req, res) => {
     try {
 
         const agent = useragent.parse(req.headers['user-agent']);
-        console.log("Agent : ", agent)
 
         const { family, major, minor, patch, source } = agent;
 
@@ -19,11 +66,14 @@ exports.saveUserAgent = async (req, res) => {
             userAgent: source,
         });
 
+        console.log(isMobile(browser.userAgent));
+
         await browser.save();
 
         return res.status(200).json(
             {
-                success: true
+                success: true,
+                mesage: "User agent saved successfully"
             }
         )
 
@@ -32,7 +82,8 @@ exports.saveUserAgent = async (req, res) => {
         return res.status(500).json(
             {
                 success: false,
-                error: err.message
+                error: err.message,
+                mesage: "User agent saved failed"
             }
         )
     }
