@@ -4,7 +4,7 @@ import UserDevice from './usefulComponents/UserDevice'
 
 function Dashboard() {
   return (
-    <div>
+    <div className='py-10'>
       <UserDevice />
     </div>
   )
