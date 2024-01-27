@@ -86,6 +86,7 @@ const AddressPayment = () => {
             const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
             if (!res) {
+                await ApiCalling("DELETE", `order/deleteOrderbyId/${payload._id}`)
                 throw new Error("Razorpay SDK failed to load. Please check your internet connection.");
             }
 
@@ -93,11 +94,13 @@ const AddressPayment = () => {
             const result = await createRazorpayOrder(payload);
 
             if (!result) {
+                await ApiCalling("DELETE", `order/deleteOrderbyId/${payload._id}`)
                 throw new Error("Server error. Please try again later.");
             }
 
             // Check if data is available in the result
             if (!result?.data) {
+                await ApiCalling("DELETE", `order/deleteOrderbyId/${payload._id}`)
                 throw new Error("Server returned an unexpected response. Please try again.");
             }
 
@@ -185,7 +188,8 @@ const AddressPayment = () => {
 
         } else {
             const res = await createOrder();
-            await razorpayHandler(res);
+            const response = await razorpayHandler(res);
+            console.log(response)
             await ApiCalling("POST", "product/updateProductSale", {
                 orderId: res?._id
             }, {

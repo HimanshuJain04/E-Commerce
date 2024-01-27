@@ -231,38 +231,17 @@ exports.userLogin = async (req, res) => {
     }
 }
 
-
+// TODO : Make this woking function
 exports.userLogout = async (req, res) => {
     try {
-        // fetch the data from request
-        const { id } = req.body;
 
-        // validation
-        if (!id) {
-            return res.status(400).json(
-                {
-                    success: false,
-                    message: "All Fields Required",
-                    error: "All Fields Required",
-                }
-            )
-        }
-
-
-        console.log(req.cookies);
-        console.log(req.cookies["token"]);
-
-        // const cookie = req.cookies()
-
-        // console.log(localStorage.getItem('EcommerceUser'));
-        // localStorage.setItem('EcommerceUser', "");
+        res.clearCookie('token');
 
         res.status(200).json({
             success: true,
             data: [],
             message: "User Logout Success",
         });
-
 
     } catch (err) {
         return res.status(500).json(
@@ -274,7 +253,6 @@ exports.userLogout = async (req, res) => {
         );
     }
 }
-
 
 
 exports.sendOTPForForgotPassword = async (req, res) => {
