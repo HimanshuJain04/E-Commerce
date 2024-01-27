@@ -2,18 +2,29 @@ const express = require('express');
 const router = express.Router();
 const User = require("../models/user");
 
-const { userSignup } = require("../controllers/auth");
-const { userLogin } = require("../controllers/auth");
+const {
+
+    userSignup,
+    sendOTPForForgotPassword,
+    VerifyOtpForgotPassword,
+    changeForgotPassword,
+    userLogin,
+    userLogout
+
+} = require("../controllers/auth");
+
 const { Auth } = require("../middleware/auth");
 const { userVerification } = require("../controllers/verification");
-const { sendOTPForForgotPassword, VerifyOtpForgotPassword, changeForgotPassword } = require("../controllers/auth");
+
 
 router.post("/login", userLogin);
 router.post("/signup", userSignup);
+router.post("/logout", userLogout);
 router.get("/verify/:uniqueString/:userId", userVerification);
 router.post("/sendOTPForForgotPassword", sendOTPForForgotPassword);
 router.post("/VerifyOtpForgotPassword", VerifyOtpForgotPassword);
 router.post("/changeForgotPassword", changeForgotPassword);
+
 
 router.get("/validate", Auth, async (req, res) => {
     try {

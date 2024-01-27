@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import Sidebar from "./components/AdminComponents/Sidebar";
-import { FaUserAlt } from "react-icons/fa";
+import { FaUserAlt, FaBorderAll } from "react-icons/fa";
 import { MdLock } from "react-icons/md";
 import { PiPackageLight } from "react-icons/pi";
-import { MdDashboard } from "react-icons/md";
-import { FaBorderAll } from "react-icons/fa";
+import { MdDashboard, MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import { LuSettings } from "react-icons/lu";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { GrAnalytics } from "react-icons/gr";
@@ -19,6 +18,8 @@ import Orders from "./components/AdminComponents/orders/Orders"
 import Profile from "./components/AdminComponents/profile/Profile"
 import Setting from "./components/AdminComponents/setting/Setting"
 import SignIn from "./components/AdminComponents/sign-in/SignIn"
+import Logout from "./components/AdminComponents/logout/Logout"
+import VisitWebsite from "./components/AdminComponents/visit-website/VisitWebsite"
 
 
 
@@ -54,6 +55,10 @@ const options1 = [
     {
         title: "Setting",
         icon: <LuSettings />
+    },
+    {
+        title: "Visit Website",
+        icon: <MdOutlinePhotoSizeSelectActual />
     },
     {
         title: "Logout",
@@ -93,6 +98,12 @@ function AdminDashboard() {
             break;
         case 'Setting':
             content = <Setting />;
+            break;
+        case 'Logout':
+            content = <Logout />;
+            break;
+        case 'Visit Website':
+            content = <VisitWebsite />;
             break;
         default:
             content = <Dashboard />;

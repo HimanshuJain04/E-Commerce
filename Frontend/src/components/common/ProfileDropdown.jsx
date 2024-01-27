@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { AppContext } from "../../context/AppContext";
 import { FiLogOut } from "react-icons/fi";
-import { CgProfile } from "react-icons/cg";
 import { FaUser } from "react-icons/fa";
 import { IoSettingsSharp } from "react-icons/io5";
 import { MdAccountBox } from "react-icons/md";
-import { SlArrowUp } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import { GiShoppingBag } from "react-icons/gi";
+import { ApiCalling } from '../../services/Api';
+import { toast } from "react-toastify";
 
 
 const ProfileDropdown = () => {
@@ -65,9 +65,18 @@ const ProfileDropdown = () => {
         setIsOpen(!isOpen);
     };
 
-    function logOut() {
-        setIsLoggedIn(null);
-        localStorage.setItem('EcommerceUser', "");
+    const logout = async () => {
+
+        const res = await ApiCalling("POST", `auth/logout`, { id: isLoggedIn._id });
+
+        console.log("res: ", res);
+        if (res.success) {
+            setIsLoggedIn(null);
+            toast.success("Logout Success")
+        } else {
+            toast.error("Logout Failed")
+        }
+
     }
 
 
@@ -94,7 +103,7 @@ const ProfileDropdown = () => {
                                 {
                                     option.name === "Logout" ? (
                                         <button
-                                            onClick={logOut}
+                                            onClick={logout}
                                         >
                                             <Link
                                                 to={option?.path} className='flex justify-start gap-2 items-center'

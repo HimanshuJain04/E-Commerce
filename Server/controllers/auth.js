@@ -211,7 +211,9 @@ exports.userLogin = async (req, res) => {
         };
 
         // send cookie
-        res.cookie("token", token, options).status(200).json({
+        res.cookie("token", token, options);
+
+        return res.status(200).json({
             success: true,
             token,
             existUser,
@@ -233,10 +235,10 @@ exports.userLogin = async (req, res) => {
 exports.userLogout = async (req, res) => {
     try {
         // fetch the data from request
-        const { email, password } = req.body;
+        const { id } = req.body;
 
         // validation
-        if (!email || !password) {
+        if (!id) {
             return res.status(400).json(
                 {
                     success: false,
@@ -246,65 +248,19 @@ exports.userLogout = async (req, res) => {
             )
         }
 
-        // check email is already exist or not
-        const existUser = await User.findOne({ email: email });
-        if (!existUser) {
-            return res.status(400).json(
-                {
-                    success: false,
-                    message: "Email not registered,please signup",
-                    error: "Email not registered,please signup",
-                }
-            )
-        }
 
-        if (!existUser.verified) {
-            return res.status(400).json(
-                {
-                    success: false,
-                    message: "Verify your email",
-                    error: "Verify your email",
-                }
-            );
-        }
+        console.log(req.cookies);
+        console.log(req.cookies["token"]);
 
+        // const cookie = req.cookies()
 
+        // console.log(localStorage.getItem('EcommerceUser'));
+        // localStorage.setItem('EcommerceUser', "");
 
-        // compare the password
-        const comparePass = await bcrypt.compare(password, existUser.password);
-        if (!comparePass) {
-            return res.status(400).json(
-                {
-                    success: false,
-                    message: "Password doesn't match",
-                    error: "Password doesn't match",
-                }
-            )
-        }
-
-        // create jwt token and store that into cookie and localStorage
-        const token = jwt.sign(
-            { email: existUser.email, id: existUser._id },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: "24h",
-            }
-        );
-
-        existUser.token = token;
-
-        // Set cookie for token and return success response
-        const options = {
-            expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // set cookie for 3 day
-            httpOnly: true,
-        };
-
-        // send cookie
-        res.cookie("token", token, options).status(200).json({
+        res.status(200).json({
             success: true,
-            token,
-            existUser,
-            message: "User Login Success",
+            data: [],
+            message: "User Logout Success",
         });
 
 
@@ -312,8 +268,8 @@ exports.userLogout = async (req, res) => {
         return res.status(500).json(
             {
                 success: false,
-                message: "Login Failed",
-                error: err,
+                message: "Logout Failed",
+                error: err.message,
             }
         );
     }
