@@ -36,24 +36,13 @@ function Login() {
 
         if (res.success === true) {
             setIsLoggedIn(res?.existUser);
-            // localStorage.setItem('EcommerceUser', res?.token);
-
-            // Set cookies
-            const date = new Date();
-            date.setTime(date.getTime() + (3 * 24 * 60 * 60 * 1000));
-            const expires = "expires=" + date.toUTCString();
-            document.cookie = "token" + "=" + res.token + ";" + expires + ";path=/";
-
             toast.success(`Hello ${res.existUser.name}`);
             navigate("/");
         } else {
-            // toast.error("Login Failed");
             toast.error(res?.message);
             setIsLoggedIn(null);
         }
     }
-
-
 
     return (
         <div className='w-full flex justify-center bg-[black]/[0.03]'>

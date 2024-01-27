@@ -61,21 +61,16 @@ function UserDashboard() {
 
     // validate the user
     const BASE_URL = import.meta.env.VITE_SERVER_BASE_URL;
-    const token = localStorage.getItem("EcommerceUser");
 
-    if (token) {
+    const response = await axios.get(BASE_URL + "auth/validate");
+    console.log(response);
 
-      const { data } = await axios.get(BASE_URL + "auth/validate", {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token,
-        }
-      });
-
-      setIsLoggedIn(data?.data);
-    } else {
-      navigate("/auth/login");
-    }
+    // headers: {
+    //   "Content-Type": "application/json",
+    //     "Authorization": token,
+    // }
+    // setIsLoggedIn(data?.data);
+    // navigate("/auth/login");
 
   }
 
@@ -119,5 +114,6 @@ function UserDashboard() {
 
   )
 }
+
 
 export default UserDashboard;

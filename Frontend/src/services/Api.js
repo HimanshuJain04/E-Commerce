@@ -7,19 +7,12 @@ export const ApiCalling = async (method, endUrl, data = "", config = { headers: 
 
     const fullUrl = BASE_URL + endUrl;
 
-    // let config = {
-    //     headers: {
-    //         'Content-Type': 'multipart/form-data',
-    //     },
-    // };
-
-
     try {
 
         let response;
 
         if (method === "GET") {
-            response = await axios.get(fullUrl)
+            response = await axios.get(fullUrl, { withCredentials: true })
                 .then((res) => {
                     return res?.data;
                 })
@@ -30,7 +23,7 @@ export const ApiCalling = async (method, endUrl, data = "", config = { headers: 
         else if (method === "POST") {
 
 
-            response = await axios.post(fullUrl, data, config)
+            response = await axios.post(fullUrl, data, { ...config, withCredentials: true })
                 .then((res) => {
                     return res?.data;
                 })
@@ -40,7 +33,7 @@ export const ApiCalling = async (method, endUrl, data = "", config = { headers: 
         }
         else if (method === "PUT") {
 
-            response = await axios.put(fullUrl, data)
+            response = await axios.put(fullUrl, data, { ...config, withCredentials: true })
                 .then((res) => {
                     return res?.data;
                 })
@@ -50,7 +43,7 @@ export const ApiCalling = async (method, endUrl, data = "", config = { headers: 
         }
         else if (method === "DELETE") {
 
-            response = await axios.delete(fullUrl)
+            response = await axios.delete(fullUrl, { withCredentials: true })
                 .then((res) => {
                     return res?.data;
                 })

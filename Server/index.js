@@ -24,9 +24,16 @@ const extraRoutes = require("./routes/extra");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigin = 'http://localhost:3000'; // Update with your client's origin
+const corsOptions = {
+    origin: allowedOrigin,
+    credentials: true, // Allow cookies to be sent
+};
+
+
 
 // use middlewares
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -36,6 +43,12 @@ app.use(fileUpload(
         tempFileDir: "/tmp/"
     }
 ));
+
+// Set Access-Control-Allow-Credentials header
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Credentials', true);
+    next();
+});
 
 
 

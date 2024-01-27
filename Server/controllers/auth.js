@@ -231,11 +231,12 @@ exports.userLogin = async (req, res) => {
     }
 }
 
-// TODO : Make this woking function
 exports.userLogout = async (req, res) => {
     try {
 
-        res.clearCookie('token');
+        res.clearCookie('token', {
+            path: '/'
+        });
 
         res.status(200).json({
             success: true,
