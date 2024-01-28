@@ -259,7 +259,6 @@ exports.getProductById = async (req, res) => {
             .populate("rating_review")
             .exec();
 
-
         if (!existProduct) {
             return res.status(400).json(
                 {

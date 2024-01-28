@@ -103,7 +103,7 @@ function AdminDashboard() {
             content = <Logout />;
             break;
         case 'Visit Website':
-            content = <VisitWebsite />;
+            content = <VisitWebsite setOption={setOption} />;
             break;
         default:
             content = <Dashboard />;
@@ -115,19 +115,23 @@ function AdminDashboard() {
             <div className='flex w-full relative justify-between items-start'>
 
                 {/* SideBar */}
-                <div className='relative w-[300px]' >
-                    <div className='fixed top-0 left-0 w-[300px] bg-white h-[100vh]'>
-                        <Sidebar option={option} setOption={setOption} options1={options1} />
-                    </div>
-                </div>
+                {
+                    option !== "Visit Website" && (
+
+                        <div className='relative w-[300px]' >
+                            <div className='fixed top-0 left-0 w-[300px] bg-white h-[100vh]'>
+                                <Sidebar option={option} setOption={setOption} options1={options1} />
+                            </div>
+                        </div>
+                    )
+                }
 
                 {/* Children */}
-                <div className='w-full bg-[#F4F7FE] ml-16 flex justify-center items-start'>
-                    <div className='w-11/12 min-h-[100vh]'>
+                <div className={` ${option === "Visit Website" ? "bg-white" : "bg-[#F4F7FE]"} w-full  flex justify-center items-start`}>
+                    <div className={` ${option === "Visit Website" ? " w-full" : " w-11/12 ml-16"}  min-h-[100vh] `} >
                         {content}
                     </div>
                 </div>
-
             </div>
         </div>
     )
