@@ -13,8 +13,6 @@ import { RiImageAddFill } from "react-icons/ri";
 function EditProduct({ product_id, setShowEditPage }) {
 
 
-    const inputRef = useRef(null);
-    // const {  } = useContext(AppContext);
 
     const [images, setImages] = useState(null);
 
@@ -59,16 +57,24 @@ function EditProduct({ product_id, setShowEditPage }) {
         });
     };
 
-    const onChangeFile = (e) => {
-        setImages(e.target.files);
+
+    function addImageHandler(e) {
+
+        const file = e.target.files[0];
+        if (!file) return; // If no file selected, do nothing
+        const reader = new FileReader();
+        reader.onload = () => {
+            const newImage = reader.result;
+            setImages(prevImages => [...prevImages, newImage]);
+        };
+        reader.readAsDataURL(file);
+
     }
 
     async function getProductData() {
 
-        console.log("product_id: ", product_id)
 
         const res = await ApiCalling("GET", `product/getProductById/${product_id}`);
-        console.log("res : ", res);
 
         if (res.success) {
 
@@ -81,7 +87,6 @@ function EditProduct({ product_id, setShowEditPage }) {
                     weight: "",
                     averageRating: res.data.averageRating,
                     description: res.data.description,
-                    createdAt: res.data.createdAt,
                     availability: res.data.availability,
                     dimensions: {
                         length: res.data?.dimensions?.length,
@@ -90,11 +95,10 @@ function EditProduct({ product_id, setShowEditPage }) {
                     },
                     highlights: res.data.highlights,
                     sales: res.data.sales,
-                    updatedAt: res.data.updatedAt,
                     brand: res.data.brand,
                     stock: res.data.stock,
                     tag: res.data.category?.tag,
-                    category: res.data.category?.name,
+                    category: res.data.category.name,
                     details: res.data.details,
                 }
             );
@@ -115,8 +119,6 @@ function EditProduct({ product_id, setShowEditPage }) {
     const sumbitHandler = async (e) => {
 
         e.preventDefault();
-
-        console.log(formdata)
 
         // const fd = new FormData();
 
@@ -140,7 +142,9 @@ function EditProduct({ product_id, setShowEditPage }) {
         // }
 
 
-        // const res = await ApiCalling("POST", "product/createProduct", fd);
+        const res = await ApiCalling("POST", `product/updateProductById/${product_id}`, formdata);
+        console.log(res)
+
 
         // if (res?.success === true) {
 
@@ -192,9 +196,9 @@ function EditProduct({ product_id, setShowEditPage }) {
                             </button>
                         </div>
 
-                        {/* div for small images */}
-                        <div className='relative'>
-                            <div className='flex overflow-auto  w-full p-2 px-5 rounded-md justify-center items-start scrollbar-hide flex-row gap-3 '>
+                        {/* images */}
+                        <div className='relative w-full'>
+                            <div className='flex overflow-x-scroll w-full p-2 px-5 rounded-md justify-center items-start scrollbar-hide flex-row gap-3 '>
                                 {
                                     images?.map((image) => (
                                         <div
@@ -207,12 +211,14 @@ function EditProduct({ product_id, setShowEditPage }) {
                                 }
                             </div>
 
+                            {/* button for adding images */}
                             <div className='absolute -bottom-5 left-[50%] translate-x-[-50%]'>
-                                <button
-                                    className='bg-white shadow-2xl border-blue-800 border-2 text-3xl rounded-full p-2'
-                                >
-                                    <RiImageAddFill />
-                                </button>
+                                <input type="file" accept="image/*" multiple onChange={addImageHandler} hidden id="imageInput" />
+                                <label htmlFor="imageInput">
+                                    <div className='bg-white shadow-2xl border-blue-800 border-2 text-3xl rounded-full p-2' htmlFor="imageInput">
+                                        <RiImageAddFill />
+                                    </div>
+                                </label>
                             </div>
 
                         </div>
