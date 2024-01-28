@@ -22,7 +22,7 @@ function App() {
 
         }
         validate();
-    })
+    }, []);
 
     return (
         <div>

@@ -29,6 +29,7 @@ function EditProduct({ product_id, setShowEditPage }) {
     ];
 
     const [formdata, setFormdata] = useState(null);
+    const [data, setData] = useState(null);
 
     const onChangeFormData = (e) => {
         const { name, value, type } = e.target;
@@ -78,6 +79,8 @@ function EditProduct({ product_id, setShowEditPage }) {
 
         if (res.success) {
 
+            setData(res.data);
+
             setFormdata(
                 {
                     name: res.data.name,
@@ -85,7 +88,6 @@ function EditProduct({ product_id, setShowEditPage }) {
                     basePrice: res.data.basePrice,
                     discount: res.data.discount,
                     weight: "",
-                    averageRating: res.data.averageRating,
                     description: res.data.description,
                     availability: res.data.availability,
                     dimensions: {
@@ -94,11 +96,8 @@ function EditProduct({ product_id, setShowEditPage }) {
                         height: res.data?.dimensions?.height,
                     },
                     highlights: res.data.highlights,
-                    sales: res.data.sales,
                     brand: res.data.brand,
                     stock: res.data.stock,
-                    tag: res.data.category?.tag,
-                    category: res.data.category.name,
                     details: res.data.details,
                 }
             );
@@ -120,65 +119,27 @@ function EditProduct({ product_id, setShowEditPage }) {
 
         e.preventDefault();
 
-        // const fd = new FormData();
+        console.log("form L ", formdata)
 
-        // fd.append('name', formdata.name);
-        // fd.append('price', formdata.price);
-        // fd.append('description', formdata.description);
-        // fd.append('stock', formdata.stock);
-        // fd.append('category', formdata.category);
-        // fd.append('tag', formdata.tag);
-        // fd.append('details', formdata.details);
-        // fd.append('basePrice', formdata.basePrice);
-        // fd.append('discount', formdata.discount);
-        // fd.append('weight', formdata.weight);
-        // fd.append('availability', formdata.availability);
-        // fd.append('dimensions', formdata.dimensions);
-        // fd.append('highlights', formdata.highlights);
-        // fd.append('brand', formdata.brand);
+        const res = await ApiCalling("POST", `product/updateProductById/${product_id}`, formdata,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }
+        );
 
-        // for (const image of images) {
-        //     fd.append("images", image, image.name);
-        // }
+        if (res?.success === true) {
 
+            toast.success("Product Created Successfully");
 
-        const res = await ApiCalling("POST", `product/updateProductById/${product_id}`, formdata);
-        console.log(res)
+            getProductData();
 
-
-        // if (res?.success === true) {
-
-        //     toast.success("Product Created Successfully");
-
-        //     setFormdata(
-        //         {
-        //             name: "",
-        //             price: "",
-        //             basePrice: "",
-        //             discount: "",
-        //             weight: "",
-        //             description: "",
-        //             availability: availabilityArr[0].name,
-        //             dimensions: {
-        //                 length: "",
-        //                 width: "",
-        //                 height: "",
-        //             },
-        //             highlights: [],
-        //             brand: "",
-        //             stock: "",
-        //             tag: "",
-        //             category: "",
-        //             details: "",
-        //         }
-        //     );
-
-        // } else {
-        //     toast.error(res.message);
-        // }
+        } else {
+            toast.error(res.message);
+        }
 
     }
-
 
     return (
         <div className='w-full mt-5 shadow-xl rounded-lg'>
@@ -285,13 +246,11 @@ function EditProduct({ product_id, setShowEditPage }) {
 
                             {/* sales */}
                             <input
-                                className='outline-none border-[2px] rounded-md border-[black]/[0.15] py-2 px-2 w-full '
+                                className='outline-none border-[2px] rounded-md border-[black]/[0.15] py-2 px-2 w-full'
                                 type="number"
                                 placeholder='Sales'
-                                name="sales"
                                 readOnly
-                                value={formdata.sales}
-                                onChange={onChangeFormData}
+                                value={data.sales}
                             />
 
                             {/*  Discount */}
@@ -315,12 +274,11 @@ function EditProduct({ product_id, setShowEditPage }) {
                             {/* average-rating */}
                             <input
                                 className='outline-none border-[2px] rounded-md border-[black]/[0.15] py-2 px-2 w-full '
-                                type="number"
+                                type="text"
                                 placeholder='Average Rating'
                                 name="averageRating"
                                 readOnly
-                                value={formdata.averageRating.toFixed(2)}
-                                onChange={onChangeFormData}
+                                value={data.averageRating.toFixed(2)}
                             />
 
                             {/* tags */}
@@ -330,8 +288,7 @@ function EditProduct({ product_id, setShowEditPage }) {
                                 placeholder='Product Tag'
                                 name="tag"
                                 readOnly
-                                value={formdata.tag}
-                                onChange={onChangeFormData}
+                                value={data.tag}
                             />
 
                             {/* Category */}
@@ -341,8 +298,7 @@ function EditProduct({ product_id, setShowEditPage }) {
                                 readOnly
                                 placeholder='Product Category'
                                 name="category"
-                                value={formdata.category}
-                                onChange={onChangeFormData}
+                                value={data.category}
                             />
 
                             {/* weight */}
@@ -375,14 +331,15 @@ function EditProduct({ product_id, setShowEditPage }) {
                                         name="availability"
                                         className='outline-none border-[2px] rounded-md cursor-pointer border-[black]/[0.15]  py-2 px-2 w-full uppercase'>
                                         {
-                                            availabilityArr.map((av) => (
+                                            availabilityArr.map((av, index) => (
                                                 <option
-                                                    key={av}
+                                                    key={av + index}
                                                     className='uppercase'
                                                     value={av.name}>{av.name}</option>
                                             ))
                                         }
                                     </select>
+
 
                                     {/* length  */}
                                     <input

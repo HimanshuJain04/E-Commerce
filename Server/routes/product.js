@@ -14,10 +14,13 @@ const
         getTopSellingProducts,
         getProductsBySearch,
         getProductsByNameAndDesc,
+        updateProductById
 
     } = require("../controllers/product");
 
 const { updateProductSale } = require("../controllers/order");
+
+
 
 router.post("/createProduct", createProduct);
 
@@ -28,6 +31,8 @@ router.get('/getAllProductsAtOnce', getAllProductsAtOnce);
 router.delete('/deleteProductById/:id', deleteProductById);
 
 router.post("/updateProductSale", updateProductSale);
+
+router.post("/updateProductById/:id", updateProductById);
 
 router.get("/getProductById/:id", getProductById);
 

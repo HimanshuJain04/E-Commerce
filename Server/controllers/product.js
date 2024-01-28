@@ -248,6 +248,80 @@ exports.getAllProductsAtOnce = async (req, res) => {
 
 }
 
+exports.updateProductById = async (req, res) => {
+    try {
+
+        // extract data from request
+        const { id } = req.params;
+        const {
+            name,
+            price,
+            basePrice,
+            discount,
+            weight,
+            averageRating,
+            description,
+            availability,
+            dimensions,
+            highlights,
+            brand,
+            stock,
+            details
+        } = req.body;
+
+        // Construct update object with extracted fields
+        const updateFields = {
+            name,
+            price,
+            basePrice,
+            discount,
+            weight,
+            averageRating,
+            description,
+            availability,
+            dimensions,
+            highlights,
+            brand,
+            stock,
+            details
+        };
+
+        const updatedProduct = await Product.findByIdAndUpdate(
+            id,
+            updateFields,
+            { new: true }
+        );
+
+        if (!updatedProduct) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Product doesn't exist",
+                    error: "Product doesn't exist",
+                }
+            )
+        }
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "update Product By Id Successfully",
+                data: updatedProduct,
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "update Product By Id Failed",
+                error: err.message,
+            }
+        );
+    }
+}
+
+
 exports.getProductById = async (req, res) => {
     try {
 
