@@ -15,7 +15,7 @@ import Create from './components/AdminComponents/creation/Create';
 import Analysis from "./components/AdminComponents/analysis/Analysis"
 import Dashboard from "./components/AdminComponents/dashboard/Dashboard"
 import Orders from "./components/AdminComponents/orders/Orders"
-import Profile from "./components/AdminComponents/profile/Profile"
+import Profile from "./pages/Profile"
 import Setting from "./components/AdminComponents/setting/Setting"
 import SignIn from "./components/AdminComponents/sign-in/SignIn"
 import Logout from "./components/AdminComponents/logout/Logout"

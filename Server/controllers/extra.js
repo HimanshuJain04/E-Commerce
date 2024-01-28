@@ -66,8 +66,6 @@ exports.saveUserAgent = async (req, res) => {
             userAgent: source,
         });
 
-        console.log(isMobile(browser.userAgent));
-
         await browser.save();
 
         return res.status(200).json(
