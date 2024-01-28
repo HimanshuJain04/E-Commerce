@@ -4,40 +4,43 @@ import Chart from 'chart.js/auto'; // Import Chart.js
 
 function UserDevice() {
 
-    const [deviceData, setDeviceData] = useState([]);
+
+
+    async function getDeviceData() {
+        const res = await ApiCalling("GET", "extra/getUserAgentsData");
+
+        if (res.success) {
+            renderChart(res.data)
+        }
+    }
+
 
     useEffect(() => {
-        async function getDeviceData() {
-            const res = await ApiCalling("GET", "extra/getUserAgentsData");
-
-            if (res.success) {
-                setDeviceData(res.data);
-                renderChart(res.data.mobileUsers, res.data.desktopUsers)
-            }
-        }
-
         getDeviceData();
     }, []);
 
-    useEffect(() => {
-        if (deviceData.length > 0) {
-            renderChart(deviceData.mobileUsers, deviceData.desktopUsers);
-        }
-    }, [deviceData]); // Run once when deviceData changes
-
     // Function to render the pie chart
-    function renderChart(mobileUsers, desktopUsers) {
+    function renderChart(devicedata) {
         const data = {
             labels: [
                 'Mobile Users',
-                'Desktop Users'
+                'Desktop Users',
+                'Tablet Users',
+                'Others'
             ],
             datasets: [{
                 label: 'User Device Distribution',
-                data: [mobileUsers, desktopUsers],
+                data: [
+                    devicedata.mobile,
+                    devicedata.desktop,
+                    devicedata.tablet,
+                    devicedata.other,
+                ],
                 backgroundColor: [
-                    'rgb(106,108,246)',
-                    'rgb(141,218,46)'
+                    'rgba(106, 108, 246, 0.6)', // Blue
+                    'rgba(141, 218, 46, 0.6)', // Green
+                    'rgba(255, 99, 132, 0.6)', // Red
+                    'rgba(255, 159, 64, 0.6)', // Orange
                 ],
                 hoverOffset: 4
             }]

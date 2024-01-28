@@ -4,7 +4,10 @@ import SalesOnDayBasis from "./usedComponents/SalesOnDayBasis";
 function Analysis() {
   return (
     <div>
-      <SalesOnDayBasis />
+
+      <div className='flex justify-center items-center'>
+        <SalesOnDayBasis />
+      </div>
     </div>
   )
 }

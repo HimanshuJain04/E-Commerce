@@ -7,7 +7,6 @@ function SalesOnDayBasis() {
     async function getSalesData() {
 
         const res = await ApiCalling("GET", "order/getSalesReportOnDayBasis");
-        console.log(res)
 
         if (res.success) {
             renderGraph(res.data);
@@ -52,10 +51,10 @@ function SalesOnDayBasis() {
         getSalesData();
     }, [])
     return (
-        <div className=' rounded-lg flex flex-col px-10 py-5 items-center justify-start shadow-lg'>
-            <p className='text-xl font-semibold'>Sales Chart</p>
-            <div className='w-[500px] bg-white  overflow-hidden'>
-                <canvas id="graphId" width={"1000px"} height={"700px"}></canvas>
+        <div className='flex flex-col gap-2 items-start justify-start'>
+            <p className='text-2xl text-right font-semibold'>Sales Chart</p>
+            <div className=' bg-white shadow-lg rounded-lg p-3 overflow-hidden'>
+                <canvas id="graphId" width="600px" height="300px" ></canvas>
             </div>
         </div >
     )
