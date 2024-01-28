@@ -744,3 +744,31 @@ exports.updateRatingAndReview = async (req, res) => {
         )
     }
 }
+
+
+// getTotalCustomers
+exports.getTotalCustomers = async (req, res) => {
+    try {
+
+        const usersWithRoleUser = await User.find({ role: 'User' });
+
+
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "getTotalCustomers successfully",
+                data: usersWithRoleUser.length,
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "getTotalCustomers failed ",
+                error: err.message,
+            }
+        )
+    }
+}

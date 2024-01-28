@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { removeFromWishlist } = require('../controllers/user');
+const { removeFromWishlist, getTotalCustomers } = require('../controllers/user');
 const { addToWishlist } = require('../controllers/user');
 const { getAllOrders } = require('../controllers/user');
 const { getAllUserData } = require('../controllers/user');
@@ -42,7 +42,10 @@ router.get("/getAllOrders/:userId", getAllOrders);
 router.get("/getAllUserData/:userId", getAllUserData);
 
 // update userData
-router.post("/addProductIntoRecentView/", addProductIntoRecentView);
+router.post("/addProductIntoRecentView", addProductIntoRecentView);
+
+// user
+router.get("/getTotalCustomers", getTotalCustomers);
 
 
 // order
