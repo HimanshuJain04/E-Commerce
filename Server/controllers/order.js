@@ -20,7 +20,9 @@ exports.updateProductSale = async (req, res) => {
             // Update the sales count for each product in the order
             const product1 = await Product.findById(product);
             product1.sales += quantity;
+            product1.stock -= quantity;
             await product1.save();
+
         });
 
         return res.status(200).json(
@@ -481,6 +483,55 @@ exports.verifyPayment = async (req, res) => {
         });
     }
 
+}
+
+
+
+exports.generateDailySalesReport = async (req, res) => {
+    try {
+
+        // Calculate the date 30 days ago
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - 30);
+
+        // Query orders created within the last 10 days
+        const last30DaysOrders = await Order.find({
+            createdAt: { $gte: startDate }
+        });
+
+
+        // Aggregate total sales for each day
+        const dailySales = last30DaysOrders.reduce((acc, order) => {
+            // Extract date in YYYY-MM-DD format
+            const date = order.createdAt.toISOString().split('T')[0];
+            // Add order amount to total sales for the corresponding day
+            acc[date] = (acc[date] || 0) + order.amount;
+            return acc;
+        }, {});
+
+        // Format data for presentation
+        const formattedData = Object.keys(dailySales).map(date => ({
+            date,
+            totalSales: dailySales[date]
+        }));
+
+        res.status(200).json(
+            {
+                success: true,
+                data: formattedData,
+                message: "Generating daily sales report Success"
+            }
+        )
+
+    } catch (error) {
+        res.status(500).json(
+            {
+                success: false,
+                error: error.message,
+                message: "Generating daily sales report failed"
+            }
+        )
+    }
 }
 
 

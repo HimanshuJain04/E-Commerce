@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
+import SalesOnDayBasis from "./usedComponents/SalesOnDayBasis";
 
 function Analysis() {
   return (
     <div>
-      
+      <SalesOnDayBasis />
     </div>
   )
 }

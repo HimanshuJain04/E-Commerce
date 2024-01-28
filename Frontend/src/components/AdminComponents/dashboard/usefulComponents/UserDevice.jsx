@@ -9,7 +9,6 @@ function UserDevice() {
     useEffect(() => {
         async function getDeviceData() {
             const res = await ApiCalling("GET", "extra/getUserAgentsData");
-            console.log(res);
 
             if (res.success) {
                 setDeviceData(res.data);
