@@ -4,10 +4,10 @@ import Chart from 'chart.js/auto'; // Import Chart.js
 
 
 
-function CategoryStats() {
+function TagStats() {
 
     async function getData() {
-        const res = await ApiCalling("GET", "order/getCategoryStats");
+        const res = await ApiCalling("GET", "order/getTagStats");
 
         if (res.success) {
             renderChart(res.data);
@@ -55,7 +55,7 @@ function CategoryStats() {
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Category Distribution',
+                    label: 'Tag Distribution',
                     data: percentages,
                     backgroundColor: backgroundColors,
                     hoverOffset: 4
@@ -63,7 +63,7 @@ function CategoryStats() {
             },
         };
 
-        const canvas = document.getElementById('categoryChart');
+        const canvas = document.getElementById('tagChart');
         const existingChart = Chart.getChart(canvas);
         if (existingChart) {
             existingChart.destroy();
@@ -73,12 +73,12 @@ function CategoryStats() {
 
     return (
         <div className='flex w-[350px] shadow-lg h-[350px] overflow-hidden bg-white p-5 flex-col justify-center items-center rounded-lg gap-2'>
-            <p className='font-bold text-blue-700 text-lg'>Category Chart</p>
+            <p className='font-bold text-blue-700 text-lg'>Tag Chart</p>
             <div className='flex justify-center h-[300px] w-[300px] items-center'>
-                <canvas id="categoryChart" width="200" height="200"></canvas>
+                <canvas id="tagChart" width="200" height="200"></canvas>
             </div>
         </div>
     );
 }
 
-export default CategoryStats;
+export default TagStats;

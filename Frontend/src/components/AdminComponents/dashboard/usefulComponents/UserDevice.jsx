@@ -9,8 +9,6 @@ function UserDevice() {
     async function getDeviceData() {
         const res = await ApiCalling("GET", "extra/getUserAgentsData");
 
-        console.log(res)
-
         if (res.success) {
             renderChart(res.data)
         }

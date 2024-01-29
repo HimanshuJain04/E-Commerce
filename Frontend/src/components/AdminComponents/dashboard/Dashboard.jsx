@@ -6,6 +6,7 @@ import LatestOrders from './usefulComponents/LatestOrders';
 import GenderRatio from './usefulComponents/GenderRatio';
 import SalesOnDayBasis from './usefulComponents/SalesOnDayBasis';
 import CategoryStats from './usefulComponents/CategoryStats';
+import TagStats from "./usefulComponents/TagStats";
 
 
 function Dashboard({ setOption }) {
@@ -24,21 +25,16 @@ function Dashboard({ setOption }) {
 
         {/* sales chart and pie charts */}
         <div className='flex justify-between items-start w-full'>
-          {/* sales chart */}
-          <div className='flex flex-col justify-between gap-10 items-center'>
-            <SalesOnDayBasis />
-            <CategoryStats />
-          </div>
-
-          {/* chart */}
-          <div className='flex flex-col justify-between gap-10 items-center'>
-            <UserDevice />
-            <GenderRatio />
-            <CategoryStats />
-          </div>
-
+          <SalesOnDayBasis />
+          <UserDevice />
         </div>
 
+        {/* chart */}
+        <div className='flex flex-row justify-between gap-10 items-center'>
+          <GenderRatio />
+          <CategoryStats />
+          <TagStats />
+        </div>
 
 
         {/* latest orders */}
