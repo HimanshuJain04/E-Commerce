@@ -8,7 +8,8 @@ function Dashboard() {
     <div className='py-10'>
       <div className='flex flex-col gap-10 justify-start items-center'>
 
-        <div className=' px-10 w-full '>
+        <div className='px-10 flex flex-col gap-7 w-full '>
+          <Cards />
           <Cards />
         </div>
 

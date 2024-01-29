@@ -17,7 +17,6 @@ router.post("/updateProductStatus", updateProductStatus);
 
 router.get("/getTotalRevenueAndTotalOrders", getTotalRevenueAndTotalOrders);
 
-
 router.post("/deleteOrderbyId/:id", deleteOrderbyId);
 
 
