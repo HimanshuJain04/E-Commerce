@@ -1,6 +1,7 @@
 import React from 'react'
 import UserDevice from './usefulComponents/UserDevice'
 import Cards from './usefulComponents/Cards';
+import TodaysDeatailCards from './usefulComponents/TodaysDeatailCards';
 
 
 function Dashboard() {
@@ -10,7 +11,7 @@ function Dashboard() {
 
         <div className='px-10 flex flex-col gap-7 w-full '>
           <Cards />
-          <Cards />
+          <TodaysDeatailCards />
         </div>
 
         {/* cards */}

@@ -487,12 +487,54 @@ exports.verifyPayment = async (req, res) => {
 
 
 
+exports.getTodaysDetails = async (req, res) => {
+    try {
+
+        const startDate = new Date();
+        startDate.setHours(0, 0, 0, 0); // Set time to 00:00:00:000 for the start of the day
+
+        const endDate = new Date();
+        endDate.setHours(23, 59, 59, 999);
 
 
-exports.getTotalRevenueAndTotalOrders = async (req, res) => {
+        const todaysOrders = await Order.find({
+            createdAt: {
+                $gte: startDate, // Greater than or equal to startDate
+                $lte: endDate    // Less than or equal to endDate
+            }
+        });
+
+        // Aggregate total sales for each day
+        const todaysRevenue = todaysOrders.reduce((acc, order) => {
+            return acc += order.amount;
+        }, 0);
+
+        res.status(200).json(
+            {
+                success: true,
+                data: [todaysRevenue, todaysOrders.length],
+                message: "Get total revenue Success"
+            }
+        );
+
+    } catch (error) {
+        res.status(500).json(
+            {
+                success: false,
+                error: error.message,
+                message: "Get total revenue failed"
+            }
+        )
+    }
+}
+
+
+exports.getTotalDetails = async (req, res) => {
     try {
 
         const allOrders = await Order.find({});
+
+        const totalProducts = await Product.find({});
 
         // Aggregate total sales for each day
         const totalRevenue = allOrders.reduce((acc, order) => {
@@ -502,7 +544,7 @@ exports.getTotalRevenueAndTotalOrders = async (req, res) => {
         res.status(200).json(
             {
                 success: true,
-                data: [totalRevenue, allOrders.length],
+                data: [totalProducts.length, totalRevenue, allOrders.length],
                 message: "Get total revenue Success"
             }
         )

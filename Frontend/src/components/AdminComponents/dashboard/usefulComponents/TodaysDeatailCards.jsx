@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { ApiCalling } from '../../../../services/Api';
+import { PiMoneyBold } from "react-icons/pi";
+import { FaRupeeSign, FaShoppingBasket, FaUsers } from "react-icons/fa";
+
 
 function TodaysDeatailCards() {
 
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([1, 1, 1,]);
 
     async function getValue() {
 
         const res1 = await ApiCalling("GET", "user/getTotalCustomers");
 
-        const res2 = await ApiCalling("GET", "order/getTotalRevenueAndTotalOrders");
+        const res2 = await ApiCalling("GET", "order/getTodaysDetails");
 
         if (res1.success && res2.success) {
             const copyData = [res1.data, res2.data];
-
-            console.log(copyData)
-
             setData(copyData);
         }
     }
@@ -32,7 +32,7 @@ function TodaysDeatailCards() {
 
                         {/* total users */}
                         <div className='flex justify-start p-5 w-full shadow-lg rounded-md bg-white items-center gap-5'>
-                            <div className='text-[50px] bg-red-700 p-2 text-white rounded-full'>
+                            <div className='text-[50px] bg-red-700 p-3 text-white rounded-full'>
                                 <FaUsers />
                             </div>
                             <div className='flex flex-col gap-2 items-start justify-start'>
@@ -43,8 +43,8 @@ function TodaysDeatailCards() {
 
                         {/* totalSales */}
                         <div className='flex justify-start p-5 w-full shadow-lg rounded-md bg-white items-center gap-5'>
-                            <div className='text-[80px] text-orange-500 bg-white rounded-full'>
-                                <HiCurrencyRupee />
+                            <div className='text-[50px] text-white p-3 bg-orange-500 rounded-full'>
+                                <PiMoneyBold />
                             </div>
                             <div className='flex flex-col gap-2 items-start justify-start'>
                                 <p className='font-semibold text-[black]/[0.4]'>Total Sales</p>
@@ -54,8 +54,8 @@ function TodaysDeatailCards() {
 
                         {/* total orders */}
                         <div className='flex justify-start p-5 w-full shadow-lg rounded-md bg-white items-center gap-5'>
-                            <div className='text-[50px] bg-blue-700 p-2 text-white rounded-full'>
-                                <IoCartSharp />
+                            <div className='text-[50px] bg-blue-700 p-3 text-white rounded-full'>
+                                <FaShoppingBasket />
                             </div>
 
                             <div className='flex flex-col gap-2 items-start justify-start'>

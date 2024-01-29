@@ -4,8 +4,9 @@ const {
     getAllOrders,
     updateProductStatus,
     deleteOrderbyId,
+    getTodaysDetails,
     generateDailySalesReport,
-    getTotalRevenueAndTotalOrders,
+    getTotalDetails,
 } = require("../controllers/order");
 
 const router = express.Router();
@@ -15,7 +16,9 @@ router.get("/getAllOrders", getAllOrders);
 
 router.post("/updateProductStatus", updateProductStatus);
 
-router.get("/getTotalRevenueAndTotalOrders", getTotalRevenueAndTotalOrders);
+router.get("/getTotalDetails", getTotalDetails);
+
+router.get("/getTodaysDetails", getTodaysDetails);
 
 router.post("/deleteOrderbyId/:id", deleteOrderbyId);
 
