@@ -152,6 +152,8 @@ exports.userSignup = async (req, res) => {
     }
 }
 
+
+// TODO: Generate refresh TOken
 exports.userLogin = async (req, res) => {
     try {
         // fetch the data from request
@@ -209,7 +211,7 @@ exports.userLogin = async (req, res) => {
             { email: existUser.email, id: existUser._id },
             process.env.JWT_SECRET,
             {
-                expiresIn: "24h",
+                expiresIn: "3d",
             }
         );
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import UserDevice from './usefulComponents/UserDevice'
-import TotalCustomers from "./usefulComponents/TotalCustomers";
+import Cards from './usefulComponents/Cards';
 
 
 function Dashboard() {
@@ -8,20 +8,18 @@ function Dashboard() {
     <div className='py-10'>
       <div className='flex flex-col gap-10 justify-start items-center'>
 
+        <div className=' px-10 w-full '>
+          <Cards />
+        </div>
+
         {/* cards */}
-        <div className='flex justify-between items-center gap-10'>
-          {/* registered User */}
-          <TotalCustomers />
+        <div className='w-full px-10'>
 
           {/* visitors  */}
 
           {/* pageView */}
 
-          {/* total revenue */}
-
           {/* today revenue */}
-
-          {/* Total orders */}
 
           {/* Today orders */}
 

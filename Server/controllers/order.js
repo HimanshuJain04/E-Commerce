@@ -487,6 +487,38 @@ exports.verifyPayment = async (req, res) => {
 
 
 
+
+
+exports.getTotalRevenueAndTotalOrders = async (req, res) => {
+    try {
+
+        const allOrders = await Order.find({});
+
+        // Aggregate total sales for each day
+        const totalRevenue = allOrders.reduce((acc, order) => {
+            return acc += order.amount;
+        }, 0);
+
+        res.status(200).json(
+            {
+                success: true,
+                data: [totalRevenue, allOrders.length],
+                message: "Get total revenue Success"
+            }
+        )
+
+    } catch (error) {
+        res.status(500).json(
+            {
+                success: false,
+                error: error.message,
+                message: "Get total revenue failed"
+            }
+        )
+    }
+}
+
+
 exports.generateDailySalesReport = async (req, res) => {
     try {
 

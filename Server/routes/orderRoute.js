@@ -5,6 +5,7 @@ const {
     updateProductStatus,
     deleteOrderbyId,
     generateDailySalesReport,
+    getTotalRevenueAndTotalOrders,
 } = require("../controllers/order");
 
 const router = express.Router();
@@ -13,6 +14,9 @@ const router = express.Router();
 router.get("/getAllOrders", getAllOrders);
 
 router.post("/updateProductStatus", updateProductStatus);
+
+router.get("/getTotalRevenueAndTotalOrders", getTotalRevenueAndTotalOrders);
+
 
 router.post("/deleteOrderbyId/:id", deleteOrderbyId);
 
