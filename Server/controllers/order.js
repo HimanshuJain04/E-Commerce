@@ -4,6 +4,8 @@ const User = require("../models/user");
 const Razorpay = require('razorpay');
 const axios = require('axios');
 const base64 = require('base-64');
+const Category = require("../models/category");
+const Tag = require("../models/tag");
 require('dotenv').config();
 const { sendPurchaseConfirmationEmail } = require("../utils/sendMail");
 
@@ -634,9 +636,18 @@ exports.generateDailySalesReport = async (req, res) => {
 }
 
 
-
 exports.getCategoryStats = async (req, res) => {
     try {
+
+        // Fetch all categories
+        const allCategories = await Category.find({}).populate('tag').exec();
+
+        // Initialize category counts to 0 for all categories
+        const category = {};
+        allCategories.forEach(cat => {
+            const categoryName = `${cat.tag.name}-${cat.name}`;
+            category[categoryName] = 0;
+        });
 
         const allOrders = await Order.find({})
             .populate(
@@ -653,30 +664,25 @@ exports.getCategoryStats = async (req, res) => {
             )
             .exec();
 
-        const category = {};
-
         allOrders.forEach((order) => {
             order.products.forEach(({ product }) => {
                 const productTag = product.category.tag.name;
                 const productcategory = product.category.name;
 
-                if (productTag in tags) {
+                if (`${productTag}-${productcategory}` in category) {
                     // increase the value
-                    category[productTag]++;
+                    category[`${productTag}-${productcategory}`]++;
 
                 } else {
-                    // create object for that name  = 1
-                    category[productTag] = 1;
+                    throw new Error("New Category Found");
                 }
             });
         });
 
-        console.log(category);
-
         return res.status(200).json(
             {
                 success: true,
-                message: "Get all tags stats Successfully",
+                message: "Get all category stats Successfully",
                 data: category,
             }
         )
@@ -685,7 +691,7 @@ exports.getCategoryStats = async (req, res) => {
         return res.status(500).json(
             {
                 success: false,
-                message: "Get all tags stats Failed",
+                message: "Get all category stats Failed",
                 error: err.message,
             }
         );
@@ -696,6 +702,14 @@ exports.getCategoryStats = async (req, res) => {
 exports.getTagStats = async (req, res) => {
     try {
 
+        const allTags = await Tag.find({});
+
+        const tags = {};
+
+        allTags.forEach(tag => {
+            tags[tag.name] = 0;
+        })
+
         const allOrders = await Order.find({})
             .populate(
                 {
@@ -711,7 +725,7 @@ exports.getTagStats = async (req, res) => {
             )
             .exec();
 
-        const tags = {};
+
 
         allOrders.forEach((order) => {
             order.products.forEach(({ product }) => {
@@ -722,11 +736,11 @@ exports.getTagStats = async (req, res) => {
                     tags[productTag]++;
 
                 } else {
-                    // create object for that name  = 1
-                    tags[productTag] = 1;
+                    throw new Error("New Tag Found");
                 }
             });
         });
+
 
         return res.status(200).json(
             {
