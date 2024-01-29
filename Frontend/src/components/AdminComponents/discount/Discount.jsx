@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Setting() {
+function Discount() {
   return (
     <div>
-      
+
     </div>
   )
 }
 
-export default Setting
+export default Discount;

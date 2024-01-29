@@ -4,6 +4,8 @@ import Cards from './usefulComponents/Cards';
 import TodaysDeatailCards from './usefulComponents/TodaysDeatailCards';
 import LatestOrders from './usefulComponents/LatestOrders';
 import GenderRatio from './usefulComponents/GenderRatio';
+import SalesOnDayBasis from './usefulComponents/SalesOnDayBasis';
+import CategoryStats from './usefulComponents/CategoryStats';
 
 
 function Dashboard({ setOption }) {
@@ -20,11 +22,24 @@ function Dashboard({ setOption }) {
           <TodaysDeatailCards />
         </div>
 
-        {/* Device */}
-        <div className='flex justify-between w-full items-center'>
-          <GenderRatio />
-          <UserDevice />
+        {/* sales chart and pie charts */}
+        <div className='flex justify-between items-start w-full'>
+          {/* sales chart */}
+          <div className='flex flex-col justify-between gap-10 items-center'>
+            <SalesOnDayBasis />
+            <CategoryStats />
+          </div>
+
+          {/* chart */}
+          <div className='flex flex-col justify-between gap-10 items-center'>
+            <UserDevice />
+            <GenderRatio />
+            <CategoryStats />
+          </div>
+
         </div>
+
+
 
         {/* latest orders */}
         <div className='w-full'>

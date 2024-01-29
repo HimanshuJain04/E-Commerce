@@ -52,11 +52,11 @@ function SalesOnDayBasis() {
     }, [])
     return (
         <div className='flex flex-col gap-2 items-start justify-start'>
-            <p className='text-2xl text-right font-semibold'>Sales Chart</p>
-            <div className=' bg-white shadow-lg rounded-lg p-3 overflow-hidden'>
-                <canvas id="graphId" width="600px" height="300px" ></canvas>
+            <div className=' bg-white shadow-lg flex flex-col gap-3 rounded-lg p-3 overflow-hidden'>
+                <p className='text-xl text-center text-blue-700 font-bold'>Sales Chart</p>
+                <canvas id="graphId" width="680px" height="350px" ></canvas>
             </div>
-        </div >
+        </div>
     )
 }
 

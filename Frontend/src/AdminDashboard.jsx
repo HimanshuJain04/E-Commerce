@@ -7,16 +7,16 @@ import { MdDashboard, MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import { LuSettings } from "react-icons/lu";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { GrAnalytics } from "react-icons/gr";
+import { TbDiscount2 } from "react-icons/tb";
 import { HiOutlineViewGridAdd } from "react-icons/hi";
 
 // pages import
 import AllProducts from "./components/AdminComponents/all-products/AllProducts"
 import Create from './components/AdminComponents/creation/Create';
-import Analysis from "./components/AdminComponents/analysis/Analysis"
 import Dashboard from "./components/AdminComponents/dashboard/Dashboard"
 import Orders from "./components/AdminComponents/orders/Orders"
 import Profile from "./pages/Profile"
-import Setting from "./components/AdminComponents/setting/Setting"
+import Discount from "./components/AdminComponents/discount/Discount"
 import SignIn from "./components/AdminComponents/sign-in/SignIn"
 import Logout from "./components/AdminComponents/logout/Logout"
 import VisitWebsite from "./components/AdminComponents/visit-website/VisitWebsite"
@@ -31,10 +31,6 @@ const options1 = [
     {
         title: "Orders",
         icon: <PiPackageLight />
-    },
-    {
-        title: "Analysis",
-        icon: <GrAnalytics />
     },
     {
         title: "Create",
@@ -53,8 +49,8 @@ const options1 = [
         icon: <MdLock />
     },
     {
-        title: "Setting",
-        icon: <LuSettings />
+        title: "Discount",
+        icon: <TbDiscount2 />
     },
     {
         title: "Visit Website",
@@ -81,9 +77,6 @@ function AdminDashboard() {
         case 'Orders':
             content = <Orders />;
             break;
-        case 'Analysis':
-            content = <Analysis />;
-            break;
         case 'Create':
             content = <Create />;
             break;
@@ -96,8 +89,8 @@ function AdminDashboard() {
         case 'Sign In':
             content = <SignIn />;
             break;
-        case 'Setting':
-            content = <Setting />;
+        case 'Discount':
+            content = <Discount />;
             break;
         case 'Logout':
             content = <Logout />;

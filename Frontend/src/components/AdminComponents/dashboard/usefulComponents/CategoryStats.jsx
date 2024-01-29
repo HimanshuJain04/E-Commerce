@@ -4,10 +4,12 @@ import Chart from 'chart.js/auto'; // Import Chart.js
 
 
 
-function GenderRatio() {
+function CategoryStats() {
 
     async function getData() {
-        const res = await ApiCalling("GET", "extra/getGenderData");
+        const res = await ApiCalling("GET", "order/getCategoryStats");
+
+        console.log(res)
 
         if (res.success) {
 
@@ -66,7 +68,7 @@ function GenderRatio() {
         };
 
         // Get the canvas element
-        const canvas = document.getElementById('genderChart');
+        const canvas = document.getElementById('categoryChart');
 
         // Initialize Chart.js instance
         new Chart(canvas, config);
@@ -76,10 +78,10 @@ function GenderRatio() {
         <div className='flex w-[350px] shadow-lg h-[350px] overflow-hidden bg-white p-5 flex-col justify-center items-center rounded-lg gap-2'>
             <p className='font-bold text-blue-700 text-lg'>Gender Ratio</p>
             <div className='flex justify-center h-[300px] w-[300px] items-center'>
-                <canvas id="genderChart" width="200" height="200"></canvas>
+                <canvas id="categoryChart" width="200" height="200"></canvas>
             </div>
         </div>
     );
 }
 
-export default GenderRatio;
+export default CategoryStats;

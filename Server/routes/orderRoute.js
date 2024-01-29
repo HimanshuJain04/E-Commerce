@@ -7,6 +7,8 @@ const {
     getTodaysDetails,
     generateDailySalesReport,
     getLatestOrders,
+    getCategoryStats,
+    getTagStats,
     getTotalDetails,
 } = require("../controllers/order");
 
@@ -20,6 +22,12 @@ router.post("/updateProductStatus", updateProductStatus);
 router.get("/getTotalDetails", getTotalDetails);
 
 router.get("/getTodaysDetails", getTodaysDetails);
+
+router.get("/getLatestOrders", getLatestOrders);
+
+router.get("/getCategoryStats", getCategoryStats);
+
+router.get("/getTagStats", getTagStats);
 
 router.get("/getLatestOrders", getLatestOrders);
 

@@ -485,8 +485,6 @@ exports.verifyPayment = async (req, res) => {
 
 }
 
-
-
 exports.getLatestOrders = async (req, res) => {
     try {
 
@@ -632,6 +630,120 @@ exports.generateDailySalesReport = async (req, res) => {
                 message: "Generating daily sales report failed"
             }
         )
+    }
+}
+
+
+
+exports.getCategoryStats = async (req, res) => {
+    try {
+
+        const allOrders = await Order.find({})
+            .populate(
+                {
+                    path: "products.product",
+                    populate: {
+                        path: "category",
+                        populate: {
+                            path: "tag",
+                            model: "Tag"
+                        }
+                    }
+                }
+            )
+            .exec();
+
+        const category = {};
+
+        allOrders.forEach((order) => {
+            order.products.forEach(({ product }) => {
+                const productTag = product.category.tag.name;
+                const productcategory = product.category.name;
+
+                if (productTag in tags) {
+                    // increase the value
+                    category[productTag]++;
+
+                } else {
+                    // create object for that name  = 1
+                    category[productTag] = 1;
+                }
+            });
+        });
+
+        console.log(category);
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Get all tags stats Successfully",
+                data: category,
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Get all tags stats Failed",
+                error: err.message,
+            }
+        );
+    }
+}
+
+
+exports.getTagStats = async (req, res) => {
+    try {
+
+        const allOrders = await Order.find({})
+            .populate(
+                {
+                    path: "products.product",
+                    populate: {
+                        path: "category",
+                        populate: {
+                            path: "tag",
+                            model: "Tag"
+                        }
+                    }
+                }
+            )
+            .exec();
+
+        const tags = {};
+
+        allOrders.forEach((order) => {
+            order.products.forEach(({ product }) => {
+                const productTag = product.category.tag.name;
+
+                if (productTag in tags) {
+                    // increase the value
+                    tags[productTag]++;
+
+                } else {
+                    // create object for that name  = 1
+                    tags[productTag] = 1;
+                }
+            });
+        });
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Get all tags stats Successfully",
+                data: tags,
+            }
+        )
+
+    } catch (err) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Get all tags stats Failed",
+                error: err.message,
+            }
+        );
     }
 }
 
