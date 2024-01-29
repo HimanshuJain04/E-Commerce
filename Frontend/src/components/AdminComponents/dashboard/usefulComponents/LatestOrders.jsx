@@ -8,7 +8,6 @@ function LatestOrders({ setOption }) {
 
     async function getData() {
         const res = await ApiCalling("GET", "order/getLatestOrders");
-        console.log("res: ", res);
 
         if (res.success) {
             setData(res.data);
@@ -29,7 +28,7 @@ function LatestOrders({ setOption }) {
 
 
     return (
-        <div className="flex flex-col font-semibold mx-10 pb-5 rounded-md bg-white shadow-xl">
+        <div className="flex flex-col font-semibold pb-5 rounded-md bg-white shadow-xl">
             <div className='w-full rounded-md bg-white flex justify-between items-center p-3'>
                 <div>
                     <p className='text-xl font-semibold text-[black]/[0.7]'>Recent Orders</p>

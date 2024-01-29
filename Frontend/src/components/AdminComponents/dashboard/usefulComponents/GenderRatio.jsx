@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { ApiCalling } from "../../../../services/Api";
 import Chart from 'chart.js/auto'; // Import Chart.js
 
-function UserDevice() {
 
 
+function GenderRatio() {
 
-    async function getDeviceData() {
-        const res = await ApiCalling("GET", "extra/getUserAgentsData");
-
-        console.log(res)
+    async function getData() {
+        const res = await ApiCalling("GET", "extra/getGenderData");
 
         if (res.success) {
             renderChart(res.data)
@@ -18,43 +16,42 @@ function UserDevice() {
 
 
     useEffect(() => {
-        getDeviceData();
+        getData();
     }, []);
 
     // Function to render the pie chart
-    function renderChart(devicedata) {
+    function renderChart(genderdata) {
         const data = {
+
             labels: [
-                'Mobile Users',
-                'Desktop Users',
-                'Tablet Users',
-                'Others'
+                "Male",
+                "Female",
+                "Others",
             ],
+
             datasets: [{
                 label: 'User Device Distribution',
                 data: [
-                    devicedata.mobile,
-                    devicedata.desktop,
-                    devicedata.tablet,
-                    devicedata.other,
+                    genderdata.male,
+                    genderdata.female,
+                    genderdata.other,
                 ],
                 backgroundColor: [
                     'rgba(106, 108, 246, 0.6)', // Blue
-                    'rgba(141, 218, 46, 0.6)', // Green
                     'rgba(255, 99, 132, 0.6)', // Red
-                    'rgba(255, 159, 64, 0.6)', // Orange
+                    'rgba(128, 233, 97, 0.949)', // yellow
                 ],
                 hoverOffset: 4
             }]
         };
 
         const config = {
-            type: 'doughnut',
+            type: 'pie',
             data: data,
         };
 
         // Get the canvas element
-        const canvas = document.getElementById('deviceChart');
+        const canvas = document.getElementById('genderChart');
 
         // Initialize Chart.js instance
         new Chart(canvas, config);
@@ -62,12 +59,12 @@ function UserDevice() {
 
     return (
         <div className='flex w-[350px] shadow-lg h-[350px] overflow-hidden bg-white p-5 flex-col justify-center items-center rounded-lg gap-2'>
-            <p className='font-bold text-blue-700 text-lg'>Visit Customers</p>
+            <p className='font-bold text-blue-700 text-lg'>Gender Stats</p>
             <div className='flex justify-center h-[300px] w-[300px] items-center'>
-                <canvas id="deviceChart" width="200" height="200"></canvas>
+                <canvas id="genderChart" width="200" height="200"></canvas>
             </div>
         </div>
     );
 }
 
-export default UserDevice;
+export default GenderRatio;
