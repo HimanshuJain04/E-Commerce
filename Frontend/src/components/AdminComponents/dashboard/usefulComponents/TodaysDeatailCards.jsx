@@ -47,7 +47,7 @@ function TodaysDeatailCards() {
                                 <PiMoneyBold />
                             </div>
                             <div className='flex flex-col gap-2 items-start justify-start'>
-                                <p className='font-semibold text-[black]/[0.4]'>Total Sales</p>
+                                <p className='font-semibold text-[black]/[0.4]'>Today's Revenue</p>
                                 <span className='font-semibold flex justify-start items-center text-xl '> <FaRupeeSign /> <span className='text-2xl'>{data[1][0]}</span></span>
                             </div>
                         </div>
@@ -59,7 +59,7 @@ function TodaysDeatailCards() {
                             </div>
 
                             <div className='flex flex-col gap-2 items-start justify-start'>
-                                <p className='font-semibold text-[black]/[0.4]'>Total Orders</p>
+                                <p className='font-semibold text-[black]/[0.4]'>Today's Orders</p>
                                 <span className='font-semibold text-xl '>{data[1][1]}</span>
                             </div>
                         </div>

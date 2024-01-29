@@ -2,6 +2,7 @@ import React from 'react'
 import UserDevice from './usefulComponents/UserDevice'
 import Cards from './usefulComponents/Cards';
 import TodaysDeatailCards from './usefulComponents/TodaysDeatailCards';
+import LatestOrders from './usefulComponents/LatestOrders';
 
 
 function Dashboard() {
@@ -14,29 +15,20 @@ function Dashboard() {
           <TodaysDeatailCards />
         </div>
 
-        {/* cards */}
-        <div className='w-full px-10'>
-
-          {/* visitors  */}
-
-          {/* pageView */}
-
-          {/* today revenue */}
-
-          {/* Today orders */}
-
-          {/* Pending orders */}
-
-          {/* Today Products */}
-
-          {/* latest orders 10 */}
-
-        </div>
+        {/* visitors  */}
+        {/* pageView */}
+        {/* latest orders 10 */}
 
         {/* user agent */}
         <div className='flex justify-center items-center'>
           <UserDevice />
         </div>
+
+        {/* latest orders */}
+        <div>
+          <LatestOrders />
+        </div>
+
       </div>
     </div>
   )

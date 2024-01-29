@@ -14,8 +14,6 @@ export default function Cards() {
     async function getValue() {
 
         const res = await ApiCalling("GET", "order/getTotalDetails");
-        console.log(res)
-
         if (res.success) {
             setData(res.data);
         }

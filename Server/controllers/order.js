@@ -487,6 +487,41 @@ exports.verifyPayment = async (req, res) => {
 
 
 
+exports.getLatestOrders = async (req, res) => {
+    try {
+
+        const todaysOrders = await Order.find({
+            createdAt: {
+                $gte: startDate, // Greater than or equal to startDate
+                $lte: endDate    // Less than or equal to endDate
+            }
+        });
+
+        // Aggregate total sales for each day
+        const todaysRevenue = todaysOrders.reduce((acc, order) => {
+            return acc += order.amount;
+        }, 0);
+
+        res.status(200).json(
+            {
+                success: true,
+                data: [todaysRevenue, todaysOrders.length],
+                message: "Get total revenue Success"
+            }
+        );
+
+    } catch (error) {
+        res.status(500).json(
+            {
+                success: false,
+                error: error.message,
+                message: "Get total revenue failed"
+            }
+        )
+    }
+}
+
+
 exports.getTodaysDetails = async (req, res) => {
     try {
 
