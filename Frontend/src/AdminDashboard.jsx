@@ -76,7 +76,7 @@ function AdminDashboard() {
 
     switch (option) {
         case 'Dashboard':
-            content = <Dashboard />;
+            content = <Dashboard setOption={setOption} />;
             break;
         case 'Orders':
             content = <Orders />;

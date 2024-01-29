@@ -490,22 +490,14 @@ exports.verifyPayment = async (req, res) => {
 exports.getLatestOrders = async (req, res) => {
     try {
 
-        const todaysOrders = await Order.find({
-            createdAt: {
-                $gte: startDate, // Greater than or equal to startDate
-                $lte: endDate    // Less than or equal to endDate
-            }
-        });
-
-        // Aggregate total sales for each day
-        const todaysRevenue = todaysOrders.reduce((acc, order) => {
-            return acc += order.amount;
-        }, 0);
+        let allOrders = await Order.find({})
+            .sort({ createdAt: -1 })
+            .limit(10);
 
         res.status(200).json(
             {
                 success: true,
-                data: [todaysRevenue, todaysOrders.length],
+                data: allOrders,
                 message: "Get total revenue Success"
             }
         );
