@@ -23,7 +23,7 @@ function Sidebar({ option, setOption, options1 }) {
                 {/* Profile Section */}
                 <div className='flex flex-row text-blue-950 border-b-2 pb-5 border-[black]/[0.2] mx-4 justify-around items-center'>
 
-                    <div className='h-[60px] w-[60px]'>
+                    <div className='h-[60px] flex justify-center items-center shadow-lg rounded-md overflow-hidden w-[60px]'>
                         <img
                             src={isLoggedIn?.profileImg}
                             className='rounded-md object-cover'
