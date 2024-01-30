@@ -1,3 +1,71 @@
+const Coupon = require("../models/coupon");
+
+
+
+
+
+exports.deleteCouponById = async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const existedCoupon = await Coupon.findByIdAndDelete(id);
+
+        if (existedCoupon) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Coupon not found",
+                    error: "Coupon not found",
+                }
+            )
+        }
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "coupon delete successfully",
+                data: {}
+            }
+        )
+
+    } catch (error) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "coupon delete failed",
+                error: error.message
+            }
+        )
+    }
+}
+
+
+exports.getAllCoupons = async (req, res) => {
+
+    try {
+
+        const allCoupons = await Coupon.find({});
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Get all coupons successfully",
+                data: allCoupons
+            }
+        )
+
+    } catch (error) {
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Get all coupons failed",
+                error: error.message
+            }
+        )
+    }
+}
 
 
 exports.createCoupon = async (req, res) => {

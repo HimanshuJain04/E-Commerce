@@ -3,13 +3,16 @@ const router = express.Router();
 
 const
     {
-        createCoupon
+        createCoupon,
+        deleteCouponById
     }
         = require("../controllers/coupon");
 
+
+
 router.get("/getAllCoupon",);
 
-router.delete("/deleteCouponById",);
+router.delete("/deleteCouponById/:id", deleteCouponById);
 
 router.post("/createCoupon", createCoupon);
 
