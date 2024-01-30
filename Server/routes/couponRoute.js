@@ -1,11 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-const {
-}
-    = require("../controllers/coupon");
+const
+    {
+        createCoupon
+    }
+        = require("../controllers/coupon");
 
-router.get("/",);
+router.get("/getAllCoupon",);
+
+router.delete("/deleteCouponById",);
+
+router.post("/createCoupon", createCoupon);
 
 module.exports = router;
 

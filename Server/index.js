@@ -19,6 +19,7 @@ const productRoute = require('./routes/product');
 const adminRoute = require("./routes/adminRoute");
 const orderRoute = require("./routes/orderRoute");
 const extraRoutes = require("./routes/extra");
+const couponRoutes = require("./routes/couponRoute");
 
 
 // extras
@@ -59,6 +60,7 @@ app.use("/api/v1/tag", tagRoute);
 app.use("/api/v1/product", productRoute);
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/order", orderRoute);
+app.use("/api/v1/coupon", couponRoutes);
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/extra", extraRoutes);
 
