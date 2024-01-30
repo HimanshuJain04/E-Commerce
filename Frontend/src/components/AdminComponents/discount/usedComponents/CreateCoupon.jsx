@@ -1,5 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { ApiCalling } from "../../../../services/api"
+import { ApiCalling } from "../../../../services/api";
+
+const options = [
+    {
+        title: "Percentage",
+        value: "percentage"
+    },
+    {
+        title: "Fixed",
+        value: "fixed"
+    },
+    {
+        title: "Free Shipping",
+        value: "free_shipping"
+    },
+    {
+        title: "Buy One Get One Free",
+        value: "BOGO"
+    },
+
+]
 
 function CreateCoupon() {
 
@@ -51,11 +71,11 @@ function CreateCoupon() {
 
 
     return (
-        <div>
-            <div className='flex flex-col gap-10 justify-start items-center'>
+        <div className='flex justify-center items-center'>
+            <div className='flex bg-white shadow-xl rounded-lg px-14 py-8 flex-col gap-10 justify-start items-center'>
 
                 <div>
-                    <p className='text-3xl text-center font-semibold'>Create Coupon</p>
+                    <p className='text-4xl text-center font-semibold'>Create Coupon</p>
                 </div>
 
                 <div className='flex flex-col gap-4 justify-start items-center'>
@@ -68,7 +88,7 @@ function CreateCoupon() {
                         >Coupon Code</label>
                         <input
                             type="text"
-                            className='outline-none px-2 py-2 w-[300px] rounded-sm font-semibold text-lg text-[black]/[0.7]'
+                            className='outline-none border-2 border-[black]/[0.2] rounded-md px-2 py-2 w-[300px] font-semibold text-lg text-[black]/[0.7]'
                             placeholder='Enter Coupon Code'
                             id='code'
                             name='code'
@@ -79,24 +99,23 @@ function CreateCoupon() {
 
                     </div>
 
-                    {/* discountType
+                    {/* discountType */}
                     <div className='flex flex-col gap-1'>
                         <label
-                            htmlFor="code"
+                            htmlFor="discountType"
                             className='text-lg font-semibold text-[black]/[0.8]'
-                        >Coupon Code</label>
-                        <input
-                            type="text"
-                            className='outline-none px-2 py-2 w-[300px] rounded-sm font-semibold text-lg text-[black]/[0.7]'
-                            placeholder='Enter Coupon Code'
-                            id='code'
-                            name='code'
-                            value={formData.code}
-                            onChange={changeHandler}
-                            required
-                        />
-
-                    </div> */}
+                        >Discount Type</label>
+                        <select onChange={changeHandler} value={formData.discountType} id="discountType" name="discountType" className='outline-none border-[black]/[0.2] border-2 rounded-md  cursor-pointer  py-3 px-2 w-[300px] uppercase'>
+                            {
+                                options.map((option) => (
+                                    <option className='uppercase'
+                                        key={option.value}
+                                        value={option.value}
+                                    > {option.title}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
 
                     {/* discountAmount */}
                     <div className='flex flex-col gap-1'>
@@ -107,7 +126,7 @@ function CreateCoupon() {
                         <input
                             type="number"
                             min={0}
-                            className='outline-none px-2 py-2 w-[300px] rounded-sm font-semibold text-lg text-[black]/[0.7]'
+                            className='outline-none px-2 py-2 border-[black]/[0.2] border-2 w-[300px] rounded-md font-semibold text-lg text-[black]/[0.7]'
                             placeholder='Enter Discount Amount'
                             id='discountAmount'
                             name='discountAmount'
@@ -128,7 +147,7 @@ function CreateCoupon() {
                         <input
                             type="number"
                             min={0}
-                            className='outline-none px-2 py-2 w-[300px] rounded-sm font-semibold text-lg text-[black]/[0.7]'
+                            className='outline-none px-2 py-2 w-[300px] rounded-md border-[black]/[0.2] border-2 font-semibold text-lg text-[black]/[0.7]'
                             placeholder='Enter Minimum Purchase Amount'
                             id='minimumPurchaseAmount'
                             name='minimumPurchaseAmount'
@@ -147,7 +166,7 @@ function CreateCoupon() {
                         >Expiration Date</label>
                         <input
                             type="date"
-                            className='outline-none px-2 py-2 w-[300px] rounded-sm font-semibold text-lg text-[black]/[0.7]'
+                            className='outline-none px-2 py-2 w-[300px] rounded-md border-[black]/[0.2] border-2 font-semibold text-lg text-[black]/[0.7]'
                             placeholder='Enter Expiration Date'
                             id='expirationDate'
                             name='expirationDate'
