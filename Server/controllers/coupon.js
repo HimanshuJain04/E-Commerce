@@ -3,7 +3,6 @@ const Coupon = require("../models/coupon");
 
 
 
-
 exports.deleteCouponById = async (req, res) => {
 
     try {
@@ -41,7 +40,6 @@ exports.deleteCouponById = async (req, res) => {
     }
 }
 
-
 exports.getAllCoupons = async (req, res) => {
 
     try {
@@ -66,7 +64,6 @@ exports.getAllCoupons = async (req, res) => {
         )
     }
 }
-
 
 exports.createCoupon = async (req, res) => {
 

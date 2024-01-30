@@ -4,13 +4,14 @@ const router = express.Router();
 const
     {
         createCoupon,
-        deleteCouponById
+        deleteCouponById,
+        getAllCoupons
     }
         = require("../controllers/coupon");
 
 
 
-router.get("/getAllCoupon",);
+router.get("/getAllCoupons", getAllCoupons);
 
 router.delete("/deleteCouponById/:id", deleteCouponById);
 
