@@ -10,7 +10,10 @@ function Cart() {
 
   const { isLoggedIn } = useContext(AppContext);
   const [data, setData] = useState([]);
+  const [gst, setGst] = useState(0);
   const [total, setTotal] = useState(0);
+  const [deliveryCost, setDeliveryCost] = useState(0);
+  const [bagTotal, setBagTotal] = useState(0);
   const [selectedCoupon, setSelectedCoupon] = useState(null);
   const [showCouponBox, setShowCouponBox] = useState(false);
   const navigate = useNavigate();
@@ -18,19 +21,56 @@ function Cart() {
   useEffect(() => {
     setData(isLoggedIn?.carts);
 
-    let totalPrice = 0;
+    let bagPrice = 0;
 
     isLoggedIn?.carts?.forEach((product) => {
-      totalPrice += product?.product?.price * product?.quantity
-    })
+      bagPrice += product?.product?.price * product?.quantity
+    });
 
-    setTotal(totalPrice);
+    setBagTotal(bagPrice);
+
+    const newGst = bagPrice * 0.18;
+    setGst(newGst);
+
+    let delivery;
+
+    if ((bagPrice + newGst) > 1000) {
+      delivery = 0;
+
+    } else {
+      delivery = 100;
+    }
+    setDeliveryCost(delivery);
+
+    setTotal(bagPrice + newGst + delivery);
 
   }, [isLoggedIn]);
 
   const orderPlaceHandler = () => {
     navigate(`/user/address&payment`);
   }
+
+  useEffect(() => {
+    // logic for selected coupon
+    console.log("selectedCoupon: ", selectedCoupon);
+
+    // if (selectedCoupon) {
+
+    //   if (selectedCoupon.discountType === "percentage") {
+
+    //   } else if (selectedCoupon.discountType === "fixed") {
+
+    //   } else if (selectedCoupon.discountType === "free_shipping") {
+    //     if(bagTotal>selectedCoupon.)
+
+    //   } else if (selectedCoupon.discountType === "BOGO") {
+
+    //   } else {
+    //     console.log("WRONG COUPON: " + selectedCoupon)
+    //   }
+
+    // }
+  }, [selectedCoupon])
 
 
   return (
@@ -93,8 +133,6 @@ function Cart() {
 
             </div>
 
-
-
             {/* right part for priceing and all that stuff */}
             <div className='w-full'>
 
@@ -109,19 +147,19 @@ function Cart() {
                   {/* bag toatl */}
                   <div className='flex w-full justify-between items-center'>
                     <p>Bag Total</p>
-                    <span>Rs. {total}</span>
+                    <span>Rs. {bagTotal}</span>
                   </div>
 
                   {/* bag discount */}
                   <div className='flex w-full justify-between items-center'>
                     <p>Bag Discount</p>
-                    <span>-Rs. {100}</span>
+                    <span>-Rs. {"00"}</span>
                   </div>
 
                   {/* GST */}
                   <div className='flex w-full justify-between items-center'>
                     <p>GST</p>
-                    <span>Rs. {100}</span>
+                    <span>Rs. {gst.toFixed(2)}</span>
                   </div>
 
                   {/* Coupon discount */}
@@ -144,10 +182,10 @@ function Cart() {
                   <div className='flex w-full justify-between items-center'>
                     <p>Delivery</p>
                     {
-                      total >= 1000 ? (
+                      deliveryCost <= 0 ? (
                         <span>Free</span>
                       ) : (
-                        <span>Rs. {100}</span>
+                        <span>Rs. {deliveryCost}</span>
                       )
                     }
                   </div>

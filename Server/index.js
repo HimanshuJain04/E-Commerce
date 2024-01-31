@@ -46,6 +46,7 @@ app.use(fileUpload(
     }
 ));
 
+
 // Set Access-Control-Allow-Credentials header
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Credentials', true);
