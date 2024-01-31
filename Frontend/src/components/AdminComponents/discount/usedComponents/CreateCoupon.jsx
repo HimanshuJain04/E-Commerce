@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ApiCalling } from "../../../../services/api";
+import { RxCross1 } from "react-icons/rx";
 
 const options = [
     {
@@ -21,7 +22,7 @@ const options = [
 
 ]
 
-function CreateCoupon() {
+function CreateCoupon({ setShowCreateCoupon }) {
 
 
     const [formData, setFormData] = useState(
@@ -42,10 +43,11 @@ function CreateCoupon() {
 
         if (res.success) {
 
+            setShowCreateCoupon(false);
+
             // show the message to the admin
 
             // emtpy the fields
-
             setFormData(
                 {
                     code: "",
@@ -72,7 +74,13 @@ function CreateCoupon() {
 
     return (
         <div className='flex justify-center items-center'>
-            <div className='flex bg-white shadow-xl rounded-lg px-14 py-8 flex-col gap-10 justify-start items-center'>
+            <div className='flex bg-white shadow-xl relative rounded-lg px-14 py-8 flex-col gap-10 justify-start items-center'>
+
+                <div className='absolute right-5 top-5'>
+                    <button onClick={() => {
+                        setShowCreateCoupon(false)
+                    }} className=''><RxCross1 /></button>
+                </div>
 
                 <div>
                     <p className='text-4xl text-center font-semibold'>Create Coupon</p>

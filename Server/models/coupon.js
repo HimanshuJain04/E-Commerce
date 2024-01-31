@@ -25,7 +25,7 @@ const couponSchema = new Schema({
     expirationDate: {
         type: Date,
         required: true
-    },  
+    },
     createdAt: {
         type: Date,
         default: Date.now
