@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ProductTemplate2 from '../components/common/ProductTemplate2';
 import { BsPlusCircleFill } from "react-icons/bs";
 import { AppContext } from "../context/AppContext";
+import Coupon from '../components/Coupon';
 
 
 function Cart() {
@@ -10,6 +11,8 @@ function Cart() {
   const { isLoggedIn } = useContext(AppContext);
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
+  const [selectedCoupon, setSelectedCoupon] = useState(null);
+  const [showCouponBox, setShowCouponBox] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,7 +34,17 @@ function Cart() {
 
 
   return (
-    <div className='flex w-full h-full justify-center items-center pt-10'>
+    <div className='flex w-full relative h-full justify-center items-center pt-10'>
+
+      <div className={`fixed top-0 w-full h-full bg-[black]/[0.5] ${showCouponBox ? " block" : "hidden"} `}>
+        <Coupon
+          setShowCouponBox={setShowCouponBox}
+          selectedCoupon={selectedCoupon}
+          setSelectedCoupon={setSelectedCoupon}
+        />
+      </div>
+
+
       {
         data?.length > 0 ? (
           // cart is not empty
@@ -80,6 +93,8 @@ function Cart() {
 
             </div>
 
+
+
             {/* right part for priceing and all that stuff */}
             <div className='w-full'>
 
@@ -112,7 +127,17 @@ function Cart() {
                   {/* Coupon discount */}
                   <div className='flex w-full justify-between items-center'>
                     <p>Coupon Discount</p>
-                    <span className='text-red-400 hover:underline transition-all duration-300 ease-in-out cursor-pointer'>Apply Coupon</span>
+                    <button
+                      onClick={() => {
+                        setShowCouponBox(true);
+                      }}
+                      className='text-red-400 hover:underline transition-all duration-300 ease-in-out cursor-pointer'>
+                      <span>
+                        {
+                          selectedCoupon ? selectedCoupon.code : "Apply Coupon"
+                        }
+                      </span>
+                    </button>
                   </div>
 
                   {/* Delivery */}
@@ -126,7 +151,6 @@ function Cart() {
                       )
                     }
                   </div>
-
                 </div>
 
                 {/* delivery discount section/tag */}

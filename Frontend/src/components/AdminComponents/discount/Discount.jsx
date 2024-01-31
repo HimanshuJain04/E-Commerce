@@ -10,7 +10,7 @@ function Discount() {
   return (
     <div className='flex justify-center relative items-start min-h-[100vh] pt-10 pb-20 w-full'>
       {/* <CreateCoupon /> */}
-      <AllCoupons />
+      <AllCoupons showCreateCoupon={showCreateCoupon} />
 
       <div
         className='absolute bottom-5 left-[50%] bg-black px-5 py-2 hover:text-yellow-300 transition-all duration-300 ease-in-out text-white rounded-lg font-semibold translate-x-[-50%]'

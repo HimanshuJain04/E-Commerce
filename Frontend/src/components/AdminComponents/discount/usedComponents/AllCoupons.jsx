@@ -10,7 +10,7 @@ const options = [
     "Expiration Date",
 ]
 
-function AllCoupons() {
+function AllCoupons({ showCreateCoupon }) {
 
     const [data, setData] = useState([]);
 
@@ -27,7 +27,7 @@ function AllCoupons() {
 
     useEffect(() => {
         getData();
-    }, [])
+    }, [showCreateCoupon]);
 
     return (
         <div className='w-full'>

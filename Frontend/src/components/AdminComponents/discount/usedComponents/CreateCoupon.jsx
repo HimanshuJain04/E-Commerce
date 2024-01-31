@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ApiCalling } from "../../../../services/api";
 import { RxCross1 } from "react-icons/rx";
 
+
 const options = [
     {
         title: "Percentage",
@@ -38,8 +39,6 @@ function CreateCoupon({ setShowCreateCoupon }) {
 
     async function sumbitHandler() {
         const res = await ApiCalling("POST", "coupon/createCoupon", formData);
-
-        console.log(res);
 
         if (res.success) {
 
