@@ -94,16 +94,13 @@ exports.createCoupon = async (req, res) => {
 
         const newCoupon = await Coupon.create(
             {
-                code,
+                code: code.toUpperCase(),
                 discountAmount,
                 discountType,
                 minimumPurchaseAmount,
                 expirationDate
             }
         );
-
-
-        console.log("New Coupon : ", newCoupon);
 
         return res.status(200).json(
             {

@@ -15,6 +15,7 @@ function Cart() {
   const [deliveryCost, setDeliveryCost] = useState(0);
   const [bagTotal, setBagTotal] = useState(0);
   const [selectedCoupon, setSelectedCoupon] = useState(null);
+  const [couponOff, setCouponOff] = useState(0);
   const [showCouponBox, setShowCouponBox] = useState(false);
   const navigate = useNavigate();
 
@@ -32,7 +33,7 @@ function Cart() {
     const newGst = bagPrice * 0.18;
     setGst(newGst);
 
-    let delivery;
+    let delivery = 0;
 
     if ((bagPrice + newGst) > 1000) {
       delivery = 0;
@@ -40,6 +41,7 @@ function Cart() {
     } else {
       delivery = 100;
     }
+
     setDeliveryCost(delivery);
 
     setTotal(bagPrice + newGst + delivery);
@@ -50,27 +52,58 @@ function Cart() {
     navigate(`/user/address&payment`);
   }
 
+  // TODO: Repair this 
+
   useEffect(() => {
-    // logic for selected coupon
-    console.log("selectedCoupon: ", selectedCoupon);
+    let coupOff = 0;
+    let deliveryCt = deliveryCost;
 
-    // if (selectedCoupon) {
+    // Calculate subtotal before taxes and delivery charges
+    const subtotal = bagTotal;
 
-    //   if (selectedCoupon.discountType === "percentage") {
+    // Apply coupon discount
+    if (selectedCoupon) {
+      if (selectedCoupon.discountType === "percentage") {
+        if (subtotal >= selectedCoupon.minimumPurchaseAmount) {
+          coupOff = (subtotal / 100) * selectedCoupon.discountAmount;
+        }
+      } else if (selectedCoupon.discountType === "fixed") {
+        if (subtotal >= selectedCoupon.minimumPurchaseAmount) {
+          coupOff = selectedCoupon.discountAmount;
+        }
+      } else if (selectedCoupon.discountType === "free_shipping") {
+        // Handle free shipping coupon
+        if (subtotal + gst >= selectedCoupon.minimumPurchaseAmount) {
+          deliveryCt = 0;
+        }
+      } else if (selectedCoupon.discountType === "BOGO") {
+        // Handle BOGO coupon
+        alert("Coming Soon");
+      }
 
-    //   } else if (selectedCoupon.discountType === "fixed") {
+    } else {
+      // coupon is not selected
 
-    //   } else if (selectedCoupon.discountType === "free_shipping") {
-    //     if(bagTotal>selectedCoupon.)
+      if (subtotal + gst >= 1000) {
+        deliveryCt = 0;
 
-    //   } else if (selectedCoupon.discountType === "BOGO") {
+      } else {
+        deliveryCt = 100;
+      }
+    }
 
-    //   } else {
-    //     console.log("WRONG COUPON: " + selectedCoupon)
-    //   }
 
-    // }
-  }, [selectedCoupon])
+    // Update delivery cost only if it hasn't already been set to 0
+    if (deliveryCt !== 0) {
+      setDeliveryCost(deliveryCt);
+    }
+
+    setDeliveryCost(deliveryCt);
+    setCouponOff(coupOff);
+    setTotal(subtotal + gst + deliveryCt - coupOff);
+
+  }, [selectedCoupon, bagTotal, gst]);
+
 
 
   return (

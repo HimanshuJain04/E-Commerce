@@ -71,11 +71,10 @@ function Coupon({ setShowCouponBox, setSelectedCoupon, selectedCoupon }) {
                                     </div>
 
 
-
                                     {/* description */}
-                                    <div>
-                                        <p className='text-sm font-semibold text-[black]/[0.5]'>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur distinctio dignissimos accusamus, officia praesentium amet deleniti dolore error cumque incidunt, dolorem reiciendis eos aliquam exercitationem, non alias eaque placeat eius.
+                                    <div className='w-full'>
+                                        <p className='text-sm  text-start font-semibold text-[black]/[0.5]'>
+                                            Apply <span>{coupon.code}</span> to get off on minimum purchasing of <span>{coupon.minimumPurchaseAmount}</span>
                                         </p>
                                     </div>
                                 </div>
