@@ -5,11 +5,10 @@ import { Link } from "react-router-dom";
 function ActualCategory() {
 
     const images = [
-        "https://th.bing.com/th/id/OIP.q5vTy1bcWj65l-5c6SJGQQHaK0?rs=1&pid=ImgDetMain",
-        "https://www.fashiongonerogue.com/wp-content/uploads/2020/10/Faux-Fur-Coat.jpg",
-        "https://th.bing.com/th/id/OIP.iQVWVJL5KtpQYaXdoWn_WQHaHa?w=202&h=202&c=7&r=0&o=5&dpr=1.3&pid=1.7",
-        "https://th.bing.com/th/id/OIP.3UBxLPp3bz7hFkk7kLmO0QHaJQ?rs=1&pid=ImgDetMain",
-        "https://th.bing.com/th/id/OIP.BGwhDC-5eqhHHqZkDPDMygHaE7?w=230&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+        "https://img.forestessentialsindia.com/pub/media/megamenu/Hair-care-viewAll.jpg",
+        "https://www.iwmbuzz.com/wp-content/uploads/2020/02/virat-kohli-the-superstar-fashion-icon-920x518.jpg",
+        "https://pbs.twimg.com/media/Fwe1s4aX0AQHySI.jpg",
+        "https://cdn.shopify.com/s/files/1/0070/7032/files/trending-products_c8d0d15c-9afc-47e3-9ba2-f7bad0505b9b.png?format=jpg&quality=90&v=1614559651",
     ];
 
     const allTag = {
@@ -52,7 +51,7 @@ function ActualCategory() {
                                 }
                                 className=' flex group  cursor-pointer flex-col justify-center gap-2 items-center '
                             >
-                                <div className='w-[300px] relative  transition-all duration-1000 ease-in-out  h-[300px] overflow-hidden'>
+                                <div className='w-[300px] relative  transition-all duration-1000 ease-in-out  h-[250px] overflow-hidden'>
 
                                     {/* hover Effect */}
                                     <div className='group-hover:flex absolute  justify-center items-center hidden w-full bg-[black]/[0.6] transition-all duration-1000 ease-in-out  h-full'>
@@ -62,7 +61,7 @@ function ActualCategory() {
                                     </div>
 
                                     {/* image */}
-                                    <img className=' bg-contain w-full h-full '
+                                    <img className='object-contain w-full h-full '
                                         src={images[index]} alt={product?.name} />
                                 </div>
 

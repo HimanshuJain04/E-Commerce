@@ -1,23 +1,23 @@
 export const carousel = [
     {
-        image: "https://th.bing.com/th/id/OIP.B8nFZ3TVm4MBKJPmMBT7BwHaEc?w=299&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+        image: "https://t3.ftcdn.net/jpg/04/65/46/52/360_F_465465254_1pN9MGrA831idD6zIBL7q8rnZZpUCQTy.jpg"
     },
     {
-        image: "https://th.bing.com/th/id/OIP.QMm43BnCrCSrp2WQswsm_QHaEc?w=299&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+        image: "https://marketplace.canva.com/EAFVHstxnwk/1/0/1600w/canva-beige-aesthetic-exclusive-fashion-wear-collection-clothing-banner-BZb4KkCdNP0.jpg"
     },
     {
-        image: "https://th.bing.com/th/id/OIP.WfnIA--Fz0PCD4sj1X9JRwHaEc?w=299&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+        image: "https://marketplace.canva.com/EAFEH3mIUaM/1/0/1600w/canva-dark-grey-and-white-minimalist-new-fashion-collection-banner-nvaqxg-8iXI.jpg"
     },
     {
-        image: "https://th.bing.com/th/id/OIP.B8nFZ3TVm4MBKJPmMBT7BwHaEc?w=299&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+        image: "https://www.shutterstock.com/image-vector/super-sale-header-banner-design-260nw-1663164736.jpg"
     },
     {
-        image: "https://th.bing.com/th/id/OIP.0e00rI9xHW2Ae6y38heFLAHaD3?w=343&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+        image: "https://scontent-del1-1.xx.fbcdn.net/v/t39.30808-6/309294911_2661213114010951_2459844562096949346_n.png?_nc_cat=103&ccb=1-7&_nc_sid=b50f6c&_nc_ohc=XtkrUPW6MmIAX-EtIjC&_nc_ht=scontent-del1-1.xx&oh=00_AfByt3LSsOe8CJweyeD2aeO4ORunVk8JzLw92O2B8iQWig&oe=65C8C4D7"
     },
     {
-        image: "https://th.bing.com/th/id/OIP.B8nFZ3TVm4MBKJPmMBT7BwHaEc?w=299&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+        image: "https://t4.ftcdn.net/jpg/04/89/28/05/360_F_489280525_nISHfaWCctYBFlyYkTQUkzQwVOPWmyvp.jpg"
     },
     {
-        image: "https://th.bing.com/th/id/R.b34118f5f050ec13b50a14d876f58558?rik=5bQQECmgsenD3g&riu=http%3a%2f%2fgraphicgoogle.com%2fwp-content%2fuploads%2f2017%2f10%2fFacebook-New-Fashion-Sale-Banner.jpg&ehk=cZjhCfdi%2fqQLhrZBnjXF%2bq65d%2fwT4aEvKaZvpY%2bGvhI%3d&risl=&pid=ImgRaw&r=0"
+        image: "https://global.biotique.com/cdn/shop/files/Signs_of_Aging_1920x600_0b25a138-8e53-4728-9347-745840ce224b.png?v=1675847668"
     }
 ]

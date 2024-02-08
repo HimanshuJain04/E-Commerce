@@ -44,7 +44,7 @@ const productSchema = new mongoose.Schema(
         },
         basePrice: {
             type: Number,
-            // required: true,
+            required: true,
         },
         discount: {
             type: Number,

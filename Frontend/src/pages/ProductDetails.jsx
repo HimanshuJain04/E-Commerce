@@ -189,7 +189,9 @@ function ProductDetails() {
                                     {
                                         isCarted ? (
                                             <div>
-                                                <Link to={"/cart"}>Go to cart</Link>
+                                                <button onClick={() => {
+                                                    navigate("/cart");
+                                                }}>Go to cart</button>
                                             </div>
 
                                         ) : (

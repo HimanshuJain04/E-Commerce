@@ -605,6 +605,7 @@ exports.generateDailySalesReport = async (req, res) => {
         const dailySales = last30DaysOrders.reduce((acc, order) => {
             // Extract date in YYYY-MM-DD format
             const date = order.createdAt.toISOString().split('T')[0];
+            
             // Add order amount to total sales for the corresponding day
             acc[date] = (acc[date] || 0) + order.amount;
             return acc;
