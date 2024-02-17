@@ -451,7 +451,7 @@ exports.verifyPayment = async (req, res) => {
             const paymentData = response?.data;
 
 
-            // Check the payment status in the response
+            // Check the payment status in the response  
             if (paymentData.status === 'captured') {
 
                 return res.status(200).json({

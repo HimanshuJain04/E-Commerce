@@ -28,12 +28,12 @@ exports.createProduct = async (req, res) => {
     try {
 
         // fetch the data from request
-        const { name, price, stock, details, description, category, tag } = req.body;
+        const { name, price, stock, details, basePrice, description, category, tag } = req.body;
 
         const images = req?.files?.images;
 
         // validation
-        if (!name || !price || !description || !details || !images || !stock || !category || !tag) {
+        if (!name || !price || !description || !basePrice || !details || !images || !stock || !category || !tag) {
             return res.status(400).json(
                 {
                     success: false,
@@ -94,12 +94,13 @@ exports.createProduct = async (req, res) => {
         // create entry in database
         const newProduct = await Product.create(
             {
-                name: name,
-                price: price,
-                description: description,
+                name,
+                price,
+                description,
                 category: existCategory._id,
                 tag: existTag._id,
-                stock: stock,
+                stock,
+                basePrice,
                 images: imagesUrl,
                 productDetails: details
             }
