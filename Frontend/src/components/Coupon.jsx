@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ApiCalling } from '../services/Api.js';
+import { ApiCalling } from "../services/Api";
 import { RxCross1 } from "react-icons/rx";
 
 
