@@ -3,7 +3,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import ProductTemplate from "../components/common/ProductTemplate";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ApiCalling } from '../services/Api';
+import { ApiCalling } from '../services/Api.js';
 import Navigation from '../components/Navigation';
 import { AppContext } from '../context/AppContext';
 import Slider from 'rc-slider';

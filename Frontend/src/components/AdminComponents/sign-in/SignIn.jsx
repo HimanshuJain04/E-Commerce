@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaRegEyeSlash } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
-import { ApiCalling } from '../../../services/Api';
+import { ApiCalling } from '../../../services/Api.js';
 import { toast } from "react-toastify"
 
 

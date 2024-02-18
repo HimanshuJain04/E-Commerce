@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ApiCalling } from "../../../../services/api"
+import { ApiCalling } from "../../../../services/Api.js"
 
 const options = [
     "Coupon Code",

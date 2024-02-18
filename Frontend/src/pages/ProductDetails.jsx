@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import ShowDetail from '../components/ShowDetail';
-import { ApiCalling } from "../services/Api";
+import { ApiCalling } from "../services/Api.js";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import ProductTemplate from '../components/common/ProductTemplate';
 import { AppContext } from '../context/AppContext';

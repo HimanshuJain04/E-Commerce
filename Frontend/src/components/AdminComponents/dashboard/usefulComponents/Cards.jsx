@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ApiCalling } from '../../../../services/Api';
+import { ApiCalling } from '../../../../services/Api.js';
 import { HiCurrencyRupee } from "react-icons/hi2";
 import { FaRupeeSign, FaUsers } from "react-icons/fa";
 import { IoCartSharp } from "react-icons/io5";

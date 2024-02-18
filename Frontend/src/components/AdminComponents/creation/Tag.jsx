@@ -1,5 +1,5 @@
 import React from 'react';
-import { ApiCalling } from "../../../services/Api";
+import { ApiCalling } from "../../../services/Api.js";
 import { useState, useContext } from 'react';
 import { AppContext } from '../../../context/AppContext';
 import { toast } from "react-toastify"

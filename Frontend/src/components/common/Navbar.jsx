@@ -5,7 +5,7 @@ import { IoSearchOutline, IoCartOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa6";
 import { AppContext } from "../../context/AppContext";
 import NavHover from './NavHover';
-import { ApiCalling } from '../../services/Api';
+import { ApiCalling } from '../../services/Api.js';
 import ProfileDropdown from './ProfileDropdown';
 import { IoMdMenu } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";

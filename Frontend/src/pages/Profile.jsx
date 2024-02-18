@@ -1,7 +1,7 @@
 
 import React, { useContext, useRef, useState } from 'react';
 import { AppContext } from "../context/AppContext";
-import { ApiCalling } from '../services/Api';
+import { ApiCalling } from '../services/Api.js';
 import { toast } from 'react-toastify';
 import { FaUserLarge } from "react-icons/fa6";
 

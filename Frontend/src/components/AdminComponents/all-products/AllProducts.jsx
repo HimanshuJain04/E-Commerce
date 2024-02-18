@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ApiCalling } from "../../../services/Api";
+import { ApiCalling } from "../../../services/Api.js";
 import { GrEdit } from "react-icons/gr";
 import { FaTrash } from "react-icons/fa";
 import EditProduct from './EditProduct';

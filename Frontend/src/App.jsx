@@ -4,7 +4,7 @@ import UserDashboard from './UserDashboard';
 import AdminDashboard from './AdminDashboard';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify'
-import { ApiCalling } from './services/Api';
+import { ApiCalling } from './services/Api.js';
 
 
 function App() {

@@ -6,7 +6,7 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { MdAccountBox } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { GiShoppingBag } from "react-icons/gi";
-import { ApiCalling } from '../../services/Api';
+import { ApiCalling } from '../../services/Api.js';
 import { toast } from "react-toastify";
 
 

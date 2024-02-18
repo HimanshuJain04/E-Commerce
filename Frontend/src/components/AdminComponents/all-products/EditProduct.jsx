@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { AppContext } from "../../../context/AppContext";
-import { ApiCalling } from "../../../services/Api";
+import { ApiCalling } from "../../../services/Api.js";
 import { toast } from "react-toastify";
 import { MdAdd } from "react-icons/md";
 import { IoMdImages } from "react-icons/io";

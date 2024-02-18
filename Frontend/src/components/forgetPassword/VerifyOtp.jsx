@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { ApiCalling } from '../../services/Api';
+import { ApiCalling } from '../../services/Api.js';
 import { toast } from "react-toastify";
 
 function VerifyOtp({ email, setState }) {

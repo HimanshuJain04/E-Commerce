@@ -11,7 +11,7 @@ import Footer from "./components/common/Footer";
 import ProductDetail from './pages/ProductDetails';
 import { useEffect, useContext } from 'react';
 import { AppContext } from './context/AppContext';
-import { ApiCalling } from './services/Api';
+import { ApiCalling } from './services/Api.js';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ErrorWrong from './pages/ErrorWrong';

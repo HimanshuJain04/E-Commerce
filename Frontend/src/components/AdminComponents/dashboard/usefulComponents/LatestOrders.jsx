@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ApiCalling } from "../../../../services/Api";
+import { ApiCalling } from "../../../../services/Api.js";
 import { MdOutlineCurrencyRupee } from "react-icons/md";
 
 function LatestOrders({ setOption }) {

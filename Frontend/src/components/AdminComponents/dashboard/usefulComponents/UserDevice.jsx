@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ApiCalling } from "../../../../services/Api";
+import { ApiCalling } from "../../../../services/Api.js";
 import Chart from 'chart.js/auto'; // Import Chart.js
 
 function UserDevice() {

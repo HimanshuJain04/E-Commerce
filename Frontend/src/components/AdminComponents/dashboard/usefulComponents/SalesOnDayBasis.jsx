@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ApiCalling } from "../../../../services/Api";
+import { ApiCalling } from "../../../../services/Api.js";
 import { Chart } from 'chart.js/auto';
 
 function SalesOnDayBasis() {

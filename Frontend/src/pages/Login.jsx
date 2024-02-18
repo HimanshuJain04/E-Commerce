@@ -4,7 +4,7 @@ import { CiLock } from "react-icons/ci";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
-import { ApiCalling } from '../services/Api';
+import { ApiCalling } from '../services/Api.js';
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { toast } from "react-toastify"
