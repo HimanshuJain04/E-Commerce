@@ -1,5 +1,9 @@
 import { createContext } from 'react';
+<<<<<<< HEAD
 import { ApiCalling } from '../services/Api.js';
+=======
+import { ApiCalling } from "../services/Api.js;
+>>>>>>> 57c5d9d472d66f2d48cfc3bbc2dacfd88605e969
 import { useState } from 'react';
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
